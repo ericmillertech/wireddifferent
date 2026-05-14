@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wired Different — Field Notes for ADHD Brains in Cybersecurity</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #FBFBFF;
+      --blue:     #70B7FF;
+      --text:     #23272A;
+      --yellow:   #FFF275;
+      --green-bg: #DEFDE0;
+      --muted:    #747474;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 80px 0; }
+    h1, h2, h3 { color: var(--blue); line-height: 1.25; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251,251,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e4e4f0;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav img.logo { height: 44px; display: block; }
+
+    nav a.cta-nav {
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: opacity .15s;
+    }
+    nav a.cta-nav:hover { opacity: .85; }
+
+    /* ── Hero ── */
+    #hero {
+      position: relative;
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    /* animated gradient background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0d1b2a, #1a3a5c, #0a2540, #163354, #0d1b2a);
+      background-size: 400% 400%;
+      animation: gradShift 12s ease infinite;
+      z-index: 0;
+    }
+
+    /* subtle grid overlay for "hacker" feel */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(112,183,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112,183,255,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+    }
+
+    @keyframes gradShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 100px 24px 90px;
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(112,183,255,.15);
+      border: 1px solid rgba(112,183,255,.4);
+      color: var(--blue);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    #hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+      color: #fff;
+      margin-bottom: 22px;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4);
+    }
+
+    #hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.82);
+      max-width: 600px;
+      margin: 0 auto 18px;
+    }
+
+    .hero-bullets {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 auto 40px;
+      max-width: 640px;
+    }
+
+    .hero-bullets li {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(112,183,255,.25);
+      color: rgba(255,255,255,.88);
+      font-size: .9rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .hero-bullets li::before { content: '✓  '; color: var(--blue); }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 38px;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s, box-shadow .15s;
+      box-shadow: 0 4px 24px rgba(112,183,255,.35);
+    }
+    .btn-primary:hover {
+      opacity: .9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(112,183,255,.45);
+    }
+
+    .hero-note {
+      margin-top: 14px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    /* ── Checklist ── */
+    #checklist { background: #fff; }
+
+    #checklist h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    #checklist .intro {
+      color: #555;
+      margin-bottom: 32px;
+      font-size: 1.05rem;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 560px) { .check-grid { grid-template-columns: 1fr; } }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg);
+      border: 1px solid #e4e4f0;
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+
+    .check-item .ci-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+    .check-item p { font-size: .96rem; }
+
+    .hl { background: var(--yellow); padding: 1px 5px; border-radius: 3px; }
+
+    /* ── Story ── */
+    #story { background: var(--bg); }
+
+    #story h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    #story .story-byline { color: var(--muted); font-size: .92rem; margin-bottom: 24px; }
+    #story p { margin-bottom: 16px; font-size: 1.05rem; color: #333; }
+
+    /* ── What You Get ── */
+    #what-you-get { background: #fff; }
+
+    #what-you-get h2 { font-size: 1.8rem; margin-bottom: 32px; }
+
+    .benefits { display: grid; gap: 18px; }
+
+    .benefit-card {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #e0e0ee;
+      background: var(--bg);
+      transition: box-shadow .15s;
+    }
+    .benefit-card:hover { box-shadow: 0 4px 20px rgba(112,183,255,.12); }
+
+    .benefit-card .num {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--blue);
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .benefit-card h3 { font-size: 1.05rem; margin-bottom: 6px; }
+    .benefit-card p  { font-size: .95rem; color: #555; }
+
+    /* ── CTA / Signup ── */
+    #signup {
+      position: relative;
+      overflow: hidden;
+      background: #0d1b2a;
+      text-align: center;
+    }
+
+    #signup::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(112,183,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112,183,255,.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .signup-inner { position: relative; z-index: 1; }
+
+    #signup h2 { color: #fff; font-size: 1.9rem; margin-bottom: 14px; }
+
+    #signup .signup-lead {
+      color: rgba(255,255,255,.75);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto 32px;
+    }
+
+    /*
+      BEEHIIV INTEGRATION:
+      1. Log in at app.beehiiv.com → Grow → Forms → Embed
+      2. Copy the embed snippet
+      3. Delete the <form> block below and paste your Beehiiv snippet in its place.
+    */
+    .signup-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .signup-form input[type="email"] {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(112,183,255,.35);
+      background: rgba(255,255,255,.07);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .signup-form input[type="email"]::placeholder { color: rgba(255,255,255,.4); }
+    .signup-form input[type="email"]:focus { border-color: var(--blue); }
+
+    .signup-form button { padding: 14px 28px; }
+
+    .signup-disclaimer {
+      font-size: .8rem;
+      color: rgba(255,255,255,.4);
+      margin-top: 6px;
+    }
+
+    /* ── Response / Contact ── */
+    #contact { background: var(--green-bg); }
+
+    #contact h2 { font-size: 1.8rem; margin-bottom: 10px; }
+    #contact .contact-lead { color: #3a5a3a; margin-bottom: 28px; font-size: 1.05rem; }
+
+    /*
+      FORMSPREE INTEGRATION (free — you get emailed every submission):
+      1. Go to formspree.io and create a free account
+      2. Create a new form — copy your form endpoint (looks like https://formspree.io/f/xxxxxxxx)
+      3. Replace the action="#" below with your Formspree endpoint URL.
+      That's it — no server needed.
+    */
+    .contact-form { display: grid; gap: 16px; }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 8px;
+      border: 1.5px solid #b8d8ba;
+      background: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--blue); }
+
+    .contact-form textarea { min-height: 130px; resize: vertical; }
+
+    .contact-form button { justify-self: start; padding: 13px 32px; }
+
+    /* ── Survey ── */
+    #survey { background: #fff; }
+
+    #survey h2 { font-size: 1.8rem; margin-bottom: 10px; }
+    #survey .survey-lead { color: #555; font-size: 1.05rem; margin-bottom: 36px; }
+
+    .survey-form { display: grid; gap: 28px; }
+
+    .survey-q { display: grid; gap: 10px; }
+
+    .survey-q legend {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .survey-q .q-num {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .radio-group, .check-group { display: grid; gap: 8px; }
+
+    .radio-group label, .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1.5px solid #e4e4f0;
+      cursor: pointer;
+      font-size: .97rem;
+      transition: border-color .15s, background .15s;
+    }
+
+    .radio-group label:hover, .check-group label:hover {
+      border-color: var(--blue);
+      background: #f0f8ff;
+    }
+
+    .radio-group input[type="radio"],
+    .check-group input[type="checkbox"] {
+      accent-color: var(--blue);
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .survey-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 8px;
+      border: 1.5px solid #e4e4f0;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .survey-input:focus { border-color: var(--blue); }
+
+    .survey-submit-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .survey-submit-row .note { font-size: .85rem; color: #888; }
+
+    /* progress bar */
+    .survey-progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+
+    .survey-progress span {
+      height: 4px;
+      flex: 1;
+      border-radius: 4px;
+      background: #e4e4f0;
+    }
+
+    .survey-progress span.active { background: var(--blue); }
+
+    /* ── Testimonial ── */
+    #testimonial { background: #fff; }
+
+    blockquote {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #2a3a2a;
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 36px 44px;
+      border-radius: 14px;
+      background: var(--green-bg);
+      position: relative;
+    }
+
+    blockquote::before {
+      content: '\201C';
+      font-size: 5rem;
+      color: var(--blue);
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      line-height: 1;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 18px;
+      font-size: .9rem;
+      font-style: normal;
+      color: #4a6a4a;
+      font-weight: 700;
+    }
+
+    /* ── Image / Video placeholder ── */
+    #media-section { background: var(--bg); }
+
+    #media-section h2 { font-size: 1.8rem; margin-bottom: 8px; text-align: center; }
+    #media-section .media-sub { text-align: center; color: #555; margin-bottom: 28px; }
+
+    .media-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      background: #e8edf5;
+      border-radius: 14px;
+      border: 2px dashed #b0c8e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #8899aa;
+      font-size: 1rem;
+      gap: 10px;
+    }
+
+    .media-placeholder .ph-icon { font-size: 3rem; }
+
+    .media-options {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .media-options span {
+      font-size: .82rem;
+      background: #e4eef8;
+      color: #5577aa;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #0d1b2a;
+      border-top: 1px solid #1e3050;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    footer img.logo-footer { height: 36px; margin-bottom: 16px; opacity: .85; }
+
+    footer p { color: var(--muted); font-size: .88rem; line-height: 1.8; }
+
+    footer p em {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,.3);
+      font-style: italic;
+    }
+
+    footer a { color: var(--blue); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" class="logo" />
+    <a href="#signup" class="cta-nav">Get Field Notes Free</a>
+  </nav>
+
+  <!-- 1. Hero -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-badge">Miller Innovations LLC</p>
+      <h1>Break Into Cybersecurity—<em>The ADHD Way</em></h1>
+      <p class="hero-sub">
+        Unfiltered field notes, science-based strategies, and hands-on micro-experiments:
+        finally, tech learning built by (and for) people wired different.
+      </p>
+      <ul class="hero-bullets">
+        <li>Candid ADHD-in-action stories</li>
+        <li>Actionable routines, not just advice</li>
+        <li>Tiny hands-on projects</li>
+        <li>Zero pressure to fit the mold</li>
+      </ul>
+      <a href="#signup" class="btn-primary">Send Me REAL Field Notes</a>
+      <p class="hero-note">No spam, ever. Just the kind of learning ADHD brains actually need.</p>
+    </div>
+  </section>
+
+  <!-- 2. Does this sound familiar -->
+  <section id="checklist">
+    <div class="container">
+      <p class="section-label">Sound familiar?</p>
+      <h2>You're Not Broken. You're Just Wired Different.</h2>
+      <p class="intro">
+        Traditional cybersecurity courses weren't designed for how our brains work. Here's what
+        that actually looks like:
+      </p>
+      <div class="check-grid">
+
+        <div class="check-item">
+          <span class="ci-icon">📚</span>
+          <p>You're overwhelmed by <span class="hl">walls of "just do this" advice</span> — and none of it sticks.</p>
+        </div>
+
+        <div class="check-item">
+          <span class="ci-icon">🔁</span>
+          <p>You set out to learn, then keep <span class="hl">forgetting, zoning out</span>, or beating yourself up for bad days.</p>
+        </div>
+
+        <div class="check-item">
+          <span class="ci-icon">⏱️</span>
+          <p>You want someone to actually <span class="hl">show you what works</span> — step by step, with permission to take a break.</p>
+        </div>
+
+        <div class="check-item">
+          <span class="ci-icon">💪</span>
+          <p>You're ready to build <span class="hl">real skills without hiding who you are</span>.</p>
+        </div>
+
+        <div class="check-item">
+          <span class="ci-icon">⚡</span>
+          <p>Certification prep is <span class="hl">soul-crushingly boring</span> — until someone frames it like a mission.</p>
+        </div>
+
+        <div class="check-item">
+          <span class="ci-icon">🧠</span>
+          <p>You know you're capable. You just need a system <span class="hl">built for the way your brain actually works</span>.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Eric's Story -->
+  <section id="story">
+    <div class="container">
+      <p class="section-label">About Eric</p>
+      <h2>A Fellow ADHD Learner, Still in the Trenches</h2>
+      <p class="story-byline">Eric Miller-Saisi — Founder, Miller Innovations LLC</p>
+      <p>
+        I started my career in customer support — and I got good at it. Good enough to work for
+        some of the top companies in the industry. I know what it means to show up, solve problems
+        under pressure, and communicate clearly. But the whole time, I was building toward something
+        bigger: a transition into cybersecurity.
+      </p>
+      <p>
+        When I made that move, I ran into a wall I wasn't expecting. Not the technical material —
+        the <em>way</em> it was taught. Course after course, resource after resource, and nothing
+        was designed for someone whose brain works the way mine does. No structure for ADHD learners.
+        No honest conversation about the struggle. Just "here's the content, keep up."
+      </p>
+      <p>
+        That gap is why I built Wired Different. I wanted to create a space where learning is
+        actually engaging — where there are real tools, real steps, and a real community for people
+        navigating this path with ADHD. This platform is built on your feedback. We're in the pilot
+        right now, and every response, every story, every survey answer shapes what comes next.
+        Let's build this together.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. What You Get -->
+  <section id="what-you-get">
+    <div class="container">
+      <p class="section-label">What's inside</p>
+      <h2>Sign Up for WiredDifferent Field Notes and You'll Receive:</h2>
+      <div class="benefits">
+
+        <div class="benefit-card">
+          <span class="num">01</span>
+          <div>
+            <h3>Raw, Honest Stories from a Fellow ADHD Learner</h3>
+            <p>
+              Real dispatches from the cybersecurity trenches — what worked, what crashed, and
+              what I'd do differently. No polished LinkedIn version of events.
+            </p>
+          </div>
+        </div>
+
+        <div class="benefit-card">
+          <span class="num">02</span>
+          <div>
+            <h3>Concrete, Science-Backed Micro-Tasks You Can Do Right Now</h3>
+            <p>
+              Each issue includes one small, doable action tied to how ADHD brains actually
+              learn — so you build momentum instead of guilt.
+            </p>
+          </div>
+        </div>
+
+        <div class="benefit-card">
+          <span class="num">03</span>
+          <div>
+            <h3>ADHD-Leveraged Focus and Retention Hacks</h3>
+            <p>
+              A growing cheat sheet of the tools, routines, and mental models that help ADHD
+              learners retain what they study and stay in motion.
+            </p>
+          </div>
+        </div>
+
+        <div class="benefit-card">
+          <span class="num">04</span>
+          <div>
+            <h3>A Pathway to Real Results — On Your Terms, At Your Pace</h3>
+            <p>
+              No arbitrary deadlines. No shame spirals. Just a clear direction and the chance to
+              shape what gets built next through your feedback and story.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Email Signup -->
+  <section id="signup">
+    <div class="container signup-inner">
+      <p class="section-label" style="color: var(--blue);">Ready?</p>
+      <h2>Break Into Cyber — On Your Own Terms</h2>
+      <p class="signup-lead">
+        Enter your email and get your first Field Note (plus a dopamine-friendly hands-on project)
+        tomorrow. Zero spam, ever.
+      </p>
+
+      <!--
+        BEEHIIV INTEGRATION:
+        1. Log in at app.beehiiv.com → Grow → Forms → Embed
+        2. Copy the HTML embed snippet
+        3. Delete the <form> block below and paste your Beehiiv snippet here.
+      -->
+      <form class="signup-form" action="#" method="post">
+        <input type="email" name="email" placeholder="Your best email address" required />
+        <button type="submit" class="btn-primary">Send Me REAL Field Notes</button>
+        <p class="signup-disclaimer">No spam, ever. Just the kind of learning ADHD brains actually need.</p>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- 6. Response / Contact Form -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Get in touch</p>
+      <h2>Have a Question? Tell Eric Your Story.</h2>
+      <p class="contact-lead">
+        What's the hardest part of learning cybersecurity with ADHD for you? Eric reads every
+        message — your story might shape the next Field Note.
+      </p>
+
+      <!--
+        FORMSPREE INTEGRATION (free — Eric gets emailed each response):
+        1. Go to formspree.io → create a free account
+        2. Create a new form → copy your endpoint URL (e.g. https://formspree.io/f/xxxxxxxx)
+        3. Replace action="#" below with your Formspree endpoint URL.
+        No server or backend needed.
+      -->
+      <form class="contact-form" action="#" method="post">
+        <input type="text"  name="name"    placeholder="Your name"          required />
+        <input type="email" name="email"   placeholder="Your email address"  required />
+        <textarea           name="message" placeholder="What's on your mind? Ask a question, share your story, or just say hi."></textarea>
+        <button type="submit" class="btn-primary">Send Your Message</button>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- Survey -->
+  <section id="survey">
+    <div class="container">
+      <p class="section-label">Quick survey</p>
+      <h2>Help Us Build This For You</h2>
+      <p class="survey-lead">
+        Wired Different is built on your feedback. 4 quick questions — takes under 2 minutes.
+        Every answer shapes what gets built next.
+      </p>
+
+      <div class="survey-progress">
+        <span class="active"></span>
+        <span class="active"></span>
+        <span class="active"></span>
+        <span class="active"></span>
+      </div>
+
+      <!--
+        FORMSPREE INTEGRATION:
+        Replace action="#" with your Formspree endpoint: https://formspree.io/f/xxxxxxxx
+        Each survey submission will be emailed to you automatically.
+      -->
+      <form class="survey-form" action="#" method="post">
+
+        <fieldset class="survey-q" style="border:none;padding:0;">
+          <legend>
+            <span class="q-num">Question 1 of 4</span>
+            How long have you been trying to break into cybersecurity?
+          </legend>
+          <div class="radio-group">
+            <label><input type="radio" name="q1_timeline" value="just-starting" required /> Just getting started — haven't begun yet</label>
+            <label><input type="radio" name="q1_timeline" value="1-6mo" /> 1–6 months in</label>
+            <label><input type="radio" name="q1_timeline" value="6-12mo" /> 6–12 months in</label>
+            <label><input type="radio" name="q1_timeline" value="1yr-plus" /> More than a year</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-q" style="border:none;padding:0;">
+          <legend>
+            <span class="q-num">Question 2 of 4</span>
+            What's your biggest learning challenge? (Check all that apply)
+          </legend>
+          <div class="check-group">
+            <label><input type="checkbox" name="q2_challenge" value="consistency" /> I can't stay consistent — I start strong then disappear</label>
+            <label><input type="checkbox" name="q2_challenge" value="retention" /> I study but nothing sticks</label>
+            <label><input type="checkbox" name="q2_challenge" value="boring" /> Traditional courses lose my attention fast</label>
+            <label><input type="checkbox" name="q2_challenge" value="overwhelmed" /> I don't know where to start or what to focus on</label>
+            <label><input type="checkbox" name="q2_challenge" value="imposter" /> I feel behind compared to everyone else</label>
+            <label><input type="checkbox" name="q2_challenge" value="no-support" /> Nobody around me gets what it's like to learn with ADHD</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-q" style="border:none;padding:0;">
+          <legend>
+            <span class="q-num">Question 3 of 4</span>
+            Have you been diagnosed with ADHD, or do you suspect you might have it?
+          </legend>
+          <div class="radio-group">
+            <label><input type="radio" name="q3_adhd" value="diagnosed" required /> Yes, I have a diagnosis</label>
+            <label><input type="radio" name="q3_adhd" value="suspect" /> I suspect I do but haven't been diagnosed</label>
+            <label><input type="radio" name="q3_adhd" value="unsure" /> Not sure</label>
+            <label><input type="radio" name="q3_adhd" value="no" /> No, but I still struggle to learn in traditional ways</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-q" style="border:none;padding:0;">
+          <legend>
+            <span class="q-num">Question 4 of 4</span>
+            What would help you most right now?
+          </legend>
+          <div class="radio-group">
+            <label><input type="radio" name="q4_need" value="path" required /> A clear, step-by-step learning path</label>
+            <label><input type="radio" name="q4_need" value="projects" /> Real hands-on projects I can actually finish</label>
+            <label><input type="radio" name="q4_need" value="accountability" /> Accountability and a community that gets it</label>
+            <label><input type="radio" name="q4_need" value="tools" /> ADHD-specific tools and focus strategies</label>
+          </div>
+        </fieldset>
+
+        <div class="survey-q">
+          <legend style="font-weight:700; font-size:1rem;">
+            Drop your email to get the results + your first Field Note
+          </legend>
+          <input class="survey-input" type="text"  name="name"  placeholder="Your first name (optional)" />
+          <input class="survey-input" type="email" name="email" placeholder="Your email address" required />
+        </div>
+
+        <div class="survey-submit-row">
+          <button type="submit" class="btn-primary">Submit &amp; Get Field Notes</button>
+          <span class="note">No spam. Your answers help shape this platform.</span>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section id="testimonial">
+    <div class="container">
+      <blockquote>
+        [Placeholder — add a real testimonial from a reader, student, or colleague.
+        One honest sentence about what changed for them after reading Wired Different.]
+        <cite>— First Name L., Role / Company (placeholder)</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 7. Image / Video Placeholder -->
+  <section id="media-section">
+    <div class="container">
+      <p class="section-label" style="text-align:center;">From the field</p>
+      <h2>See the Work in Action</h2>
+      <p class="media-sub">Replace this block with a photo, a short intro video, or a lab screenshot.</p>
+
+      <div class="media-placeholder">
+        <span class="ph-icon">🎬</span>
+        <span>Video or image placeholder</span>
+        <span style="font-size:.85rem;">Drag-and-drop a file, or see swap options below</span>
+      </div>
+
+      <div class="media-options">
+        <span>Option A: Photo of Eric / lab setup</span>
+        <span>Option B: YouTube embed (&lt;iframe&gt;)</span>
+        <span>Option C: Screen-recorded demo GIF</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" class="logo-footer" />
+    <p>
+      WiredDifferent — a <strong style="color:rgba(255,255,255,.7);">Miller Innovations LLC</strong> product. All rights reserved.
+      <em>Built by someone still hacking, still learning, and still showing up — just like you.</em>
+    </p>
+    <p style="margin-top:14px;">
+      <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
+    </p>
+  </footer>
+
+</body>
+</html>
