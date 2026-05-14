@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wired Different — Field Notes for ADHD Brains in Cybersecurity</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700;900&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,6 +16,7 @@
       --blue:   #70B7FF;
       --cyan:   #00e5ff;
       --green:  #00ff88;
+      --purple: #B388FF;
       --yellow: #FFF275;
       --text:   #c8d6e5;
       --dim:    #546880;
@@ -33,39 +34,33 @@
       overflow-x: hidden;
     }
 
-    /* ── Grid overlay ── */
-    body::before {
-      content: '';
+    /* ── Fixed matrix canvas behind everything ── */
+    #matrix-canvas {
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(112,183,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(112,183,255,.025) 1px, transparent 1px);
-      background-size: 44px 44px;
-      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      opacity: .13;
       z-index: 0;
+      pointer-events: none;
     }
 
-    .container { max-width: 860px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+    /* ── All content above matrix ── */
+    nav, section, footer { position: relative; z-index: 1; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
 
     /* ── Scroll reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: .1s; }
-    .reveal-delay-2 { transition-delay: .2s; }
-    .reveal-delay-3 { transition-delay: .3s; }
-    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal { opacity: 0; transform: translateY(48px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .22s; }
+    .delay-3 { transition-delay: .34s; }
+    .delay-4 { transition-delay: .46s; }
 
     /* ── Scanline ── */
     .scanline {
-      height: 2px;
+      height: 2px; position: relative; z-index: 2;
       background: linear-gradient(90deg, transparent, var(--cyan), var(--blue), transparent);
       animation: scan 3s ease-in-out infinite;
     }
@@ -74,395 +69,524 @@
     /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(7,11,20,.9);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 28px; height: 62px;
+      background: rgba(7,11,20,.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(112,183,255,.1);
+      padding: 0 32px; height: 64px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    nav img { height: 36px; }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .live { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.72rem; color:var(--green); }
+    nav img { height: 38px; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .live { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:.72rem; color:var(--green); letter-spacing:.06em; }
     .live-dot { width:7px; height:7px; background:var(--green); border-radius:50%; animation:livepulse 1.4s infinite; }
-    @keyframes livepulse { 0%,100%{opacity:1;box-shadow:0 0 6px var(--green)} 50%{opacity:.3;box-shadow:none} }
-    .btn { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.85rem; font-weight:700; padding:10px 22px; border-radius:4px; border:1px solid var(--cyan); color:var(--cyan); background:transparent; cursor:pointer; text-decoration:none; letter-spacing:.05em; transition:all .2s; }
-    .btn:hover { background:rgba(0,229,255,.1); box-shadow:0 0 20px rgba(0,229,255,.25); color:#fff; }
-    .btn-fill { background:var(--blue); border-color:var(--blue); color:#fff; }
-    .btn-fill:hover { background:var(--cyan); border-color:var(--cyan); color:#000; box-shadow:0 0 28px rgba(0,229,255,.4); }
+    @keyframes livepulse { 0%,100%{opacity:1;box-shadow:0 0 8px var(--green)} 50%{opacity:.3;box-shadow:none} }
 
-    /* ── Hero ── */
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--mono); font-size:.85rem; font-weight:700;
+      padding:11px 24px; border-radius:4px;
+      border:1px solid var(--cyan); color:var(--cyan);
+      background:transparent; cursor:pointer; text-decoration:none;
+      letter-spacing:.05em; transition:all .2s;
+    }
+    .btn:hover { background:rgba(0,229,255,.1); box-shadow:0 0 24px rgba(0,229,255,.3); color:#fff; }
+    .btn-fill { background:var(--blue); border-color:var(--blue); color:#fff; }
+    .btn-fill:hover { background:var(--cyan); border-color:var(--cyan); color:#000; box-shadow:0 0 32px rgba(0,229,255,.45); }
+    .btn-lg { padding:16px 40px; font-size:1rem; border-radius:6px; }
+
+    /* ── Section label ── */
+    .label {
+      font-family:var(--mono); font-size:.72rem; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--cyan); margin-bottom:16px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .label::before { content:'//'; color:var(--dim); }
+    .label-center { justify-content:center; }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; color: #fff; line-height: 1.1;
+      letter-spacing: -.02em; margin-bottom: 18px;
+    }
+
+    /* ────────────────────────────
+       HERO
+    ──────────────────────────── */
     #hero {
       min-height: 100vh;
       display: flex; align-items: center;
       position: relative; overflow: hidden; padding: 0;
     }
 
-    /* Matrix rain canvas */
-    #matrix-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      opacity: .07; z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Radial glow */
     .hero-glow {
-      position: absolute;
-      top: -100px; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 600px;
-      background: radial-gradient(ellipse, rgba(112,183,255,.1) 0%, transparent 65%);
-      animation: glowpulse 6s ease-in-out infinite;
-      pointer-events: none; z-index: 0;
+      position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+      width: 1000px; height: 700px;
+      background: radial-gradient(ellipse, rgba(112,183,255,.09) 0%, transparent 65%);
+      animation: glowpulse 7s ease-in-out infinite; pointer-events:none;
     }
-    @keyframes glowpulse { 0%,100%{opacity:.6;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.08)} }
+    @keyframes glowpulse { 0%,100%{opacity:.5;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.1)} }
 
     .hero-inner {
-      position: relative; z-index: 1;
-      width: 100%; padding: 120px 28px 100px; max-width: 860px; margin: 0 auto;
+      width:100%; max-width:900px; margin:0 auto;
+      padding:130px 32px 110px;
     }
 
-    .terminal-prompt {
-      font-family: var(--mono); font-size:.85rem; color:var(--green);
-      margin-bottom:24px; display:flex; align-items:center; gap:8px;
+    .hero-eyebrow {
+      font-family:var(--mono); font-size:.8rem; color:var(--green);
+      margin-bottom:28px; display:flex; align-items:center; gap:10px;
     }
-    .terminal-prompt::before { content:'>'; color:var(--cyan); font-size:1.1rem; }
-
+    .hero-eyebrow::before { content:'>'; color:var(--cyan); font-size:1.1rem; }
     .cursor {
       display:inline-block; width:10px; height:1em;
       background:var(--cyan); vertical-align:text-bottom;
-      animation:blink .75s step-end infinite; margin-left:2px;
+      animation:blink .75s step-end infinite; margin-left:3px;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     #hero h1 {
-      font-size: clamp(2.8rem, 6vw, 4.2rem);
-      font-weight: 900; color: #fff; line-height: 1.05;
-      letter-spacing: -.03em; margin-bottom: 16px;
+      font-size: clamp(3.2rem, 7vw, 5.5rem);
+      font-weight: 900; color: #fff; line-height: 1;
+      letter-spacing: -.04em; margin-bottom: 12px;
     }
     #hero h1 .c1 { color: var(--blue); }
-    #hero h1 .c2 { color: var(--cyan); }
+    #hero h1 .c2 {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--cyan);
+    }
 
-    .hero-sub {
-      font-family: var(--mono); font-size:.95rem;
-      color: var(--blue); margin-bottom: 22px; letter-spacing:.03em;
+    .hero-tagline {
+      font-family:var(--mono); font-size:1rem; color:var(--blue);
+      margin-bottom:28px; letter-spacing:.04em;
     }
 
     .hero-desc {
-      font-size: 1.15rem; color: var(--text);
-      max-width: 580px; margin-bottom: 40px; line-height: 1.8;
+      font-size:1.2rem; color:var(--text);
+      max-width:600px; margin-bottom:48px; line-height:1.8; font-weight:300;
     }
+    .hero-desc strong { color:#fff; font-weight:700; }
 
-    .hero-chips {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px;
-    }
-    .chip {
-      font-family: var(--mono); font-size:.78rem; color:var(--cyan);
-      background:rgba(0,229,255,.06); border:1px solid rgba(0,229,255,.2);
-      padding:7px 16px; border-radius:4px; letter-spacing:.04em;
-      transition:all .2s;
-    }
-    .chip:hover { background:rgba(0,229,255,.12); border-color:var(--cyan); }
-    .chip::before { content:'[ '; color:var(--dim); }
-    .chip::after  { content:' ]'; color:var(--dim); }
+    .hero-cta { display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:72px; }
+    .hero-note { font-family:var(--mono); font-size:.75rem; color:var(--dim); }
 
-    .hero-cta { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-    .hero-cta .note { font-family:var(--mono); font-size:.75rem; color:var(--dim); }
-
-    /* Loading bar */
-    .boot-bar { margin-top: 64px; max-width: 440px; }
-    .boot-label {
+    /* Boot bar */
+    .boot { max-width:480px; }
+    .boot-head {
       font-family:var(--mono); font-size:.72rem; color:var(--dim);
-      display:flex; justify-content:space-between; margin-bottom:8px;
+      display:flex; justify-content:space-between; margin-bottom:10px;
     }
-    .boot-track {
-      height:4px; background:var(--border); border-radius:2px; overflow:hidden;
-    }
+    .boot-track { height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
     .boot-fill {
-      height:100%; width:0%; border-radius:2px;
+      height:100%; width:0%;
       background:linear-gradient(90deg, var(--blue), var(--cyan));
-      transition:width 2.5s cubic-bezier(.4,0,.2,1);
-      box-shadow:0 0 10px rgba(0,229,255,.4);
+      border-radius:2px; transition:width 2.8s cubic-bezier(.4,0,.2,1);
+      box-shadow:0 0 12px rgba(0,229,255,.5);
     }
-    .boot-steps {
+    .boot-msg {
       font-family:var(--mono); font-size:.7rem; color:var(--dim);
       margin-top:10px; min-height:18px;
     }
     .boot-step { display:none; }
-    .boot-step.active { display:block; animation:fadein .3s ease; }
-    @keyframes fadein { from{opacity:0} to{opacity:1} }
+    .boot-step.on { display:block; animation:fin .3s ease; }
+    @keyframes fin { from{opacity:0} to{opacity:1} }
 
-    /* Scroll indicator */
+    /* Scroll hint */
     .scroll-hint {
-      position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+      position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
       display:flex; flex-direction:column; align-items:center; gap:6px;
-      font-family:var(--mono); font-size:.7rem; color:var(--dim); z-index:1;
-      animation:bounceup 2s ease-in-out infinite;
+      font-family:var(--mono); font-size:.7rem; color:var(--dim); z-index:2;
+      animation:bob 2s ease-in-out infinite;
     }
-    .scroll-hint svg { width:20px; opacity:.5; }
-    @keyframes bounceup { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-hint svg { width:20px; opacity:.4; }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-    /* ── Section labels ── */
-    .sec-label {
-      font-family:var(--mono); font-size:.72rem; letter-spacing:.14em;
-      text-transform:uppercase; color:var(--cyan); margin-bottom:14px;
-      display:flex; align-items:center; gap:8px;
+    /* ────────────────────────────
+       IS THIS YOU
+    ──────────────────────────── */
+    #for-you {
+      padding:120px 0;
+      background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      border-top:1px solid rgba(112,183,255,.08);
     }
-    .sec-label::before { content:'//'; color:var(--dim); }
-    h2 { font-size:clamp(1.8rem,3.5vw,2.4rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:14px; }
 
-    /* ── Is this you ── */
-    #for-you { padding:96px 0; background:var(--bg2); border-top:1px solid var(--border); }
+    .for-you-head { text-align:center; margin-bottom:64px; }
+    .for-you-head p { font-size:1.15rem; color:var(--text); max-width:580px; margin:0 auto; }
+    .for-you-head p span { color:var(--cyan); font-weight:700; }
 
-    .for-you-intro {
-      max-width:640px; margin:0 auto; text-align:center; margin-bottom:56px;
-    }
-    .for-you-intro h2 { margin-bottom:16px; }
-    .for-you-intro p { font-size:1.1rem; color:var(--text); }
-    .for-you-intro p span { color:var(--cyan); font-weight:700; }
-
-    .path-cards {
-      display:grid; grid-template-columns:1fr 1fr; gap:20px;
-    }
-    @media(max-width:600px){ .path-cards{grid-template-columns:1fr;} }
+    .path-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media(max-width:620px){ .path-grid{grid-template-columns:1fr;} }
 
     .path-card {
-      background:var(--bg3); border:1px solid var(--border);
-      border-radius:12px; padding:36px 32px;
-      cursor:pointer; transition:all .3s; position:relative; overflow:hidden;
+      background:rgba(13,19,32,.8);
+      border:1px solid var(--border);
+      border-radius:16px; padding:40px 36px;
+      cursor:pointer; transition:all .3s;
+      position:relative; overflow:hidden;
+      backdrop-filter:blur(8px);
     }
     .path-card::before {
       content:''; position:absolute; top:0; left:0; right:0; height:3px;
-      background:linear-gradient(90deg, var(--blue), var(--cyan));
-      transform:scaleX(0); transform-origin:left;
-      transition:transform .3s ease;
+      transform:scaleX(0); transform-origin:left; transition:transform .35s;
     }
-    .path-card:hover { border-color:var(--blue); box-shadow:0 0 40px rgba(112,183,255,.12); transform:translateY(-4px); }
+    .path-card.blue::before { background:linear-gradient(90deg, var(--blue), var(--cyan)); }
+    .path-card.purple::before { background:linear-gradient(90deg, var(--purple), var(--blue)); }
+    .path-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,.4); }
+    .path-card.blue:hover { border-color:var(--blue); }
+    .path-card.purple:hover { border-color:var(--purple); }
     .path-card:hover::before { transform:scaleX(1); }
 
-    .path-icon { font-size:2.4rem; margin-bottom:18px; display:block; }
-    .path-card h3 { font-size:1.25rem; color:#fff; margin-bottom:10px; }
-    .path-card p { font-size:.95rem; color:var(--dim); margin-bottom:20px; }
-    .path-bullets { list-style:none; display:grid; gap:8px; margin-bottom:28px; }
-    .path-bullets li {
-      font-size:.9rem; color:var(--text);
-      display:flex; align-items:flex-start; gap:10px;
+    .path-icon { font-size:2.8rem; margin-bottom:20px; display:block; }
+    .path-card h3 { font-size:1.4rem; color:#fff; font-weight:800; margin-bottom:10px; }
+    .path-card .sub { font-size:.95rem; color:var(--dim); margin-bottom:24px; line-height:1.6; }
+
+    .path-list { list-style:none; display:grid; gap:10px; margin-bottom:32px; }
+    .path-list li { font-size:.93rem; color:var(--text); display:flex; align-items:flex-start; gap:10px; }
+    .path-list li::before { content:'✓'; color:var(--cyan); flex-shrink:0; font-family:var(--mono); font-weight:700; }
+    .path-card.purple .path-list li::before { color:var(--purple); }
+
+    .open-door {
+      text-align:center; margin-top:52px;
+      font-size:1.05rem; color:var(--dim);
     }
-    .path-bullets li::before { content:'✓'; color:var(--cyan); flex-shrink:0; font-family:var(--mono); }
+    .open-door span { color:#fff; font-weight:700; }
 
-    .both-cta {
-      text-align:center; margin-top:44px;
-      font-size:1rem; color:var(--dim);
+    /* ────────────────────────────
+       SOUND FAMILIAR
+    ──────────────────────────── */
+    #familiar {
+      padding:120px 0;
+      border-top:1px solid rgba(112,183,255,.08);
     }
-    .both-cta span { color:var(--cyan); font-weight:700; }
 
-    /* ── Familiar ── */
-    #familiar { padding:96px 0; border-top:1px solid var(--border); }
+    .fam-intro { max-width:560px; margin-bottom:48px; }
+    .fam-intro p { font-size:1.1rem; color:var(--text); }
 
-    .familiar-grid {
-      display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:36px;
-    }
-    @media(max-width:560px){ .familiar-grid{grid-template-columns:1fr;} }
+    .fam-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media(max-width:560px){ .fam-grid{grid-template-columns:1fr;} }
 
-    .fam-item {
-      background:var(--bg2); border:1px solid var(--border);
-      border-radius:8px; padding:18px 20px;
+    .fam-card {
+      background:rgba(13,19,32,.7);
+      border:1px solid var(--border);
+      border-radius:10px; padding:20px 22px;
       display:flex; align-items:flex-start; gap:14px;
+      backdrop-filter:blur(6px);
       transition:all .25s;
     }
-    .fam-item:hover { border-color:var(--blue); box-shadow:0 0 20px rgba(112,183,255,.1); transform:translateY(-2px); }
-    .fam-item .fi { font-size:1.3rem; flex-shrink:0; margin-top:2px; }
-    .fam-item p { font-size:.95rem; color:var(--text); }
-    .hl { background:rgba(255,242,117,.12); color:var(--yellow); padding:2px 6px; border-radius:3px; font-family:var(--mono); font-size:.88em; }
+    .fam-card:hover { border-color:rgba(112,183,255,.4); transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.3); }
+    .fam-card .fi { font-size:1.4rem; flex-shrink:0; margin-top:2px; }
+    .fam-card p { font-size:.95rem; color:var(--text); }
+    .hl { background:rgba(255,242,117,.1); color:var(--yellow); padding:2px 6px; border-radius:3px; font-family:var(--mono); font-size:.88em; }
 
-    .stat-row {
-      display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
-      margin-top:48px; border-radius:10px; overflow:hidden;
+    .stats {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px;
     }
-    @media(max-width:560px){ .stat-row{grid-template-columns:1fr;} }
-    .stat { background:var(--bg2); border:1px solid var(--border); padding:24px 20px; text-align:center; }
-    .stat-n { font-family:var(--mono); font-size:2rem; font-weight:700; color:var(--cyan); display:block; }
-    .stat-l { font-size:.75rem; color:var(--dim); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+    @media(max-width:600px){ .stats{grid-template-columns:1fr;} }
 
-    /* ── Story ── */
-    #story { padding:96px 0; background:var(--bg2); border-top:1px solid var(--border); }
-
-    .story-shell {
-      background:var(--bg3); border:1px solid var(--border);
-      border-radius:14px; overflow:hidden;
+    .stat-card {
+      background:rgba(13,19,32,.7);
+      border:1px solid var(--border); border-radius:12px;
+      padding:32px 24px; text-align:center;
+      backdrop-filter:blur(6px); transition:all .25s;
     }
-    .story-top {
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(135deg, #0d1b2e, #0a1020);
-      padding:48px 48px 44px;
-    }
-    @media(max-width:560px){ .story-top{ padding:32px 24px; } }
-    .story-byline { font-family:var(--mono); font-size:.8rem; color:var(--blue); margin-bottom:22px; }
-    .story-top p { font-size:1.05rem; color:var(--text); margin-bottom:16px; }
-    .story-top p em { color:var(--cyan); font-style:normal; }
+    .stat-card:hover { border-color:var(--blue); box-shadow:0 0 30px rgba(112,183,255,.1); }
+    .stat-n { font-family:var(--mono); font-size:2.4rem; font-weight:700; color:var(--cyan); display:block; margin-bottom:8px; }
+    .stat-l { font-size:.82rem; color:var(--dim); line-height:1.5; }
 
-    /* Terminal */
+    /* ────────────────────────────
+       STORY
+    ──────────────────────────── */
+    #story {
+      padding:120px 0;
+      background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+      border-top:1px solid rgba(112,183,255,.08);
+    }
+
+    .story-layout { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+    @media(max-width:700px){ .story-layout{grid-template-columns:1fr;} }
+
+    .story-text h2 { margin-bottom:10px; }
+    .story-byline { font-family:var(--mono); font-size:.8rem; color:var(--blue); margin-bottom:24px; }
+    .story-text p { font-size:1.05rem; color:var(--text); margin-bottom:16px; line-height:1.8; }
+    .story-text p em { color:var(--cyan); font-style:normal; font-weight:600; }
+
+    .story-cert {
+      background:rgba(13,19,32,.8);
+      border:1px solid var(--border); border-radius:14px;
+      padding:32px; backdrop-filter:blur(8px);
+      position:relative; overflow:hidden;
+    }
+    .story-cert::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+    .cert-icon { font-size:3rem; margin-bottom:16px; display:block; }
+    .story-cert h3 { font-size:1.1rem; color:#fff; margin-bottom:10px; }
+    .story-cert p { font-size:.92rem; color:var(--dim); line-height:1.7; }
+    .story-cert .quote-mark {
+      font-family:var(--mono); font-size:.85rem; color:var(--cyan);
+      margin-top:20px; display:block; line-height:1.6;
+      border-left:2px solid var(--cyan); padding-left:14px;
+    }
+
     .terminal {
-      background:#020508; font-family:var(--mono); font-size:.85rem; line-height:1.9;
+      margin-top:24px;
+      background:#020508; border:1px solid var(--border); border-radius:10px; overflow:hidden;
     }
     .term-bar {
       background:#0d1a2b; padding:10px 18px;
-      display:flex; align-items:center; gap:8px;
-      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border);
     }
     .td { width:10px; height:10px; border-radius:50%; }
     .td.r{background:#ff5f57} .td.y{background:#febc2e} .td.g{background:#28c840}
     .term-bar span { font-size:.74rem; color:var(--dim); margin-left:8px; }
-    .term-body { padding:24px 28px; }
+    .term-body { padding:22px 26px; font-family:var(--mono); font-size:.84rem; line-height:2; }
     .tl { display:block; }
     .tc { color:var(--cyan); }
-    .to { color:var(--green); padding-left:16px; }
-    .td2 { color:var(--dim); padding-left:16px; }
-    .tw { color:var(--yellow); padding-left:16px; }
+    .to { color:var(--green); padding-left:14px; }
+    .tw { color:var(--yellow); padding-left:14px; }
+    .tdim { color:var(--dim); padding-left:14px; }
 
-    /* ── What you get ── */
-    #benefits { padding:96px 0; border-top:1px solid var(--border); }
+    /* ────────────────────────────
+       PROJECTS
+    ──────────────────────────── */
+    #projects {
+      padding:120px 0;
+      border-top:1px solid rgba(112,183,255,.08);
+    }
 
-    .benefit-grid { display:grid; gap:14px; margin-top:36px; }
+    .projects-head { margin-bottom:56px; }
+    .projects-head p { font-size:1.1rem; color:var(--text); max-width:560px; margin-top:8px; }
+
+    .projects-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+    @media(max-width:700px){ .projects-grid{grid-template-columns:1fr;} }
+    @media(min-width:701px) and (max-width:900px){ .projects-grid{grid-template-columns:1fr 1fr;} }
+
+    .project-card {
+      background:rgba(13,19,32,.8);
+      border:1px solid var(--border); border-radius:14px;
+      padding:32px 28px; transition:all .3s;
+      backdrop-filter:blur(6px); position:relative; overflow:hidden;
+    }
+    .project-card.featured { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center; }
+    @media(max-width:700px){ .project-card.featured{grid-template-columns:1fr;} }
+
+    .project-card:hover { border-color:var(--blue); transform:translateY(-4px); box-shadow:0 16px 48px rgba(0,0,0,.4); }
+    .project-card.locked { opacity:.5; cursor:not-allowed; }
+    .project-card.locked:hover { transform:none; border-color:var(--border); box-shadow:none; }
+
+    .project-badge {
+      font-family:var(--mono); font-size:.7rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase;
+      padding:4px 12px; border-radius:20px; display:inline-block; margin-bottom:18px;
+    }
+    .badge-live { background:rgba(0,255,136,.1); color:var(--green); border:1px solid rgba(0,255,136,.3); }
+    .badge-soon { background:rgba(179,136,255,.1); color:var(--purple); border:1px solid rgba(179,136,255,.3); }
+
+    .project-num { font-family:var(--mono); font-size:.75rem; color:var(--dim); margin-bottom:10px; }
+    .project-card h3 { font-size:1.2rem; color:#fff; font-weight:800; margin-bottom:10px; }
+    .project-card .proj-desc { font-size:.95rem; color:var(--dim); margin-bottom:24px; line-height:1.7; }
+
+    .project-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+    .tag {
+      font-family:var(--mono); font-size:.72rem; color:var(--blue);
+      background:rgba(112,183,255,.07); border:1px solid rgba(112,183,255,.2);
+      padding:4px 12px; border-radius:20px;
+    }
+
+    .project-visual {
+      background:rgba(7,11,20,.8); border:1px solid var(--border);
+      border-radius:10px; aspect-ratio:16/9;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:12px; font-family:var(--mono); font-size:.82rem; color:var(--dim);
+    }
+    .project-visual .pv-icon { font-size:2.8rem; }
+    .coming-icon { font-size:2.4rem; margin-bottom:12px; display:block; opacity:.5; }
+
+    /* ────────────────────────────
+       WHAT YOU GET
+    ──────────────────────────── */
+    #benefits {
+      padding:120px 0;
+      background:linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      border-top:1px solid rgba(112,183,255,.08);
+    }
+
+    .benefit-grid { display:grid; gap:14px; margin-top:48px; }
 
     .benefit {
-      display:flex; gap:22px; align-items:flex-start;
-      background:var(--bg2); border:1px solid var(--border);
-      border-radius:10px; padding:26px 28px;
-      transition:all .25s;
+      display:flex; gap:24px; align-items:flex-start;
+      background:rgba(13,19,32,.7); border:1px solid var(--border);
+      border-radius:10px; padding:28px 30px;
+      backdrop-filter:blur(6px); transition:all .25s;
     }
-    .benefit:hover { border-color:var(--blue); box-shadow:0 0 24px rgba(112,183,255,.1); transform:translateX(4px); }
+    .benefit:hover { border-color:var(--blue); transform:translateX(6px); box-shadow:0 0 30px rgba(112,183,255,.08); }
 
     .benefit-num {
-      font-family:var(--mono); font-size:1rem; font-weight:700; color:var(--cyan);
+      font-family:var(--mono); font-size:.95rem; font-weight:700; color:var(--cyan);
       background:rgba(0,229,255,.07); border:1px solid rgba(0,229,255,.2);
-      width:44px; height:44px; border-radius:6px;
+      width:46px; height:46px; border-radius:8px;
       display:flex; align-items:center; justify-content:center; flex-shrink:0;
     }
-    .benefit h3 { font-size:1rem; color:#fff; margin-bottom:6px; }
-    .benefit p { font-size:.93rem; color:var(--dim); }
+    .benefit h3 { font-size:1.05rem; color:#fff; margin-bottom:6px; font-weight:700; }
+    .benefit p { font-size:.93rem; color:var(--dim); line-height:1.7; }
 
-    /* ── Signup ── */
+    /* ────────────────────────────
+       COMMUNITY
+    ──────────────────────────── */
+    #community {
+      padding:140px 0; text-align:center;
+      border-top:1px solid rgba(112,183,255,.08);
+      position:relative; overflow:hidden;
+    }
+
+    .community-glow {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      width:700px; height:700px;
+      background:radial-gradient(circle, rgba(179,136,255,.07) 0%, transparent 65%);
+      pointer-events:none;
+    }
+
+    .community-inner { position:relative; z-index:1; }
+    #community h2 { font-size:clamp(2.4rem,5vw,4rem); margin-bottom:18px; }
+    #community p { font-size:1.15rem; color:var(--text); max-width:560px; margin:0 auto 48px; line-height:1.8; }
+
+    .community-pills {
+      display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:56px;
+    }
+    .pill {
+      font-family:var(--mono); font-size:.82rem;
+      padding:10px 22px; border-radius:30px;
+      border:1px solid rgba(179,136,255,.3);
+      color:var(--purple); background:rgba(179,136,255,.06);
+      transition:all .2s;
+    }
+    .pill:hover { background:rgba(179,136,255,.12); border-color:var(--purple); }
+
+    /* ────────────────────────────
+       SIGNUP
+    ──────────────────────────── */
     #signup {
-      padding:110px 0; text-align:center;
-      background:var(--bg3); border-top:1px solid var(--border);
+      padding:140px 0; text-align:center;
+      background:var(--bg3);
+      border-top:1px solid rgba(112,183,255,.08);
       position:relative; overflow:hidden;
     }
     #signup::before {
-      content:''; position:absolute; top:-150px; left:50%; transform:translateX(-50%);
-      width:600px; height:600px;
-      background:radial-gradient(circle, rgba(0,229,255,.07) 0%, transparent 65%);
+      content:''; position:absolute;
+      top:-200px; left:50%; transform:translateX(-50%);
+      width:700px; height:700px;
+      background:radial-gradient(circle, rgba(0,229,255,.06) 0%, transparent 65%);
       pointer-events:none;
     }
     .signup-inner { position:relative; z-index:1; }
-    #signup h2 { font-size:clamp(2rem,4vw,3rem); margin-bottom:14px; }
-    .signup-lead { font-size:1.1rem; color:var(--text); max-width:520px; margin:0 auto 36px; }
+    #signup h2 { font-size:clamp(2.4rem,5vw,4rem); margin-bottom:16px; }
+    .signup-lead { font-size:1.15rem; color:var(--text); max-width:520px; margin:0 auto 40px; line-height:1.8; }
 
-    .signup-form {
-      display:flex; gap:10px; max-width:500px;
-      margin:0 auto 14px; flex-wrap:wrap; justify-content:center;
+    /* Beehiiv embed wrapper */
+    .beehiiv-wrap { max-width:520px; margin:0 auto 16px; }
+    .signup-note { font-family:var(--mono); font-size:.75rem; color:var(--dim); margin-top:16px; }
+
+    /* ────────────────────────────
+       SURVEY
+    ──────────────────────────── */
+    #survey {
+      padding:120px 0;
+      border-top:1px solid rgba(112,183,255,.08);
     }
-    .signup-form input {
-      flex:1; min-width:220px; padding:14px 18px;
-      border-radius:4px; border:1px solid var(--border);
-      background:var(--bg); color:#fff;
-      font-family:var(--mono); font-size:.95rem; outline:none;
-      transition:all .2s;
-    }
-    .signup-form input::placeholder { color:var(--dim); }
-    .signup-form input:focus { border-color:var(--cyan); box-shadow:0 0 12px rgba(0,229,255,.15); }
-    .signup-note { font-family:var(--mono); font-size:.75rem; color:var(--dim); }
 
-    /* ── Survey ── */
-    #survey { padding:96px 0; background:var(--bg); border-top:1px solid var(--border); }
-
-    .survey-form { display:grid; gap:28px; margin-top:36px; }
+    .survey-form { display:grid; gap:28px; margin-top:40px; }
     .sq { display:grid; gap:10px; border:none; padding:0; }
-    .sq legend { font-weight:700; font-size:1rem; color:#fff; margin-bottom:10px; }
+    .sq legend { font-weight:700; font-size:1rem; color:#fff; margin-bottom:12px; }
     .qn { font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; color:var(--cyan); display:block; margin-bottom:4px; }
     .rg, .cg { display:grid; gap:8px; }
     .rg label, .cg label {
       display:flex; align-items:center; gap:12px;
-      padding:12px 16px; border-radius:6px;
-      border:1px solid var(--border); background:var(--bg2);
-      cursor:pointer; font-size:.95rem; color:var(--text); transition:all .2s;
+      padding:13px 18px; border-radius:8px;
+      border:1px solid var(--border);
+      background:rgba(13,19,32,.7);
+      cursor:pointer; font-size:.95rem; color:var(--text);
+      backdrop-filter:blur(4px); transition:all .2s;
     }
     .rg label:hover, .cg label:hover { border-color:var(--cyan); background:rgba(0,229,255,.05); color:#fff; }
     .rg input, .cg input { accent-color:var(--cyan); width:16px; height:16px; flex-shrink:0; }
     .si {
-      width:100%; padding:13px 16px; border-radius:6px;
-      border:1px solid var(--border); background:var(--bg2);
+      width:100%; padding:14px 18px; border-radius:8px;
+      border:1px solid var(--border);
+      background:rgba(13,19,32,.7);
       font-family:var(--mono); font-size:.95rem; color:#fff; outline:none;
-      transition:all .2s;
+      backdrop-filter:blur(4px); transition:all .2s;
     }
     .si::placeholder { color:var(--dim); }
-    .si:focus { border-color:var(--cyan); box-shadow:0 0 10px rgba(0,229,255,.15); }
+    .si:focus { border-color:var(--cyan); box-shadow:0 0 14px rgba(0,229,255,.15); }
     .sq-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
     .sq-note { font-family:var(--mono); font-size:.78rem; color:var(--dim); }
 
-    /* ── Contact ── */
-    #contact { padding:96px 0; background:var(--bg2); border-top:1px solid var(--border); }
-    .contact-lead { font-size:1.05rem; color:var(--text); margin-bottom:28px; }
+    /* ────────────────────────────
+       FEEDBACK / CONTACT
+    ──────────────────────────── */
+    #contact {
+      padding:120px 0;
+      background:linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+      border-top:1px solid rgba(112,183,255,.08);
+    }
+
+    .contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+    @media(max-width:700px){ .contact-layout{grid-template-columns:1fr;} }
+
+    .contact-left h2 { margin-bottom:14px; }
+    .contact-left p { font-size:1.05rem; color:var(--text); margin-bottom:28px; line-height:1.8; }
+
+    .contact-cards { display:grid; gap:14px; }
+    .contact-card {
+      background:rgba(13,19,32,.7); border:1px solid var(--border);
+      border-radius:10px; padding:20px 22px;
+      display:flex; align-items:flex-start; gap:14px;
+      backdrop-filter:blur(4px);
+    }
+    .contact-card .cc-icon { font-size:1.5rem; flex-shrink:0; }
+    .contact-card h4 { font-size:.95rem; color:#fff; margin-bottom:4px; }
+    .contact-card p { font-size:.85rem; color:var(--dim); }
+
     .cf { display:grid; gap:14px; }
     .cf input, .cf textarea {
-      width:100%; padding:13px 16px; border-radius:6px;
-      border:1px solid var(--border); background:var(--bg);
-      font-family:var(--mono); font-size:.95rem; color:#fff; outline:none; transition:all .2s;
+      width:100%; padding:14px 18px; border-radius:8px;
+      border:1px solid var(--border);
+      background:rgba(13,19,32,.7);
+      font-family:var(--mono); font-size:.95rem; color:#fff; outline:none;
+      backdrop-filter:blur(4px); transition:all .2s;
     }
     .cf input::placeholder, .cf textarea::placeholder { color:var(--dim); }
-    .cf input:focus, .cf textarea:focus { border-color:var(--cyan); box-shadow:0 0 10px rgba(0,229,255,.15); }
-    .cf textarea { min-height:130px; resize:vertical; }
+    .cf input:focus, .cf textarea:focus { border-color:var(--cyan); box-shadow:0 0 14px rgba(0,229,255,.15); }
+    .cf textarea { min-height:140px; resize:vertical; font-family:'Inter', sans-serif; }
 
-    /* ── Testimonial ── */
-    #testimonial { padding:96px 0; border-top:1px solid var(--border); }
-    .quote {
-      background:var(--bg2); border:1px solid var(--border);
-      border-left:3px solid var(--cyan); border-radius:10px;
-      padding:38px 48px; max-width:660px; margin:0 auto; position:relative;
-    }
-    .quote::before {
-      content:'\201C'; font-size:5rem; color:rgba(0,229,255,.15);
-      position:absolute; top:-12px; left:18px; line-height:1; font-family:serif;
-    }
-    .quote p { font-size:1.1rem; color:var(--text); font-style:italic; }
-    .quote cite { display:block; margin-top:18px; font-family:var(--mono); font-size:.82rem; color:var(--cyan); font-style:normal; }
-
-    /* ── Media ── */
-    #media { padding:96px 0; background:var(--bg2); border-top:1px solid var(--border); }
-    #media h2 { text-align:center; margin-bottom:8px; }
-    .media-sub { text-align:center; font-family:var(--mono); font-size:.82rem; color:var(--dim); margin-bottom:32px; }
-    .media-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    @media(max-width:560px){ .media-grid{grid-template-columns:1fr;} }
-    .media-card {
-      background:var(--bg3); border:1px solid var(--border); border-radius:10px;
-      aspect-ratio:16/9; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; gap:10px;
-      font-family:var(--mono); font-size:.8rem; color:var(--dim);
-      transition:border-color .2s; cursor:pointer;
-    }
-    .media-card:hover { border-color:var(--blue); }
-    .media-card .mi { font-size:2rem; }
-    .media-main { grid-column:1/-1; aspect-ratio:16/7; }
-
-    /* ── Footer ── */
+    /* ────────────────────────────
+       FOOTER
+    ──────────────────────────── */
     footer {
-      background:#020508; border-top:1px solid var(--border);
-      padding:56px 28px 36px; text-align:center;
+      background:#020508; border-top:1px solid rgba(112,183,255,.08);
+      padding:64px 32px 40px; text-align:center;
     }
-    footer img { height:32px; margin-bottom:20px; opacity:.65; }
-    .foot-links { display:flex; justify-content:center; gap:28px; margin-bottom:24px; flex-wrap:wrap; }
+    footer img { height:34px; margin-bottom:24px; opacity:.7; }
+    .foot-links { display:flex; justify-content:center; gap:32px; margin-bottom:28px; flex-wrap:wrap; }
     .foot-links a { font-family:var(--mono); font-size:.78rem; color:var(--dim); text-decoration:none; letter-spacing:.05em; transition:color .2s; }
     .foot-links a:hover { color:var(--cyan); }
     footer p { font-family:var(--mono); font-size:.78rem; color:var(--dim); line-height:2; }
     footer p em { display:block; margin-top:6px; color:rgba(255,255,255,.2); font-style:italic; }
     footer a.mail { color:var(--blue); text-decoration:none; }
     footer a.mail:hover { color:var(--cyan); }
+
+    @media(max-width:560px){
+      .hero-cta { flex-direction:column; align-items:flex-start; }
+      .btn-lg { width:100%; justify-content:center; }
+    }
   </style>
 </head>
 <body>
 
+<canvas id="matrix-canvas"></canvas>
 <div class="scanline"></div>
 
-<!-- Nav -->
+<!-- ── NAV ── -->
 <nav>
   <img src="WiredDifferent_Logo.svg" alt="Wired Different" />
   <div class="nav-right">
@@ -473,52 +597,44 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <canvas id="matrix-canvas"></canvas>
   <div class="hero-glow"></div>
-
   <div class="hero-inner">
-    <p class="terminal-prompt" id="terminal-text">initializing wired-different/field-notes...<span class="cursor"></span></p>
+
+    <p class="hero-eyebrow">wired-different/field-notes — loading...<span class="cursor"></span></p>
 
     <h1>
-      Break Into Cyber<br/>
-      <span class="c1">The </span><span class="c2">ADHD</span><span class="c1"> Way.</span>
+      Break Into<br/>
+      <span class="c1">Cyber</span> The<br/>
+      <span class="c2">ADHD</span> Way.
     </h1>
 
-    <p class="hero-sub">// field notes from someone still in the trenches.</p>
+    <p class="hero-tagline">// field notes from someone still in the trenches.</p>
 
     <p class="hero-desc">
-      Unfiltered dispatches, science-backed strategies, and hands-on micro-projects.
-      Built by and for people whose brains are <strong style="color:#fff;">wired different</strong>.
-      Diagnosed or not — you belong here.
+      Story-driven, project-based learning for people whose brains are
+      <strong>wired different.</strong> Diagnosed or not — you belong here.
     </p>
 
-    <div class="hero-chips">
-      <span class="chip">candid ADHD stories</span>
-      <span class="chip">hands-on projects</span>
-      <span class="chip">zero toxic advice</span>
-      <span class="chip">your pace, your terms</span>
-    </div>
-
     <div class="hero-cta">
-      <a href="#signup" class="btn btn-fill">Send Me REAL Field Notes</a>
-      <span class="note">// no spam &nbsp;·&nbsp; unsubscribe anytime</span>
+      <a href="#signup" class="btn btn-fill btn-lg">Get Field Notes Free</a>
+      <a href="#for-you" class="btn btn-lg">Is This For Me?</a>
     </div>
 
-    <div class="boot-bar">
-      <div class="boot-label">
-        <span id="boot-label-text">BOOTING WIRED DIFFERENT</span>
+    <div class="boot">
+      <div class="boot-head">
+        <span id="boot-lbl">INITIALIZING</span>
         <span id="boot-pct">0%</span>
       </div>
       <div class="boot-track"><div class="boot-fill" id="boot-fill"></div></div>
-      <div class="boot-steps">
-        <span class="boot-step" id="step-0">[ OK ] loading field notes...</span>
-        <span class="boot-step" id="step-1">[ OK ] ADHD learning engine initialized</span>
-        <span class="boot-step" id="step-2">[ OK ] community protocols active</span>
-        <span class="boot-step" id="step-3">[ OK ] your journey starts now</span>
+      <div class="boot-msg">
+        <span class="boot-step" id="s0">[ OK ] loading field notes engine...</span>
+        <span class="boot-step" id="s1">[ OK ] ADHD learning protocols active</span>
+        <span class="boot-step" id="s2">[ OK ] community channels open</span>
+        <span class="boot-step" id="s3">[ READY ] your journey starts now</span>
       </div>
     </div>
-  </div>
 
+  </div>
   <div class="scroll-hint">
     <svg viewBox="0 0 24 24" fill="none" stroke="#70B7FF" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     scroll
@@ -528,22 +644,18 @@
 <!-- ── IS THIS YOU ── -->
 <section id="for-you">
   <div class="container">
-    <div class="for-you-intro reveal">
-      <p class="sec-label" style="justify-content:center;">is this you?</p>
+    <div class="for-you-head reveal">
+      <p class="label label-center">who this is for</p>
       <h2>You Don't Need a Diagnosis.<br/>You Just Need a Different Path.</h2>
-      <p>
-        Whether you've been <span>diagnosed with ADHD</span>, suspect it, or simply know that
-        traditional learning never clicked for you — <span>you belong here.</span>
-        This is built for every brain that's been told to "just focus."
-      </p>
+      <p>Whether you've been <span>diagnosed with ADHD</span>, suspect it, or simply know traditional learning never clicked — <span>you belong here.</span> No judgment. No prerequisites.</p>
     </div>
 
-    <div class="path-cards">
-      <div class="path-card reveal reveal-delay-1">
+    <div class="path-grid">
+      <div class="path-card blue reveal delay-1">
         <span class="path-icon">🧠</span>
         <h3>I Have ADHD</h3>
-        <p>Diagnosed or self-identified — you've felt the gap between your potential and what traditional learning offers.</p>
-        <ul class="path-bullets">
+        <p class="sub">Diagnosed or self-identified — you've felt the gap between your potential and what traditional learning offers.</p>
+        <ul class="path-list">
           <li>Real ADHD-in-action stories from the trenches</li>
           <li>Science-backed strategies built for our brains</li>
           <li>Tools that work with your ADHD, not against it</li>
@@ -552,12 +664,12 @@
         <a href="#signup" class="btn btn-fill">This Is Me — I'm In</a>
       </div>
 
-      <div class="path-card reveal reveal-delay-2">
+      <div class="path-card purple reveal delay-2">
         <span class="path-icon">🚀</span>
         <h3>I Just Learn Differently</h3>
-        <p>No label needed. You know the traditional way doesn't work for you — and you're ready for something that does.</p>
-        <ul class="path-bullets">
-          <li>Hands-on micro-projects you can actually finish</li>
+        <p class="sub">No label needed. You know traditional learning doesn't work for you — and you're ready for something that does.</p>
+        <ul class="path-list">
+          <li>Hands-on projects you can actually finish</li>
           <li>No walls of text, no boring lectures</li>
           <li>One actionable idea per week, nothing more</li>
           <li>Learn at your pace, on your terms</li>
@@ -566,83 +678,149 @@
       </div>
     </div>
 
-    <p class="both-cta reveal reveal-delay-3">
-      Either way — <span>same field notes, same community, same zero pressure.</span>
+    <p class="open-door reveal delay-3" style="margin-top:48px;">
+      Either way — <span>same field notes, same community, zero pressure.</span>
     </p>
   </div>
 </section>
 
-<!-- ── DOES THIS SOUND FAMILIAR ── -->
+<!-- ── FAMILIAR ── -->
 <section id="familiar">
   <div class="container">
-    <p class="sec-label reveal">threat model</p>
-    <h2 class="reveal">Sound Familiar?</h2>
-    <p class="reveal" style="color:var(--text);font-size:1.05rem;max-width:560px;">Traditional cybersecurity courses weren't designed for how our brains work.</p>
-
-    <div class="familiar-grid">
-      <div class="fam-item reveal reveal-delay-1">
-        <span class="fi">📚</span>
-        <p>Overwhelmed by <span class="hl">walls of "just do this" advice</span> — and none of it sticks.</p>
-      </div>
-      <div class="fam-item reveal reveal-delay-2">
-        <span class="fi">🔁</span>
-        <p>You start strong then <span class="hl">disappear for three weeks</span> and feel terrible about it.</p>
-      </div>
-      <div class="fam-item reveal reveal-delay-1">
-        <span class="fi">⏱️</span>
-        <p>You want someone to <span class="hl">show you what actually works</span> — with permission to pause.</p>
-      </div>
-      <div class="fam-item reveal reveal-delay-2">
-        <span class="fi">💪</span>
-        <p>Ready to build <span class="hl">real skills without hiding who you are</span>.</p>
-      </div>
-      <div class="fam-item reveal reveal-delay-1">
-        <span class="fi">⚡</span>
-        <p>Certification prep is <span class="hl">soul-crushingly boring</span> until it's framed like a mission.</p>
-      </div>
-      <div class="fam-item reveal reveal-delay-2">
-        <span class="fi">🧠</span>
-        <p>You know you're capable — you need a system <span class="hl">built for your brain</span>.</p>
-      </div>
+    <p class="label reveal">sound familiar?</p>
+    <div class="fam-intro reveal">
+      <h2>You're Not Broken.<br/>You're Wired Different.</h2>
+      <p>Traditional cybersecurity courses weren't designed for how our brains work.</p>
     </div>
 
-    <div class="stat-row reveal">
-      <div class="stat"><span class="stat-n">68%</span><span class="stat-l">ADHD learners drop standard cyber courses</span></div>
-      <div class="stat"><span class="stat-n">4.5%</span><span class="stat-l">of the workforce has ADHD</span></div>
-      <div class="stat"><span class="stat-n">0</span><span class="stat-l">major platforms built for them — until now</span></div>
+    <div class="fam-grid">
+      <div class="fam-card reveal delay-1"><span class="fi">📚</span><p>Overwhelmed by <span class="hl">walls of "just do this" advice</span> — none of it sticks.</p></div>
+      <div class="fam-card reveal delay-2"><span class="fi">🔁</span><p>Start strong then <span class="hl">disappear for three weeks</span> and feel terrible about it.</p></div>
+      <div class="fam-card reveal delay-1"><span class="fi">⏱️</span><p>Want someone to <span class="hl">show you what actually works</span> — with permission to pause.</p></div>
+      <div class="fam-card reveal delay-2"><span class="fi">💪</span><p>Ready to build <span class="hl">real skills without hiding who you are</span>.</p></div>
+      <div class="fam-card reveal delay-1"><span class="fi">⚡</span><p>Cert prep is <span class="hl">soul-crushingly boring</span> until it's framed like a mission.</p></div>
+      <div class="fam-card reveal delay-2"><span class="fi">🧠</span><p>Capable — just need a system <span class="hl">built for your brain</span>.</p></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card reveal delay-1"><span class="stat-n">68%</span><span class="stat-l">ADHD learners drop standard cyber courses</span></div>
+      <div class="stat-card reveal delay-2"><span class="stat-n">4.5%</span><span class="stat-l">of the workforce has ADHD</span></div>
+      <div class="stat-card reveal delay-3"><span class="stat-n">0</span><span class="stat-l">major platforms built for them — until now</span></div>
     </div>
   </div>
 </section>
 
-<!-- ── ERIC'S STORY ── -->
+<!-- ── STORY ── -->
 <section id="story">
   <div class="container">
-    <p class="sec-label reveal">operator profile</p>
-    <h2 class="reveal">A Fellow ADHD Learner.<br/>Still in the Trenches.</h2>
+    <p class="label reveal">operator profile</p>
+    <div class="story-layout">
+      <div class="story-text reveal">
+        <h2>Still in the Trenches. Just Like You.</h2>
+        <p class="story-byline">Eric M. — Founder, Miller Innovations LLC</p>
+        <p>I'm not a doctor. I'm not a researcher. I went from customer support — at some of the top companies in the industry — to cybersecurity, with ADHD, and figured it out the hard way.</p>
+        <p>It took me almost a year to get my Security+. Not because I wasn't capable — but because every tool, bootcamp, and community I tried <em>wasn't built for the way my brain works.</em></p>
+        <p>There were career changes. Moments of doubt. Times I almost quit. But I kept going. And now that cert hangs on my wall — a reminder that <em>this is just the start.</em></p>
+        <p>I built Wired Different because no platform existed for us. So I made one.</p>
+        <div class="terminal">
+          <div class="term-bar">
+            <span class="td r"></span><span class="td y"></span><span class="td g"></span>
+            <span>miller@wireddifferent ~ experience</span>
+          </div>
+          <div class="term-body">
+            <span class="tl tc">$ ls ./journey</span>
+            <span class="tl to">customer-support-top-tier/</span>
+            <span class="tl to">cybersecurity-transition/</span>
+            <span class="tl to">ADHD-lived-experience/</span>
+            <span class="tl to">sec-plus-achieved/</span>
+            <span class="tl tc">$ cat ./why.txt</span>
+            <span class="tl tw">No platform existed for us. So I built one.</span>
+            <span class="tl tdim"># pilot — your feedback IS the roadmap</span>
+          </div>
+        </div>
+      </div>
 
-    <div class="story-shell reveal">
-      <div class="story-top">
-        <p class="story-byline">Eric Miller-Saisi — Founder, Miller Innovations LLC</p>
-        <p>I started my career in customer support — and I got good at it. Good enough to work for some of the top companies in the industry. But the whole time I was pushing toward something bigger: a transition into cybersecurity.</p>
-        <p>When I made that move, I hit a wall I wasn't expecting. Not the technical material — the <em>way it was taught</em>. Course after course, nothing designed for someone whose brain works the way mine does. No structure for ADHD learners. No honest conversation. Just "here's the material, keep up."</p>
-        <p>That gap is why I built Wired Different. A space where learning is <em>actually engaging</em> — real tools, real steps, real community. We're in the pilot phase right now and every response you give shapes what comes next.</p>
-      </div>
-      <div class="terminal">
-        <div class="term-bar">
-          <span class="td r"></span><span class="td y"></span><span class="td g"></span>
-          <span>miller@wireddifferent ~ current-stack</span>
+      <div class="reveal delay-2">
+        <div class="story-cert">
+          <span class="cert-icon">🏆</span>
+          <h3>CompTIA Security+</h3>
+          <p>Almost a year. Multiple attempts. Tools, bootcamps, communities that weren't built for how my brain works.</p>
+          <span class="quote-mark">"That cert I dreaded for so long now hangs from my wall — a reminder that this is just the start."<br/>— Eric M.</span>
         </div>
-        <div class="term-body">
-          <span class="tl tc">$ ls ./experience</span>
-          <span class="tl to">customer-support-top-tier/</span>
-          <span class="tl to">cybersecurity-transition/</span>
-          <span class="tl to">ADHD-lived-experience/</span>
-          <span class="tl to">honeypot-configs/</span>
-          <span class="tl tc">$ cat ./why-wired-different.txt</span>
-          <span class="tl tw">No platform existed for us. So I built one.</span>
-          <span class="tl td2"># pilot phase — your feedback IS the roadmap</span>
+
+        <div style="margin-top:20px; background:rgba(13,19,32,.8); border:1px solid var(--border); border-radius:14px; padding:32px; backdrop-filter:blur(8px);">
+          <p class="label" style="margin-bottom:12px;">image placeholder</p>
+          <div style="aspect-ratio:4/3; background:rgba(7,11,20,.8); border:1px dashed var(--border); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; font-family:var(--mono); font-size:.8rem; color:var(--dim);">
+            <span style="font-size:2.5rem;">📸</span>
+            <span>Photo of Eric</span>
+            <span style="font-size:.7rem; opacity:.6;">replace with a real photo</span>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-head">
+      <p class="label reveal">project-based learning</p>
+      <h2 class="reveal">Learn by Doing.<br/>Not by Watching.</h2>
+      <p class="reveal">Real projects built from real experience. Each one is something you can run, break, and actually learn from.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Featured Project -->
+      <div class="project-card featured reveal">
+        <div>
+          <span class="project-badge badge-live">● Live Now</span>
+          <p class="project-num">// Project 01</p>
+          <h3>Build Your First Honeypot</h3>
+          <p class="proj-desc">Set up a real honeypot and watch attackers find it in real time. No theory — just hands-on experience with a tool used by actual security teams. Built from Eric's own lab work.</p>
+          <div class="project-tags">
+            <span class="tag">beginner</span>
+            <span class="tag">hands-on</span>
+            <span class="tag">30 min</span>
+            <span class="tag">ADHD-friendly</span>
+          </div>
+          <a href="#signup" class="btn btn-fill">Get Early Access</a>
+        </div>
+        <div class="project-visual">
+          <span class="pv-icon">🍯</span>
+          <span>Honeypot Lab</span>
+          <span style="font-size:.72rem; opacity:.5;">screenshot coming soon</span>
+        </div>
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="project-card locked reveal delay-1">
+        <span class="project-badge badge-soon">Coming Soon</span>
+        <p class="project-num">// Project 02</p>
+        <span class="coming-icon">🔍</span>
+        <h3>Network Recon Basics</h3>
+        <p class="proj-desc">Learn to map a network the way a real analyst would. Built on what actually works for ADHD learners.</p>
+        <div class="project-tags">
+          <span class="tag">beginner</span>
+          <span class="tag">recon</span>
+          <span class="tag">tools</span>
+        </div>
+      </div>
+
+      <div class="project-card locked reveal delay-2">
+        <span class="project-badge badge-soon">Coming Soon</span>
+        <p class="project-num">// Project 03</p>
+        <span class="coming-icon">🛡️</span>
+        <h3>Your First Security Audit</h3>
+        <p class="proj-desc">Walk through a basic security audit on your own home network. Real findings, real fixes.</p>
+        <div class="project-tags">
+          <span class="tag">intermediate</span>
+          <span class="tag">audit</span>
+          <span class="tag">practical</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -650,113 +828,125 @@
 <!-- ── WHAT YOU GET ── -->
 <section id="benefits">
   <div class="container">
-    <p class="sec-label reveal">payload contents</p>
-    <h2 class="reveal">Sign Up. Here's What Gets Deployed to Your Inbox:</h2>
+    <p class="label reveal">what's inside</p>
+    <h2 class="reveal">Every Field Note Includes:</h2>
 
     <div class="benefit-grid">
-      <div class="benefit reveal reveal-delay-1">
+      <div class="benefit reveal delay-1">
         <span class="benefit-num">01</span>
-        <div>
-          <h3>Raw, Honest Stories from a Fellow ADHD Learner</h3>
-          <p>Real dispatches from the cybersecurity trenches — what worked, what crashed, no polished LinkedIn version.</p>
-        </div>
+        <div><h3>Raw, Honest Stories</h3><p>Real dispatches from the cybersecurity trenches — what worked, what crashed, no polished version.</p></div>
       </div>
-      <div class="benefit reveal reveal-delay-2">
+      <div class="benefit reveal delay-2">
         <span class="benefit-num">02</span>
-        <div>
-          <h3>Science-Backed Micro-Tasks You Can Do Right Now</h3>
-          <p>One small, doable action per issue — tied to how ADHD brains actually learn. Momentum over guilt.</p>
-        </div>
+        <div><h3>One Micro-Task You Can Do Right Now</h3><p>One small, doable action tied to how ADHD brains learn. Momentum over guilt, every time.</p></div>
       </div>
-      <div class="benefit reveal reveal-delay-1">
+      <div class="benefit reveal delay-1">
         <span class="benefit-num">03</span>
-        <div>
-          <h3>ADHD-Leveraged Focus and Retention Hacks</h3>
-          <p>Tools, routines, and mental models that help you retain what you study and stay in motion.</p>
-        </div>
+        <div><h3>ADHD Focus and Retention Hacks</h3><p>Tools, routines, and mental models that help you retain what you study and stay in motion.</p></div>
       </div>
-      <div class="benefit reveal reveal-delay-2">
+      <div class="benefit reveal delay-2">
         <span class="benefit-num">04</span>
-        <div>
-          <h3>A Pathway to Real Results — On Your Terms</h3>
-          <p>No arbitrary deadlines. No shame spirals. A clear direction — and your feedback shapes what gets built next.</p>
-        </div>
+        <div><h3>Project-Based Learning Drops</h3><p>As the library grows, subscribers get first access to every new project before anyone else.</p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── COMMUNITY ── -->
+<section id="community">
+  <div class="community-glow"></div>
+  <div class="container community-inner">
+    <p class="label label-center reveal">the bigger picture</p>
+    <h2 class="reveal">This Is Just<br/>The Beginning.</h2>
+    <p class="reveal">
+      Right now this is a newsletter. Over time Wired Different will grow into a full
+      learning platform — not just for cybersecurity, but for anyone who needs a
+      different path forward. Your feedback is the roadmap.
+    </p>
+
+    <div class="community-pills reveal">
+      <span class="pill">🧠 ADHD-first learning</span>
+      <span class="pill">🔐 Cybersecurity projects</span>
+      <span class="pill">🚀 Beyond cyber — coming soon</span>
+      <span class="pill">🤝 Community feedback</span>
+      <span class="pill">📖 Story-driven content</span>
+      <span class="pill">⚡ Your pace, your terms</span>
+    </div>
+
+    <a href="#signup" class="btn btn-fill btn-lg reveal">Be a Founding Member</a>
+  </div>
+</section>
+
 <!-- ── SIGNUP ── -->
 <section id="signup">
-  <div class="signup-inner container">
-    <p class="sec-label reveal" style="justify-content:center;">access request</p>
+  <div class="signup-inner">
+    <p class="label label-center reveal">access request</p>
     <h2 class="reveal">Break Into Cyber —<br/>On Your Own Terms.</h2>
     <p class="signup-lead reveal">Enter your email. Get your first Field Note + a hands-on project tomorrow. Zero spam, ever.</p>
 
-    <div class="reveal">
+    <!--
+      BEEHIIV EMBED — connected
+    -->
+    <div class="beehiiv-wrap reveal">
       <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="36178bf5-f19d-42fe-9ed5-839b49deea50"></script>
-      <p class="signup-note" style="margin-top:14px;">// no spam &nbsp;·&nbsp; unsubscribe anytime</p>
     </div>
+    <p class="signup-note reveal">// no spam &nbsp;·&nbsp; unsubscribe anytime &nbsp;·&nbsp; founding member access</p>
   </div>
 </section>
 
 <!-- ── SURVEY ── -->
 <section id="survey">
   <div class="container">
-    <p class="sec-label reveal">recon — help us build for you</p>
-    <h2 class="reveal">4 Quick Questions</h2>
-    <p class="reveal" style="color:var(--text);font-size:1.05rem;margin-bottom:36px;">Takes under 2 minutes. Every answer shapes what gets built next.</p>
+    <p class="label reveal">recon — help us build for you</p>
+    <h2 class="reveal">4 Quick Questions.</h2>
+    <p class="reveal" style="font-size:1.05rem; margin-bottom:8px;">Takes under 2 minutes. Every answer shapes what gets built next.</p>
 
-    <!--
-      FORMSPREE: Replace action="#" with https://formspree.io/f/xxxxxxxx
-    -->
     <form class="survey-form" action="#" method="post">
-
       <fieldset class="sq reveal">
-        <legend><span class="qn">// question 01</span>How long have you been trying to break into cybersecurity?</legend>
+        <legend><span class="qn">// 01</span>How long have you been trying to break into cybersecurity?</legend>
         <div class="rg">
-          <label><input type="radio" name="q1" value="just-starting" required />Just getting started</label>
+          <label><input type="radio" name="q1" value="start" required />Just getting started</label>
           <label><input type="radio" name="q1" value="1-6mo" />1–6 months in</label>
           <label><input type="radio" name="q1" value="6-12mo" />6–12 months in</label>
-          <label><input type="radio" name="q1" value="1yr-plus" />More than a year</label>
+          <label><input type="radio" name="q1" value="1yr" />More than a year</label>
         </div>
       </fieldset>
 
       <fieldset class="sq reveal">
-        <legend><span class="qn">// question 02</span>Biggest learning challenge? (Check all that apply)</legend>
+        <legend><span class="qn">// 02</span>Biggest learning challenge? (Check all that apply)</legend>
         <div class="cg">
           <label><input type="checkbox" name="q2" value="consistency" />Can't stay consistent — start strong, then disappear</label>
           <label><input type="checkbox" name="q2" value="retention" />I study but nothing sticks</label>
           <label><input type="checkbox" name="q2" value="boring" />Traditional courses lose my attention fast</label>
-          <label><input type="checkbox" name="q2" value="overwhelmed" />Don't know where to start or what to focus on</label>
+          <label><input type="checkbox" name="q2" value="lost" />Don't know where to start</label>
           <label><input type="checkbox" name="q2" value="imposter" />Feel behind compared to everyone else</label>
-          <label><input type="checkbox" name="q2" value="no-support" />Nobody around me gets ADHD + cybersecurity</label>
+          <label><input type="checkbox" name="q2" value="alone" />Nobody around me gets ADHD + cybersecurity</label>
         </div>
       </fieldset>
 
       <fieldset class="sq reveal">
-        <legend><span class="qn">// question 03</span>Do you have ADHD or feel like you learn differently?</legend>
+        <legend><span class="qn">// 03</span>Do you have ADHD or feel like you learn differently?</legend>
         <div class="rg">
           <label><input type="radio" name="q3" value="diagnosed" required />Yes, I have a diagnosis</label>
-          <label><input type="radio" name="q3" value="suspect" />I suspect I do but haven't been diagnosed</label>
-          <label><input type="radio" name="q3" value="different" />No diagnosis — I just know I learn differently</label>
+          <label><input type="radio" name="q3" value="suspect" />I suspect I do</label>
+          <label><input type="radio" name="q3" value="different" />No diagnosis — I just learn differently</label>
           <label><input type="radio" name="q3" value="unsure" />Not sure yet</label>
         </div>
       </fieldset>
 
       <fieldset class="sq reveal">
-        <legend><span class="qn">// question 04</span>What would help you most right now?</legend>
+        <legend><span class="qn">// 04</span>What would help you most right now?</legend>
         <div class="rg">
           <label><input type="radio" name="q4" value="path" required />A clear, step-by-step learning path</label>
           <label><input type="radio" name="q4" value="projects" />Real hands-on projects I can actually finish</label>
-          <label><input type="radio" name="q4" value="accountability" />Accountability + a community that gets it</label>
+          <label><input type="radio" name="q4" value="community" />Accountability + a community that gets it</label>
           <label><input type="radio" name="q4" value="tools" />ADHD-specific tools and focus strategies</label>
         </div>
       </fieldset>
 
       <div class="sq reveal">
         <legend style="font-weight:700;font-size:1rem;color:#fff;">Drop your email to get results + your first Field Note</legend>
-        <input class="si" type="text"  name="name"  placeholder="First name (optional)" />
+        <input class="si" type="text" name="name" placeholder="First name (optional)" />
         <input class="si" type="email" name="email" placeholder="your@email.com" required />
       </div>
 
@@ -764,7 +954,6 @@
         <button type="submit" class="btn btn-fill">Submit &amp; Get Field Notes</button>
         <span class="sq-note">// your answers shape this platform.</span>
       </div>
-
     </form>
   </div>
 </section>
@@ -772,43 +961,39 @@
 <!-- ── CONTACT ── -->
 <section id="contact">
   <div class="container">
-    <p class="sec-label reveal">open channel</p>
-    <h2 class="reveal">Tell Eric Your Story.</h2>
-    <p class="contact-lead reveal">What's the hardest part of learning cybersecurity with ADHD for you? Eric reads every message.</p>
+    <div class="contact-layout">
+      <div class="contact-left">
+        <p class="label reveal">open channel</p>
+        <h2 class="reveal">Tell Eric<br/>Your Story.</h2>
+        <p class="reveal">What's the hardest part of learning cybersecurity with ADHD for you? Eric reads every message — your story might become the next Field Note.</p>
 
-    <!--
-      FORMSPREE: Replace action="#" with your Formspree endpoint.
-    -->
-    <form class="cf reveal" action="#" method="post">
-      <input type="text"  name="name"    placeholder="Your name" required />
-      <input type="email" name="email"   placeholder="your@email.com" required />
-      <textarea           name="message" placeholder="Ask a question, share your story, or just say hi..."></textarea>
-      <div><button type="submit" class="btn btn-fill">Send Your Message</button></div>
-    </form>
-  </div>
-</section>
+        <div class="contact-cards reveal">
+          <div class="contact-card">
+            <span class="cc-icon">💬</span>
+            <div><h4>Your story shapes the platform</h4><p>Every message Eric reads directly influences what gets built next.</p></div>
+          </div>
+          <div class="contact-card">
+            <span class="cc-icon">⚡</span>
+            <div><h4>Founding member input</h4><p>Pilot subscribers get direct access to Eric and first say on new projects.</p></div>
+          </div>
+          <div class="contact-card">
+            <span class="cc-icon">📧</span>
+            <div><h4>eric@wireddifferent.dev</h4><p>Or use the form — either way Eric gets it.</p></div>
+          </div>
+        </div>
+      </div>
 
-<!-- ── TESTIMONIAL ── -->
-<section id="testimonial">
-  <div class="container">
-    <p class="sec-label reveal" style="justify-content:center;">field report</p>
-    <div class="quote reveal">
-      <p>[Placeholder — add a real testimonial. One honest sentence about what changed for them.]</p>
-      <cite>— First Name L., Role / Company (placeholder)</cite>
-    </div>
-  </div>
-</section>
-
-<!-- ── MEDIA ── -->
-<section id="media">
-  <div class="container">
-    <p class="sec-label reveal" style="justify-content:center;">from the field</p>
-    <h2 class="reveal">See the Work in Action</h2>
-    <p class="media-sub reveal">// replace with photos, videos, or lab screenshots</p>
-    <div class="media-grid reveal">
-      <div class="media-card media-main"><span class="mi">🎬</span><span>Main video or hero image</span><span style="font-size:.7rem;opacity:.5;">intro video, lab walkthrough, or speaking clip</span></div>
-      <div class="media-card"><span class="mi">🖥️</span><span>Lab screenshot</span></div>
-      <div class="media-card"><span class="mi">📸</span><span>Photo of Eric</span></div>
+      <div class="reveal delay-2">
+        <!--
+          FORMSPREE: Replace action="#" with https://formspree.io/f/xxxxxxxx
+        -->
+        <form class="cf" action="#" method="post">
+          <input type="text"  name="name"    placeholder="Your name" required />
+          <input type="email" name="email"   placeholder="your@email.com" required />
+          <textarea           name="message" placeholder="What's the hardest part? Ask a question, share your story, or just say hi..."></textarea>
+          <button type="submit" class="btn btn-fill">Send Your Message</button>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -819,6 +1004,7 @@
   <div class="foot-links">
     <a href="#hero">Home</a>
     <a href="#for-you">Is This You?</a>
+    <a href="#projects">Projects</a>
     <a href="#story">About</a>
     <a href="#signup">Subscribe</a>
     <a href="#survey">Survey</a>
@@ -832,72 +1018,64 @@
 </footer>
 
 <script>
-  /* ── Matrix rain ── */
-  (function(){
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, cols, drops;
+/* ── Matrix rain — fixed, visible across all sections ── */
+(function(){
+  const c = document.getElementById('matrix-canvas');
+  const ctx = c.getContext('2d');
+  let W, H, cols, drops;
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+    cols = Math.floor(W / 22);
+    drops = Array(cols).fill(1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  const chars = '01アイウエオカキクケコサシスセソ>_/\\[]{}#@$%^&*ABCDEF';
+  function draw(){
+    ctx.fillStyle = 'rgba(7,11,20,.06)';
+    ctx.fillRect(0,0,W,H);
+    ctx.font = '14px Share Tech Mono, monospace';
+    drops.forEach((y,i)=>{
+      const bright = Math.random() > .92;
+      ctx.fillStyle = bright ? '#00e5ff' : '#70B7FF';
+      ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*22, y*22);
+      if(y*22 > H && Math.random() > .972) drops[i] = 0;
+      drops[i]++;
+    });
+  }
+  setInterval(draw, 45);
+})();
 
-    function resize(){
-      W = canvas.width  = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
-      cols = Math.floor(W / 20);
-      drops = Array(cols).fill(1);
-    }
-    resize();
-    window.addEventListener('resize', resize);
+/* ── Boot loader ── */
+(function(){
+  const fill = document.getElementById('boot-fill');
+  const pct  = document.getElementById('boot-pct');
+  const lbl  = document.getElementById('boot-lbl');
+  const steps = ['s0','s1','s2','s3'];
+  const vals  = [20, 50, 80, 100];
+  const lbls  = ['INITIALIZING','ADHD ENGINE ACTIVE','COMMUNITY ONLINE','READY'];
+  let i = 0;
+  setTimeout(()=>{
+    const iv = setInterval(()=>{
+      if(i >= steps.length){ clearInterval(iv); return; }
+      fill.style.width = vals[i]+'%';
+      pct.textContent  = vals[i]+'%';
+      lbl.textContent  = lbls[i];
+      document.querySelectorAll('.boot-step').forEach(s=>s.classList.remove('on'));
+      document.getElementById(steps[i]).classList.add('on');
+      i++;
+    }, 750);
+  }, 500);
+})();
 
-    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ>_/\\[]{}#@$%^&*';
-
-    function draw(){
-      ctx.fillStyle = 'rgba(7,11,20,.05)';
-      ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = '#00e5ff';
-      ctx.font = '14px Share Tech Mono, monospace';
-      drops.forEach((y,i)=>{
-        const c = chars[Math.floor(Math.random()*chars.length)];
-        ctx.fillText(c, i*20, y*20);
-        if(y*20 > H && Math.random() > .975) drops[i] = 0;
-        drops[i]++;
-      });
-    }
-    setInterval(draw, 50);
-  })();
-
-  /* ── Boot loader ── */
-  (function(){
-    const fill  = document.getElementById('boot-fill');
-    const pct   = document.getElementById('boot-pct');
-    const label = document.getElementById('boot-label-text');
-    const steps = ['step-0','step-1','step-2','step-3'];
-    const msgs  = [15, 40, 70, 100];
-    const labels= ['BOOTING WIRED DIFFERENT','LOADING ADHD ENGINE','ACTIVATING COMMUNITY','READY'];
-    let current = 0;
-
-    setTimeout(()=>{
-      const interval = setInterval(()=>{
-        if(current >= steps.length){ clearInterval(interval); return; }
-        const target = msgs[current];
-        fill.style.width = target + '%';
-        pct.textContent  = target + '%';
-        label.textContent = labels[current];
-        document.querySelectorAll('.boot-step').forEach(s => s.classList.remove('active'));
-        document.getElementById(steps[current]).classList.add('active');
-        current++;
-      }, 700);
-    }, 600);
-  })();
-
-  /* ── Scroll reveal ── */
-  (function(){
-    const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
-      });
-    },{ threshold:.12 });
-    els.forEach(el => obs.observe(el));
-  })();
+/* ── Scroll reveal ── */
+(function(){
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
 </script>
 </body>
 </html>
