@@ -482,9 +482,21 @@
     #signup h2 { font-size:clamp(2.4rem,5vw,4rem); margin-bottom:16px; }
     .signup-lead { font-size:1.15rem; color:var(--text); max-width:520px; margin:0 auto 40px; line-height:1.8; }
 
-    /* Beehiiv embed wrapper */
-    .beehiiv-wrap { max-width:520px; margin:0 auto 16px; }
-    .signup-note { font-family:var(--mono); font-size:.75rem; color:var(--dim); margin-top:16px; }
+    .signup-form {
+      display:flex; flex-wrap:wrap; gap:12px;
+      justify-content:center; max-width:540px;
+      margin:0 auto;
+    }
+    .signup-form input[type="email"] {
+      flex:1; min-width:220px; padding:15px 20px;
+      border-radius:6px; border:1px solid var(--border);
+      background:rgba(13,19,32,.9); color:#fff;
+      font-family:var(--mono); font-size:.95rem; outline:none;
+      transition:all .2s;
+    }
+    .signup-form input[type="email"]::placeholder { color:var(--dim); }
+    .signup-form input[type="email"]:focus { border-color:var(--cyan); box-shadow:0 0 14px rgba(0,229,255,.2); }
+    .signup-note { font-family:var(--mono); font-size:.75rem; color:var(--dim); margin-top:16px; width:100%; text-align:center; }
 
     /* ────────────────────────────
        SURVEY
@@ -884,13 +896,11 @@
     <h2 class="reveal">Break Into Cyber —<br/>On Your Own Terms.</h2>
     <p class="signup-lead reveal">Enter your email. Get your first Field Note + a hands-on project tomorrow. Zero spam, ever.</p>
 
-    <!--
-      BEEHIIV EMBED — connected
-    -->
-    <div class="beehiiv-wrap reveal">
-      <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="36178bf5-f19d-42fe-9ed5-839b49deea50"></script>
-    </div>
-    <p class="signup-note reveal">// no spam &nbsp;·&nbsp; unsubscribe anytime &nbsp;·&nbsp; founding member access</p>
+    <form class="signup-form reveal" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
+      <input type="email" name="email" placeholder="your@email.com" required />
+      <button type="submit" class="btn btn-fill btn-lg">Get Field Notes Free</button>
+      <p class="signup-note">// no spam &nbsp;·&nbsp; unsubscribe anytime &nbsp;·&nbsp; founding member access</p>
+    </form>
   </div>
 </section>
 
