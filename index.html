@@ -673,12 +673,36 @@
     footer a.mail { color:var(--blue); text-decoration:none; }
     footer a.mail:hover { color:var(--cyan); }
 
+    @media(max-width:768px){
+      section { padding-top:80px !important; padding-bottom:80px !important; }
+      #community { padding-top:80px !important; padding-bottom:80px !important; }
+      #signup { padding-top:80px !important; padding-bottom:80px !important; }
+    }
+
     @media(max-width:560px){
       .hero-cta { flex-direction:column; align-items:flex-start; }
       .btn-lg { width:100%; justify-content:center; }
-      .honest-block { padding:36px 28px; }
-      .container, .container-narrow { padding:0 24px; }
-      nav { padding:0 24px; }
+      .honest-block { padding:32px 20px; }
+      .container, .container-narrow { padding:0 20px; }
+      nav { padding:0 20px; }
+      .hero-inner { padding:80px 20px 60px; }
+      #hero h1 { font-size:2.6rem; }
+      .live { display:none; }
+      .fn-subject { display:none; }
+      .fn-body { padding:20px; }
+      .story-pullquote { padding:24px 20px; }
+      .ai-chat { max-width:100%; }
+      .signup-form { flex-direction:column; }
+      .signup-form input[type="email"], .signup-form button { width:100%; }
+      .survey-invite { padding:24px 20px; }
+      .foot-links { gap:16px; }
+      .path-card { padding:28px 20px; }
+      .benefit { padding:20px; }
+      .stat-n { font-size:2rem; }
+      h2 { font-size:1.8rem !important; }
+      .hero-eyebrow { font-size:.7rem; }
+      .boot { max-width:100%; }
+      .journey-step:not(:last-child)::after { left:15px; }
     }
   </style>
 </head>
@@ -807,9 +831,9 @@
     </div>
 
     <div class="stats">
-      <div class="stat-card reveal delay-1"><span class="stat-n">68%</span><span class="stat-l">ADHD learners drop standard cyber courses</span></div>
-      <div class="stat-card reveal delay-2"><span class="stat-n">4.5%</span><span class="stat-l">of the workforce has ADHD</span></div>
-      <div class="stat-card reveal delay-3"><span class="stat-n">0</span><span class="stat-l">major platforms built for them — until now</span></div>
+      <div class="stat-card reveal delay-1"><span class="stat-n">1in5</span><span class="stat-l">people have a learning difference like ADHD or dyslexia</span></div>
+      <div class="stat-card reveal delay-2"><span class="stat-n">4.5%</span><span class="stat-l">of the global workforce has ADHD</span></div>
+      <div class="stat-card reveal delay-3"><span class="stat-n">0</span><span class="stat-l">major learning platforms built specifically for them — until now</span></div>
     </div>
   </div>
 </section>
@@ -1332,7 +1356,7 @@
 /* ── Animated stat counters ── */
 (function(){
   const stats = [
-    { el: document.querySelectorAll('.stat-n')[0], target: 68, suffix: '%', duration: 1600 },
+    { el: document.querySelectorAll('.stat-n')[0], target: null, suffix: '', duration: 0 },
     { el: document.querySelectorAll('.stat-n')[1], target: 4.5, suffix: '%', decimals: 1, duration: 1400 },
     { el: document.querySelectorAll('.stat-n')[2], target: 0, suffix: '', duration: 800 },
   ];
