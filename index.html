@@ -10,22 +10,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #f1f5f9;
-      --bg2:     #f8fafc;
-      --bg3:     #f1f5f9;
-      --surface: #ffffff;
+      --bg:      #0f0e0c;
+      --bg2:     #141210;
+      --bg3:     #0f0e0c;
+      --surface: #1a1714;
       --gold:    #d97706;
       --gold2:   #f59e0b;
       --blue:    #3b82f6;
-      --cyan:    #0ea5e9;
-      --green:   #10b981;
-      --purple:  #8b5cf6;
+      --cyan:    #e8965a;
+      --green:   #6ee7b7;
+      --purple:  #a78bfa;
       --yellow:  #f59e0b;
       --warm:    #d97706;
-      --text:    #374151;
-      --heading: #111827;
-      --dim:     #6b7280;
-      --border:  #e2e8f0;
+      --text:    #c4bdb4;
+      --heading: #f5f0e8;
+      --dim:     #7a7068;
+      --border:  #2a2520;
       --mono:    'Share Tech Mono', monospace;
     }
 
@@ -676,33 +676,13 @@
     footer a.mail { color:var(--blue); text-decoration:none; }
     footer a.mail:hover { color:var(--cyan); }
 
-    /* ── Hero color ── */
+    /* ── Hero ── */
     #hero {
       background:
-        radial-gradient(ellipse at 12% 60%, rgba(201,168,76,.13) 0%, transparent 45%),
-        radial-gradient(ellipse at 88% 40%, rgba(0,212,255,.09) 0%, transparent 45%),
-        linear-gradient(160deg, #080d1a 0%, #0c1220 60%, #0a1020 100%);
+        radial-gradient(ellipse at 12% 60%, rgba(217,119,6,.10) 0%, transparent 45%),
+        radial-gradient(ellipse at 88% 40%, rgba(232,150,90,.06) 0%, transparent 45%),
+        linear-gradient(160deg, #0f0e0c 0%, #141210 60%, #0f0e0c 100%);
     }
-
-    /* ── Hero: preserve dark readability ── */
-    #hero h1 { color: #f0f6ff; }
-    #hero h1 .c2 { -webkit-text-stroke: 2px #00d4ff; }
-    #hero .hero-eyebrow { color: #00d4ff; }
-    #hero .hero-tagline { color: #4a6280; }
-    #hero .hero-desc { color: #8faac0; }
-    #hero .hero-desc strong { color: #f0f6ff; }
-    #hero .hero-what { color: #8faac0; background: rgba(201,168,76,.06); border-color: rgba(201,168,76,.18); }
-    #hero .hero-what strong { color: #c9a84c; }
-    #hero .boot-head { color: #4a6280; }
-    #hero .boot-msg { color: #4a6280; }
-    #hero .boot-track { background: #1a2a3d; }
-    #hero .boot-fill { background: linear-gradient(90deg, #c9a84c, #00d4ff); }
-    #hero .scroll-hint { color: #4a6280; }
-    #hero .cursor { background: #00d4ff; }
-    #hero .btn { color: #c9a84c; border-color: rgba(201,168,76,.4); }
-    #hero .btn:hover { background: rgba(201,168,76,.08); box-shadow: 0 4px 20px rgba(201,168,76,.2); border-color: #c9a84c; }
-    #hero .btn-fill { background: #c9a84c; color: #080d1a; border-color: #c9a84c; }
-    #hero .btn-fill:hover { background: #f0c060; border-color: #f0c060; color: #080d1a; }
 
     /* ── What-is tag ── */
     .hero-what {
@@ -835,22 +815,22 @@
     </div>
 
     <h1 class="reveal">
-      I Built The<br/>
-      <span class="c1">Thing</span> I<br/>
-      <span class="c2">Needed.</span>
+      Have You<br/>
+      <span class="c1">Ever</span> Felt<br/>
+      <span class="c2">This Way?</span>
     </h1>
 
-    <p class="hero-tagline reveal">// sharing everything as I go.</p>
+    <p class="hero-tagline reveal">// two hours in. retained nothing. 23 tabs open.</p>
 
     <p class="hero-desc reveal">
-      I came from customer support. Decided I wanted to break into cybersecurity.
-      Spent almost a year on a cert that should have taken six months — not because I wasn't capable,
-      but because <strong>nothing out there was built for how my brain actually works.</strong>
-      So I'm building it now. This newsletter is how I share what I learn.
+      You're not behind. You're not lazy. You're trying to learn something
+      that was designed for a brain you don't have.
+      <strong>This newsletter is for the nights you almost quit.</strong>
+      One field note a week — real stories, one thing you can do right now, nothing more.
     </p>
 
     <div class="hero-cta reveal">
-      <a href="#survey" class="btn btn-fill btn-lg">Read a Field Note + Subscribe →</a>
+      <a href="#field-note" class="btn btn-fill btn-lg">Read the First One Free →</a>
       <a href="#familiar" class="btn btn-lg">Is This You?</a>
     </div>
 
@@ -878,11 +858,11 @@
 <div class="scanline"></div>
 
 <!-- ════════ FIELD NOTE ════════ -->
-<section style="padding:100px 0; background:var(--surface); border-top:1px solid var(--border);">
+<section id="field-note" style="padding:100px 0; background:var(--surface); border-top:1px solid var(--border);">
   <div class="container-narrow">
-    <p class="label label-center reveal">// what you'll get</p>
-    <h2 class="reveal" style="text-align:center;">A real Field Note.<br/>This is what hits your inbox.</h2>
-    <p class="reveal" style="text-align:center;color:var(--dim);margin-bottom:48px;font-size:1.05rem;">Raw. Honest. Written for how your brain actually works — not how you wish it did.</p>
+    <p class="label label-center reveal">// here's what you're signing up for</p>
+    <h2 class="reveal" style="text-align:center;">A real one.<br/>This is what hits your inbox.</h2>
+    <p class="reveal" style="text-align:center;color:var(--dim);margin-bottom:48px;font-size:1.05rem;">No motivational quotes. No hustle culture. Just what actually happened — and one thing you can do about it.</p>
 
     <div class="field-note-preview reveal">
       <div class="fn-topbar">
@@ -914,19 +894,18 @@
 <!-- ════════ FAMILIAR ════════ -->
 <section id="familiar" style="padding:100px 0; background:var(--bg2); border-top:1px solid var(--border);">
   <div class="container">
-    <p class="label reveal">does this sound like you?</p>
-    <h2 class="reveal">You're Not Behind.<br/>You're Wired Different.</h2>
-    <p class="reveal" style="font-size:1.1rem;color:var(--text);max-width:560px;margin-bottom:48px;">I'm not writing for people who have it figured out. I'm writing for the version of me that was at that desk at 11pm, tabs everywhere, wondering what was wrong with them.</p>
+    <p class="label reveal">have you ever...</p>
+    <h2 class="reveal">You Know Exactly<br/>What I'm Talking About.</h2>
 
-    <div class="fam-grid">
-      <div class="fam-card reveal delay-1"><span class="fi">📚</span><p>Overwhelmed by <span class="hl">walls of "just study harder" advice</span> that doesn't stick.</p></div>
-      <div class="fam-card reveal delay-2"><span class="fi">🔁</span><p>Start strong then <span class="hl">disappear for three weeks</span> and feel terrible about it.</p></div>
-      <div class="fam-card reveal delay-1"><span class="fi">⏱️</span><p>Want someone to <span class="hl">show you what actually works</span> — not what worked for neurotypical people.</p></div>
-      <div class="fam-card reveal delay-2"><span class="fi">🧠</span><p>Capable. Just need a system <span class="hl">built for your brain</span>, not the average one.</p></div>
+    <div class="fam-grid" style="margin-top:40px;">
+      <div class="fam-card reveal delay-1"><span class="fi">📚</span><p>Watched a <span class="hl">6-hour course video</span> and remembered maybe 10 minutes of it?</p></div>
+      <div class="fam-card reveal delay-2"><span class="fi">🔁</span><p>Started a cert, killed it for two weeks, then <span class="hl">disappeared for a month</span> and felt awful about it?</p></div>
+      <div class="fam-card reveal delay-1"><span class="fi">⏱️</span><p>Sat down to study and spent the whole session <span class="hl">reorganizing your notes</span> instead?</p></div>
+      <div class="fam-card reveal delay-2"><span class="fi">🧠</span><p>Known you were capable but felt like the <span class="hl">way this stuff is taught just isn't for you?</span></p></div>
     </div>
 
-    <p class="reveal" style="margin-top:48px;font-size:1.05rem;color:var(--text);">
-      That's who I'm writing for. That was me. In some ways, that's still me — I'm not at the finish line, I'm on the same road.
+    <p class="reveal" style="margin-top:48px;font-size:1.1rem;color:var(--text);max-width:560px;">
+      That's not a motivation problem. That's a system problem. You don't need to try harder — you need something built for how your brain actually works.
     </p>
   </div>
 </section>
@@ -936,60 +915,60 @@
 <!-- ════════ PILOT ════════ -->
 <section id="what-this-is" style="padding:100px 0; background:var(--surface); border-top:1px solid var(--border);">
   <div class="container-narrow">
-    <p class="section-label reveal">// what's in the pilot</p>
-    <h2 class="reveal">Here's What I'm Building —<br/>And Where It Stands Now.</h2>
-    <p class="section-sub reveal">No inflated feature list. Just what exists and what's coming.</p>
+    <p class="section-label reveal">// what's in it</p>
+    <h2 class="reveal">Here's what you get<br/>when you subscribe.</h2>
+    <p class="section-sub reveal">This is a pilot. I'm building it in the open. Here's where it stands.</p>
 
     <div class="honest-block reveal">
-      <div class="honest-tag">// RIGHT NOW — WHEN YOU SUBSCRIBE</div>
-      <h3>What you get today</h3>
+      <div class="honest-tag">// AVAILABLE NOW</div>
+      <h3>In your inbox from day one</h3>
       <div class="what-list">
         <div class="what-item">
           <div class="what-num">01</div>
           <div>
-            <h4>Field Notes newsletter</h4>
-            <p>One real story from the road. One micro-task you can do right now. Three minutes max. Written for how ADHD brains actually take in information.</p>
+            <h4>Weekly Field Notes</h4>
+            <p>One story from the road. One thing you can do today. Three minutes. No fluff, no filler — just what I'm actually learning and what's working.</p>
           </div>
         </div>
         <div class="what-item">
           <div class="what-num">02</div>
           <div>
-            <h4>Honeypot project (live now)</h4>
-            <p>Build your first honeypot and watch attackers find it in real time. No theory — hands-on, built from my own lab work. About 30 minutes.</p>
+            <h4>Intro to Cybersecurity: Build a Honeypot</h4>
+            <p>Your first hands-on project. Set up a real honeypot and watch live attackers find it. ~30 minutes. No theory walls — just do the thing.</p>
           </div>
         </div>
         <div class="what-item">
           <div class="what-num">03</div>
           <div>
-            <h4>Direct input into what gets built next</h4>
-            <p>The survey below isn't a formality. I'm using it to decide what the next Field Note covers, what projects I build, and where this goes. Your answers matter.</p>
+            <h4>Your voice in what gets built next</h4>
+            <p>Take the survey below. What you tell me decides the next project, the next issue, and what this eventually becomes. You're not a subscriber — you're a co-builder.</p>
           </div>
         </div>
       </div>
 
       <div style="margin-top:32px;padding-top:32px;border-top:1px solid var(--border);">
-        <div class="honest-tag">// COMING NEXT</div>
-        <h3 style="margin-bottom:16px;">What I'm actively working on</h3>
+        <div class="honest-tag">// WHERE THIS IS GOING</div>
+        <h3 style="margin-bottom:16px;">The platform — what I'm building toward</h3>
         <div class="what-list">
           <div class="what-item">
             <div class="what-num">→</div>
             <div>
-              <h4>More project drops</h4>
-              <p>Network recon, basic security audits — each one built for short attention spans and real learning, not a 6-hour course.</p>
+              <h4>Project-based learning paths</h4>
+              <p>Not a course. A sequence of real projects — network recon, security audits, threat hunting — each one short enough to actually finish. Built for brains that need momentum, not marathons.</p>
             </div>
           </div>
           <div class="what-item">
             <div class="what-num">→</div>
             <div>
-              <h4>ADHD-first learning paths</h4>
-              <p>Structured paths that account for hyperfocus, dropout cycles, and the fact that your brain isn't broken — it just needs a different entry point.</p>
+              <h4>ADHD-first structure</h4>
+              <p>Paths that account for hyperfocus, dropout cycles, and picking back up after three weeks off without losing everything. You don't start over. You just pick back up.</p>
             </div>
           </div>
           <div class="what-item">
             <div class="what-num">→</div>
             <div>
-              <h4>AI learning concierge</h4>
-              <p>An AI that knows where you are, fills your gaps, and answers questions at 2am when nobody else is there. Built on the Anthropic API.</p>
+              <h4>AI that learns how you learn</h4>
+              <p>An AI tutor that knows where you are, not just where you should be. Answers questions at 2am. Doesn't make you feel behind for asking the basics.</p>
             </div>
           </div>
         </div>
