@@ -10,22 +10,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #1e1e2e;
-      --bg2:     #252538;
-      --bg3:     #1e1e2e;
-      --surface: #2a2a40;
+      --bg:      #f6f8fc;
+      --bg2:     #eef1f8;
+      --bg3:     #f6f8fc;
+      --surface: #ffffff;
       --gold:    #d97706;
       --gold2:   #f59e0b;
-      --blue:    #60a5fa;
+      --blue:    #2563eb;
       --cyan:    #e8965a;
-      --green:   #6ee7b7;
-      --purple:  #a78bfa;
-      --yellow:  #f59e0b;
+      --green:   #059669;
+      --purple:  #7c3aed;
+      --yellow:  #d97706;
       --warm:    #d97706;
-      --text:    #e2e8f0;
-      --heading: #f8f9ff;
-      --dim:     #8892a4;
-      --border:  #3a3a55;
+      --text:    #334155;
+      --heading: #0f172a;
+      --dim:     #64748b;
+      --border:  #e2e8f0;
       --mono:    'Share Tech Mono', monospace;
     }
 
@@ -66,9 +66,9 @@
     /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(20,20,46,.92);
+      background: rgba(246,248,252,.96);
       backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(201,168,76,.15);
+      border-bottom: 1px solid var(--border);
       padding: 0 32px; height: 64px;
       display: flex; align-items: center; justify-content: space-between;
     }
@@ -116,7 +116,7 @@
     .hero-glow {
       position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
       width: 1000px; height: 700px;
-      background: radial-gradient(ellipse, rgba(201,168,76,.08) 0%, rgba(96,165,250,.06) 40%, rgba(167,139,250,.04) 65%, transparent 82%);
+      background: radial-gradient(ellipse, rgba(217,119,6,.12) 0%, rgba(37,99,235,.07) 45%, rgba(124,58,237,.04) 70%, transparent 88%);
       pointer-events:none;
     }
 
@@ -679,16 +679,16 @@
     /* ── Hero ── */
     #hero {
       background:
-        radial-gradient(ellipse at 12% 60%, rgba(217,119,6,.10) 0%, transparent 45%),
-        radial-gradient(ellipse at 88% 40%, rgba(96,165,250,.05) 0%, transparent 45%),
-        linear-gradient(160deg, #1e1e2e 0%, #252538 60%, #1e1e2e 100%);
+        radial-gradient(ellipse at 10% 70%, rgba(217,119,6,.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 30%, rgba(37,99,235,.08) 0%, transparent 50%),
+        linear-gradient(160deg, #f6f8fc 0%, #eef1f8 60%, #f6f8fc 100%);
     }
 
     /* ── What-is tag ── */
     .hero-what {
       display:inline-flex; align-items:center; gap:12px;
       font-family:var(--mono); font-size:.72rem; color:var(--text);
-      background:rgba(201,168,76,.06); border:1px solid rgba(201,168,76,.2);
+      background:rgba(217,119,6,.10); border:1px solid rgba(217,119,6,.35);
       padding:8px 18px; border-radius:2px; margin-bottom:40px;
       letter-spacing:.06em;
     }
@@ -721,15 +721,15 @@
 
     /* ── AI-feel enhancements ── */
     #platform .ai-chat {
-      border-color: rgba(96,165,250,.35);
-      box-shadow: 0 0 0 1px rgba(96,165,250,.08), 0 16px 70px rgba(96,165,250,.14), 0 0 120px rgba(167,139,250,.05);
+      border-color: rgba(37,99,235,.25);
+      box-shadow: 0 0 0 1px rgba(37,99,235,.06), 0 16px 60px rgba(37,99,235,.10);
     }
     @keyframes aipulse {
       0%,100% { box-shadow: 0 0 10px rgba(96,165,250,.25); }
       50%      { box-shadow: 0 0 28px rgba(96,165,250,.55), 0 0 50px rgba(167,139,250,.2); }
     }
     .ai-avatar { animation: aipulse 3s ease-in-out infinite; }
-    .ai-status { color: #60a5fa !important; }
+    .ai-status { color: var(--green) !important; }
 
     /* ── Merged join section ── */
     #join { padding:120px 0; background:var(--bg); border-top:1px solid var(--border); text-align:center; position:relative; overflow:hidden; }
@@ -996,7 +996,7 @@
 <div class="scanline"></div>
 
 <!-- ════════ PLATFORM PROOF OF CONCEPT ════════ -->
-<section id="platform" style="padding:100px 0; background:radial-gradient(ellipse at 75% 20%, rgba(96,165,250,.06) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(167,139,250,.04) 0%, transparent 45%), var(--bg2); border-top:1px solid var(--border);">
+<section id="platform" style="padding:100px 0; background:radial-gradient(ellipse at 75% 20%, rgba(37,99,235,.07) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(124,58,237,.05) 0%, transparent 45%), var(--bg2); border-top:1px solid var(--border);">
   <div class="container">
     <p class="label reveal">// AI-powered learning · proof of concept</p>
     <h2 class="reveal">What the full AI experience<br/>will actually feel like.</h2>
@@ -1053,21 +1053,29 @@
             <div class="ai-avatar">AI</div>
             <div class="ai-chat-bar-text">
               <div class="ai-name">Field Notes AI</div>
-              <div class="ai-status">● online · knows where you are</div>
+              <div class="ai-status">● tracking your progress</div>
             </div>
+            <div style="text-align:right;font-family:var(--mono);font-size:.62rem;line-height:1.7;flex-shrink:0;">
+              <div style="color:#6ee7b7;">🔥 3-day streak</div>
+              <div style="color:rgba(255,255,255,.45);">Project 1 · 60%</div>
+            </div>
+          </div>
+          <!-- progress bar -->
+          <div style="height:3px;background:rgba(255,255,255,.1);">
+            <div style="height:100%;width:60%;background:linear-gradient(90deg,var(--gold),var(--blue));"></div>
           </div>
           <div class="ai-messages">
             <div class="msg ai">
-              <div class="msg-bubble">Hey — you haven't touched Project 2 in 4 days. No pressure. Want me to break it into 15-minute chunks?</div>
-              <div class="msg-time">2:14 AM</div>
+              <div class="msg-bubble">You're <strong>60% through Project 1.</strong> You left off at "How packets travel" — one 12-min chunk and you're done. Want to pick up there?</div>
+              <div class="msg-time">just now</div>
             </div>
             <div class="msg user">
-              <div class="msg-bubble">yes please. also — what does nmap actually do</div>
-              <div class="msg-time">2:15 AM</div>
+              <div class="msg-bubble">I can't remember what I read yesterday tbh</div>
+              <div class="msg-time">just now</div>
             </div>
             <div class="msg ai">
-              <div class="msg-bubble">Think of it like knocking on every door in a building to see which ones are unlocked. Nmap sends packets and listens for responses — it maps what's alive on the network. No scary jargon required.</div>
-              <div class="msg-time">2:15 AM</div>
+              <div class="msg-bubble"><strong>30-sec recap, no shame:</strong> Packets = data chunks with a to/from address — like a letter with a return address. That's the whole concept. Ready?</div>
+              <div class="msg-time">just now</div>
             </div>
           </div>
           <div class="ai-input-bar">
