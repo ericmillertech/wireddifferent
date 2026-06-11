@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wired Different — ADHD-First Tech Education</title>
-  <meta name="description" content="Wired Different trains neurodivergent adults for real careers in cybersecurity and tech — using a learning approach built around how ADHD brains actually work." />
+  <meta name="description" content="Wired Different trains neurodivergent adults for real careers in cybersecurity — using a learning approach built around how ADHD brains actually work." />
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:      #FFFDF7;
       --surface: #ffffff;
+      --dark:    #23272A;
       --blue:    #70B7FF;
       --blue-dk: #3d9de6;
       --text:    #23272A;
@@ -21,24 +22,22 @@
       --mint:    #DEFDE0;
       --dim:     #6B7280;
       --border:  #EDE9E0;
-      --footer:  #747474;
+      --mono:    'Share Tech Mono', monospace;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    .container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+    .container        { max-width: 960px; margin: 0 auto; padding: 0 36px; }
+    .container-narrow { max-width: 740px; margin: 0 auto; padding: 0 36px; }
 
-    .reveal {
-      opacity: 0; transform: translateY(20px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.on { opacity: 1; transform: none; }
     .d1 { transition-delay: .1s; }
     .d2 { transition-delay: .2s; }
@@ -46,284 +45,358 @@
 
     /* ── Nav ── */
     nav {
-      height: 66px; padding: 0 32px;
+      height: 68px; padding: 0 36px;
       display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,253,247,.97); backdrop-filter: blur(16px);
+      background: rgba(35,39,42,.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
     }
     nav img { height: 34px; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-tag { font-family: var(--mono); font-size: .65rem; color: rgba(255,255,255,.35); letter-spacing: .08em; }
+    @media(max-width:600px){ .nav-tag { display:none; } }
     .nav-cta {
       background: var(--blue); color: #fff;
       padding: 10px 22px; border-radius: 50px;
-      font-weight: 700; font-size: .88rem;
-      text-decoration: none; border: none; cursor: pointer;
-      transition: background .2s, transform .15s;
+      font-weight: 700; font-size: .87rem;
+      text-decoration: none; transition: background .2s, transform .15s;
     }
     .nav-cta:hover { background: var(--blue-dk); transform: translateY(-1px); }
 
     /* ── Hero ── */
     #hero {
-      padding: 100px 32px 90px;
-      text-align: center;
+      background: var(--dark);
+      background-image:
+        radial-gradient(ellipse at 15% 50%, rgba(112,183,255,.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(255,242,117,.06) 0%, transparent 50%);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(112,183,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112,183,255,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 960px; margin: 0 auto;
+      padding: 110px 36px 90px;
     }
 
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--mint); border: 1px solid #b8f0bb;
-      padding: 7px 18px; border-radius: 50px;
-      font-size: .76rem; font-weight: 700; color: #2d7a35;
-      margin-bottom: 40px; letter-spacing: .03em;
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
+      padding: 8px 20px; border-radius: 50px;
+      font-family: var(--mono); font-size: .68rem;
+      color: rgba(255,255,255,.55); letter-spacing: .05em;
+      margin-bottom: 48px;
     }
     .hero-badge .dot {
-      width: 7px; height: 7px; background: #2d7a35;
-      border-radius: 50%; animation: blink 1.6s infinite;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #4ade80; animation: pulse 1.5s infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 6px #4ade80} 50%{opacity:.2;box-shadow:none} }
+    .hero-badge strong { color: var(--yellow); font-family: 'Inter', sans-serif; font-weight: 700; }
 
-    #hero h1 {
-      font-size: clamp(2.6rem, 6vw, 4.8rem);
-      font-weight: 900; line-height: 1.08;
-      letter-spacing: -.03em; color: var(--text);
+    .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    @media(max-width:760px){ .hero-layout { grid-template-columns: 1fr; gap: 52px; } }
+
+    .hero-left h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -.04em; color: #fff;
       margin-bottom: 28px;
     }
-    #hero h1 mark {
-      background: var(--yellow); color: var(--text);
-      padding: 2px 10px; border-radius: 6px;
-      -webkit-box-decoration-break: clone;
-    }
+    .hero-left h1 .blue   { color: var(--blue); }
+    .hero-left h1 .yellow { color: var(--yellow); }
 
     .hero-sub {
-      font-size: 1.15rem; color: var(--dim);
-      max-width: 560px; margin: 0 auto 48px;
-      line-height: 1.85; font-weight: 400;
+      font-size: 1.05rem; color: rgba(255,255,255,.55);
+      line-height: 1.85; font-weight: 300; margin-bottom: 44px;
     }
+    .hero-sub strong { color: rgba(255,255,255,.8); font-weight: 600; }
 
     .hero-form {
-      display: flex; gap: 10px; justify-content: center;
-      flex-wrap: wrap; max-width: 500px; margin: 0 auto;
+      display: flex; gap: 10px; flex-wrap: wrap;
     }
     .hero-form input[type="email"] {
-      flex: 1; min-width: 230px;
-      padding: 15px 20px; border-radius: 50px;
-      border: 2px solid var(--border); background: var(--surface);
-      font-family: 'Inter', sans-serif; font-size: .95rem;
-      color: var(--text); outline: none; transition: border-color .2s;
+      flex: 1; min-width: 210px; padding: 14px 20px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.07);
+      font-family: 'Inter', sans-serif; font-size: .93rem; color: #fff;
+      outline: none; transition: border-color .2s;
     }
+    .hero-form input[type="email"]::placeholder { color: rgba(255,255,255,.28); }
     .hero-form input[type="email"]:focus { border-color: var(--blue); }
-    .hero-form input[type="email"]::placeholder { color: #B0B7C3; }
     .hero-form button {
       background: var(--blue); color: #fff; border: none;
-      padding: 15px 28px; border-radius: 50px;
-      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .95rem;
+      padding: 14px 26px; border-radius: 50px;
+      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem;
       cursor: pointer; white-space: nowrap;
       transition: background .2s, transform .15s, box-shadow .2s;
     }
     .hero-form button:hover {
       background: var(--blue-dk); transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(112,183,255,.35);
+      box-shadow: 0 8px 24px rgba(112,183,255,.4);
     }
-    .hero-note { font-size: .76rem; color: #B0B7C3; margin-top: 14px; }
+    .hero-note { font-size: .73rem; color: rgba(255,255,255,.25); margin-top: 14px; }
 
-    /* ── Stats ── */
-    #stats {
-      padding: 0 32px 80px;
+    /* Terminal mock */
+    .hero-terminal {
+      background: #0d1117; border: 1px solid rgba(112,183,255,.2);
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(112,183,255,.1);
     }
-    .stats-grid {
+    .term-bar {
+      background: #161b22; padding: 12px 20px;
+      display: flex; align-items: center; gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .tdot { width: 10px; height: 10px; border-radius: 50%; }
+    .td-r{background:#ff5f57} .td-y{background:#febc2e} .td-g{background:#28c840}
+    .term-title { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.3); margin-left: auto; }
+    .term-body { padding: 24px 28px; font-family: var(--mono); font-size: .82rem; line-height: 2; }
+    .tl { display: block; }
+    .t-prompt { color: #4ade80; }
+    .t-cmd    { color: rgba(255,255,255,.75); }
+    .t-out    { color: var(--blue); padding-left: 16px; }
+    .t-warn   { color: var(--yellow); padding-left: 16px; }
+    .t-dim    { color: rgba(255,255,255,.25); padding-left: 16px; }
+    .t-cursor {
+      display: inline-block; width: 9px; height: 1.1em;
+      background: var(--blue); vertical-align: text-bottom;
+      animation: blink .75s step-end infinite; margin-left: 4px;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Stat strip */
+    .stat-strip {
+      background: rgba(255,255,255,.04);
+      border-top: 1px solid rgba(255,255,255,.07);
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px; max-width: 900px; margin: 0 auto;
     }
-    @media(max-width:580px){ .stats-grid { grid-template-columns: 1fr; } }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 32px 28px; text-align: center;
+    @media(max-width:580px){ .stat-strip { grid-template-columns: 1fr; } }
+    .stat-cell {
+      padding: 36px 36px; border-right: 1px solid rgba(255,255,255,.07);
+      position: relative; z-index: 1;
     }
-    .stat-n {
-      font-size: 2.4rem; font-weight: 900; color: var(--blue);
-      display: block; margin-bottom: 8px; line-height: 1;
-    }
-    .stat-l { font-size: .84rem; color: var(--dim); line-height: 1.55; }
+    .stat-cell:last-child { border-right: none; }
+    .stat-n { font-size: 2.4rem; font-weight: 900; color: var(--blue); display: block; line-height: 1; margin-bottom: 10px; }
+    .stat-l { font-size: .84rem; color: rgba(255,255,255,.45); line-height: 1.6; }
+    .stat-src { font-family: var(--mono); font-size: .61rem; color: rgba(255,255,255,.18); display: block; margin-top: 6px; }
 
     /* ── Problem ── */
-    #problem {
-      background: var(--text); padding: 100px 32px;
-    }
-    .problem-inner { max-width: 900px; margin: 0 auto; }
+    #problem { padding: 110px 0; background: var(--bg); border-top: 5px solid var(--yellow); }
+
     #problem h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900; color: #fff;
-      line-height: 1.15; letter-spacing: -.025em;
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      font-weight: 900; line-height: 1.1; letter-spacing: -.025em;
       margin-bottom: 20px;
     }
-    #problem h2 mark {
-      background: var(--yellow); color: var(--text);
-      padding: 2px 10px; border-radius: 6px;
-    }
-    #problem .lead {
-      font-size: 1.1rem; color: rgba(255,255,255,.65);
-      max-width: 620px; line-height: 1.85;
-      font-weight: 300; margin-bottom: 52px;
-    }
-    #problem .lead strong { color: rgba(255,255,255,.9); font-weight: 600; }
+    #problem h2 mark { background: var(--yellow); padding: 0 8px; border-radius: 6px; color: var(--text); }
 
-    .problem-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
-    }
-    @media(max-width:580px){ .problem-cards { grid-template-columns: 1fr; } }
+    .problem-intro { font-size: 1.1rem; color: var(--dim); max-width: 620px; line-height: 1.85; margin-bottom: 52px; }
+    .problem-intro strong { color: var(--text); }
+
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width:580px){ .problem-grid { grid-template-columns: 1fr; } }
     .pcard {
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.1);
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
       border-radius: 16px; padding: 28px 24px;
     }
-    .pcard .pn {
-      font-size: 2rem; font-weight: 900;
-      color: var(--yellow); display: block; margin-bottom: 10px;
-    }
-    .pcard p { font-size: .88rem; color: rgba(255,255,255,.6); line-height: 1.7; }
+    .pcard .pn { font-size: 2.2rem; font-weight: 900; color: var(--blue); display: block; margin-bottom: 10px; }
+    .pcard p   { font-size: .88rem; color: var(--dim); line-height: 1.7; }
 
-    .problem-callout {
-      background: var(--mint); border-radius: 16px;
-      padding: 36px 40px; margin-top: 44px;
+    .problem-cta-block {
+      margin-top: 48px; padding: 40px 48px;
+      background: var(--dark); border-radius: 20px;
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
     }
-    .problem-callout p {
-      font-size: 1.05rem; color: var(--text);
-      line-height: 1.85; font-weight: 500;
+    .problem-cta-block p { flex: 1; font-size: 1.05rem; color: rgba(255,255,255,.8); line-height: 1.8; min-width: 260px; font-weight: 300; }
+    .problem-cta-block strong { color: var(--yellow); font-weight: 700; }
+    .btn-yellow {
+      background: var(--yellow); color: var(--text); border: none;
+      padding: 14px 28px; border-radius: 50px;
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: .92rem;
+      cursor: pointer; text-decoration: none; white-space: nowrap;
+      transition: transform .15s, box-shadow .2s;
     }
-    .problem-callout strong { font-weight: 800; }
+    .btn-yellow:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,242,117,.35); }
 
     /* ── What We Do ── */
-    #what {
-      padding: 100px 32px;
-      background: var(--bg);
-    }
-    .what-inner { max-width: 900px; margin: 0 auto; }
-    #what h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900; line-height: 1.1;
-      letter-spacing: -.025em; margin-bottom: 14px;
-    }
-    #what .sub {
-      font-size: 1.05rem; color: var(--dim);
-      max-width: 540px; line-height: 1.8; margin-bottom: 56px;
-    }
+    #what { padding: 110px 0; background: var(--surface); border-top: 1px solid var(--border); }
 
-    .pillars {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+    #what h2 {
+      font-size: clamp(1.9rem, 4vw, 2.9rem);
+      font-weight: 900; line-height: 1.1; letter-spacing: -.025em;
+      margin-bottom: 14px;
     }
-    @media(max-width:680px){ .pillars { grid-template-columns: 1fr; } }
+    #what h2 span { color: var(--blue); }
+    #what .sub { font-size: 1.02rem; color: var(--dim); max-width: 540px; line-height: 1.85; margin-bottom: 60px; }
+
+    .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    @media(max-width:720px){ .pillar-grid { grid-template-columns: 1fr; } }
 
     .pillar {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 24px; padding: 40px 32px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 24px; overflow: hidden;
       transition: transform .25s, box-shadow .25s;
     }
-    .pillar:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(0,0,0,.08);
+    .pillar:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,.09); }
+
+    .pillar-photo {
+      width: 100%; height: 180px; object-fit: cover;
+      display: block; background: #e8eaf0;
     }
-    .pillar-icon { font-size: 2.4rem; margin-bottom: 20px; display: block; }
-    .pillar h3 {
-      font-size: 1.05rem; font-weight: 800;
-      color: var(--text); margin-bottom: 12px;
+    .pillar-photo-placeholder {
+      width: 100%; height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
     }
-    .pillar p { font-size: .9rem; color: var(--dim); line-height: 1.8; }
+    .pillar-body { padding: 32px 28px; }
     .pillar-tag {
-      display: inline-block; margin-top: 20px;
-      background: rgba(112,183,255,.1); color: var(--blue-dk);
-      font-size: .72rem; font-weight: 700;
-      padding: 4px 14px; border-radius: 50px;
-      letter-spacing: .03em;
+      font-family: var(--mono); font-size: .66rem; font-weight: 700;
+      color: var(--blue-dk); background: rgba(112,183,255,.1);
+      padding: 4px 12px; border-radius: 50px;
+      display: inline-block; margin-bottom: 14px; letter-spacing: .05em;
     }
+    .pillar h3 { font-size: 1.08rem; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+    .pillar p  { font-size: .9rem; color: var(--dim); line-height: 1.8; }
 
     /* ── About ── */
-    #about {
-      padding: 100px 32px;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-    }
-    .about-inner {
-      max-width: 900px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1.8fr;
-      gap: 60px; align-items: center;
-    }
-    @media(max-width:680px){ .about-inner { grid-template-columns: 1fr; gap: 36px; } }
+    #about { padding: 110px 0; background: var(--dark); }
 
-    .founder-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 24px; padding: 36px 28px; text-align: center;
+    .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 72px; align-items: center; }
+    @media(max-width:720px){ .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+    .founder-box {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 24px; overflow: hidden;
     }
-    .founder-avatar {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), #b3d9ff);
-      margin: 0 auto 16px;
+    .founder-photo {
+      width: 100%; height: 200px; object-fit: cover; display: block;
+      background: linear-gradient(135deg, #1a2a3a, #0d1a2b);
+    }
+    .founder-photo-placeholder {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, rgba(112,183,255,.15), rgba(255,242,117,.1));
       display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; font-weight: 900; color: #fff;
+      font-size: 4rem;
     }
-    .founder-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); }
-    .founder-card .role { font-size: .82rem; color: var(--dim); margin-bottom: 22px; }
+    .founder-info { padding: 28px 28px; }
+    .founder-info h3 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .founder-info .role { font-size: .82rem; color: rgba(255,255,255,.4); margin-bottom: 22px; }
     .creds { display: flex; flex-direction: column; gap: 8px; }
     .cred {
       display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px; padding: 11px 14px;
+    }
+    .cred strong { font-size: .84rem; color: rgba(255,255,255,.88); display: block; }
+    .cred small   { font-size: .71rem; color: rgba(255,255,255,.35); }
+    .bb-box {
+      margin-top: 12px; padding: 14px 16px;
+      background: rgba(222,253,224,.08); border: 1px solid rgba(222,253,224,.18);
+      border-radius: 12px; font-size: .79rem; font-weight: 700;
+      color: #86efac; line-height: 1.65; text-align: center;
+    }
+
+    .about-copy h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -.025em; color: #fff; margin-bottom: 24px;
+    }
+    .about-copy h2 .blue { color: var(--blue); }
+    .about-copy p { font-size: .98rem; color: rgba(255,255,255,.6); line-height: 1.9; margin-bottom: 18px; font-weight: 300; }
+    .about-copy p strong { color: rgba(255,255,255,.88); font-weight: 700; }
+    .about-copy p em { color: var(--blue); font-style: normal; font-weight: 600; }
+    .pullquote {
+      background: var(--yellow); border-radius: 16px;
+      padding: 26px 30px; margin-top: 28px;
+    }
+    .pullquote p { font-size: .97rem; font-weight: 800; color: var(--text); line-height: 1.6; }
+    .pullquote cite { display: block; margin-top: 10px; font-size: .73rem; color: #555; font-style: normal; }
+
+    /* ── Field Note Preview ── */
+    #fieldnote { padding: 110px 0; background: var(--bg); border-top: 1px solid var(--border); }
+
+    .fn-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center; }
+    @media(max-width:700px){ .fn-layout { grid-template-columns: 1fr; } }
+
+    .fn-copy h2 {
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      font-weight: 900; line-height: 1.1; letter-spacing: -.025em; margin-bottom: 18px;
+    }
+    .fn-copy h2 span { color: var(--blue); }
+    .fn-copy p { font-size: 1rem; color: var(--dim); line-height: 1.85; margin-bottom: 14px; }
+    .fn-copy a {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+      background: var(--blue); color: #fff;
+      padding: 13px 26px; border-radius: 50px;
+      font-weight: 700; font-size: .9rem; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .fn-copy a:hover { background: var(--blue-dk); transform: translateY(-2px); }
+
+    .fn-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 10px 14px; text-align: left;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 12px 60px rgba(0,0,0,.08);
     }
-    .cred strong { font-size: .84rem; color: var(--text); display: block; }
-    .cred small   { font-size: .72rem; color: var(--dim); }
-    .bb-pill {
-      margin-top: 14px; padding: 12px 16px;
+    .fn-topbar {
+      background: var(--dark); padding: 12px 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .fn-dots { display: flex; gap: 6px; }
+    .fn-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .fd-r{background:#ff5f57} .fd-y{background:#febc2e} .fd-g{background:#28c840}
+    .fn-addr { font-family: var(--mono); font-size: .65rem; color: rgba(255,255,255,.3); margin-left: auto; }
+    .fn-body { padding: 28px 28px; }
+    .fn-meta { font-family: var(--mono); font-size: .68rem; color: var(--dim); margin-bottom: 4px; }
+    .fn-title { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 16px; line-height: 1.35; }
+    .fn-line { font-size: .88rem; color: var(--dim); line-height: 1.8; margin-bottom: 12px; }
+    .fn-line em { color: var(--text); font-style: italic; }
+    .fn-task {
+      background: var(--mint); border-left: 3px solid #4ade80;
+      border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0;
+    }
+    .fn-task-lbl { font-family: var(--mono); font-size: .61rem; color: #2d7a35; letter-spacing: .1em; margin-bottom: 6px; }
+    .fn-task p   { font-size: .86rem; color: var(--text); font-weight: 600; }
+    .fn-sig { font-family: var(--mono); font-size: .74rem; color: var(--dim); margin-top: 4px; }
+    .fn-badge {
+      display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+      font-family: var(--mono); font-size: .62rem; color: #2d7a35;
       background: var(--mint); border: 1px solid #b8f0bb;
-      border-radius: 12px; font-size: .78rem;
-      font-weight: 700; color: #2d7a35; line-height: 1.6;
+      padding: 4px 12px; border-radius: 50px;
     }
 
-    .about-text h2 {
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-      font-weight: 900; letter-spacing: -.025em; margin-bottom: 20px;
-    }
-    .about-text p {
-      font-size: .98rem; color: var(--dim);
-      line-height: 1.85; margin-bottom: 16px;
-    }
-    .about-text p strong { color: var(--text); }
-    .about-quote {
-      background: var(--yellow); border-radius: 14px;
-      padding: 24px 28px; margin-top: 24px;
-    }
-    .about-quote p { font-size: .97rem; font-weight: 700; color: var(--text); line-height: 1.6; }
-    .about-quote cite { display: block; margin-top: 8px; font-size: .73rem; color: #666; font-style: normal; }
+    /* ── Survey ── */
+    #survey { padding: 110px 0; background: var(--surface); border-top: 1px solid var(--border); }
 
-    /* ── Survey / Signup ── */
-    #survey {
-      padding: 100px 32px;
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-    }
-    .survey-inner { max-width: 720px; margin: 0 auto; }
     #survey h2 {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 900; letter-spacing: -.025em; margin-bottom: 14px;
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      font-weight: 900; line-height: 1.1; letter-spacing: -.025em; margin-bottom: 14px;
     }
-    #survey .sub {
-      font-size: 1.02rem; color: var(--dim);
-      line-height: 1.8; margin-bottom: 52px;
-    }
+    #survey h2 span { color: var(--blue); }
+    #survey .sub { font-size: 1rem; color: var(--dim); line-height: 1.8; margin-bottom: 52px; }
 
-    .survey-form { display: grid; gap: 28px; }
+    .survey-form { display: grid; gap: 28px; max-width: 760px; }
     fieldset { border: none; padding: 0; }
     legend {
-      font-weight: 700; font-size: .95rem; color: var(--text);
-      margin-bottom: 14px; display: block; line-height: 1.5;
+      font-weight: 700; font-size: .96rem; color: var(--text);
+      margin-bottom: 14px; display: block; line-height: 1.55;
     }
     .qn {
-      font-size: .68rem; font-weight: 700; color: var(--blue);
-      letter-spacing: .12em; text-transform: uppercase;
-      display: block; margin-bottom: 6px;
+      font-family: var(--mono); font-size: .67rem; color: var(--blue);
+      letter-spacing: .12em; display: block; margin-bottom: 7px;
     }
     .opts { display: grid; gap: 8px; }
     .opt {
       display: flex; align-items: flex-start; gap: 12px;
       padding: 13px 18px; border-radius: 14px;
-      border: 1.5px solid var(--border); background: var(--surface);
+      border: 1.5px solid var(--border); background: var(--bg);
       cursor: pointer; font-size: .92rem; color: var(--text);
       transition: all .2s; line-height: 1.55; user-select: none;
     }
@@ -333,83 +406,69 @@
 
     .si {
       width: 100%; padding: 14px 18px; border-radius: 14px;
-      border: 1.5px solid var(--border); background: var(--surface);
-      font-family: 'Inter', sans-serif; font-size: .95rem; color: var(--text);
+      border: 1.5px solid var(--border); background: var(--bg);
+      font-family: 'Inter', sans-serif; font-size: .94rem; color: var(--text);
       outline: none; transition: border-color .2s, box-shadow .2s;
     }
     .si:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(112,183,255,.12); }
     .si::placeholder { color: #B0B7C3; }
     textarea.si { min-height: 100px; resize: vertical; }
 
-    .signup-block {
-      background: var(--surface); border: 2px solid var(--blue);
-      border-radius: 24px; padding: 44px 44px;
-      position: relative; overflow: hidden;
+    .signup-box {
+      background: var(--dark); border-radius: 24px;
+      padding: 48px 48px; position: relative; overflow: hidden;
     }
-    .signup-block::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    .signup-box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
       background: linear-gradient(90deg, var(--blue), var(--yellow));
     }
-    .signup-block h3 { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
-    .signup-block p  { font-size: .9rem; color: var(--dim); margin-bottom: 22px; line-height: 1.7; }
+    .signup-box h3 { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .signup-box p  { font-size: .9rem; color: rgba(255,255,255,.5); margin-bottom: 24px; line-height: 1.7; }
     .email-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .email-row input {
-      flex: 1; min-width: 200px; padding: 14px 20px;
-      border-radius: 50px; border: 1.5px solid var(--border);
-      background: var(--bg); font-family: 'Inter', sans-serif;
-      font-size: .95rem; color: var(--text); outline: none;
+      flex: 1; min-width: 200px; padding: 14px 20px; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.08);
+      font-family: 'Inter', sans-serif; font-size: .93rem; color: #fff; outline: none;
       transition: border-color .2s;
     }
+    .email-row input::placeholder { color: rgba(255,255,255,.28); }
     .email-row input:focus { border-color: var(--blue); }
-    .email-row input::placeholder { color: #B0B7C3; }
     .email-row button {
       background: var(--blue); color: #fff; border: none;
       padding: 14px 28px; border-radius: 50px;
-      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .95rem;
+      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem;
       cursor: pointer; white-space: nowrap;
       transition: background .2s, transform .15s;
     }
     .email-row button:hover { background: var(--blue-dk); transform: translateY(-2px); }
-    .form-note { font-size: .72rem; color: #B0B7C3; margin-top: 14px; }
+    .form-note { font-family: var(--mono); font-size: .63rem; color: rgba(255,255,255,.2); margin-top: 14px; letter-spacing: .07em; }
 
     /* ── Footer ── */
     footer {
-      background: var(--text); padding: 64px 32px 44px; text-align: center;
+      background: var(--dark); border-top: 1px solid rgba(255,255,255,.06);
+      padding: 72px 36px 48px; text-align: center;
     }
-    footer img { height: 30px; margin-bottom: 26px; opacity: .8; }
-    .foot-links {
-      display: flex; justify-content: center; gap: 24px;
-      margin-bottom: 24px; flex-wrap: wrap;
-    }
-    .foot-links a {
-      font-size: .8rem; color: rgba(255,255,255,.35);
-      text-decoration: none; transition: color .2s;
-    }
+    footer img { height: 30px; margin-bottom: 28px; opacity: .8; }
+    .foot-links { display: flex; justify-content: center; gap: 26px; margin-bottom: 24px; flex-wrap: wrap; }
+    .foot-links a { font-size: .8rem; color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s; }
     .foot-links a:hover { color: var(--blue); }
-    .foot-copy { font-size: .76rem; color: rgba(255,255,255,.25); line-height: 2.2; }
+    .foot-copy { font-size: .76rem; color: rgba(255,255,255,.22); line-height: 2.2; }
     .foot-copy a { color: rgba(112,183,255,.5); text-decoration: none; }
     .foot-copy a:hover { color: var(--blue); }
-    .foot-pills {
-      display: flex; justify-content: center; gap: 10px;
-      margin-top: 24px; flex-wrap: wrap;
-    }
-    .foot-pill {
-      font-size: .68rem; font-weight: 600;
-      padding: 5px 14px; border-radius: 50px;
-      border: 1px solid rgba(255,255,255,.1);
-      color: rgba(255,255,255,.25);
-    }
+    .foot-pills { display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    .foot-pill { font-size: .68rem; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.25); }
 
-    /* ── Responsive ── */
     @media(max-width:768px){
-      #hero, #stats, #problem, #what, #about, #survey { padding-top: 80px; padding-bottom: 80px; }
-      nav { padding: 0 20px; }
-      .container, .about-inner, .problem-inner, .what-inner, .survey-inner { padding: 0 20px; }
-      .problem-callout { padding: 28px 24px; }
-      .signup-block { padding: 32px 24px; }
+      section { padding-top: 88px !important; padding-bottom: 88px !important; }
+      .hero-inner { padding: 88px 28px 72px; }
+      .container, .container-narrow { padding: 0 24px; }
+      nav { padding: 0 22px; }
+      .problem-cta-block { padding: 28px 24px; }
+      .signup-box { padding: 32px 24px; }
+      footer { padding: 56px 24px 40px; }
     }
     @media(max-width:480px){
-      #hero h1 { font-size: 2.4rem; }
+      .hero-left h1 { font-size: 2.6rem; }
     }
   </style>
 </head>
@@ -418,52 +477,83 @@
 <!-- NAV -->
 <nav>
   <img src="WiredDifferent_Logo.svg" alt="Wired Different" />
-  <a href="#survey" class="nav-cta">Get Field Notes Free</a>
+  <div class="nav-right">
+    <span class="nav-tag">ADHD-FIRST TECH EDUCATION</span>
+    <a href="#survey" class="nav-cta">Get Field Notes Free</a>
+  </div>
 </nav>
 
 
 <!-- ══ HERO ══ -->
 <section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
 
-  <div class="hero-badge reveal">
-    <span class="dot"></span>
-    Selected &nbsp;·&nbsp; Builders + Backers National Mobility Cohort &nbsp;·&nbsp; Powered by Capital One
+    <div class="hero-badge reveal">
+      <span class="dot"></span>
+      Selected &nbsp;·&nbsp; <strong>Builders + Backers National Mobility Cohort</strong> &nbsp;·&nbsp; Powered by Capital One
+    </div>
+
+    <div class="hero-layout">
+      <div class="hero-left">
+        <h1 class="reveal">
+          An intro<br/>to <span class="blue">cyber.</span><br/>
+          A <span class="yellow">different</span><br/>way to think.
+        </h1>
+        <p class="hero-sub reveal d1">
+          An alternative way to learn. And a great way to feel good about being <strong>Wired Differently.</strong> Wired Different trains neurodivergent adults for real careers in cybersecurity — with a process built around how ADHD brains actually work.
+        </p>
+        <form class="hero-form reveal d2" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
+          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+          <button type="submit">Get Field Notes Free</button>
+        </form>
+        <p class="hero-note reveal d3">Free. Weekly. No spam. Unsubscribe anytime.</p>
+      </div>
+
+      <div class="reveal d2">
+        <div class="hero-terminal">
+          <div class="term-bar">
+            <span class="tdot td-r"></span>
+            <span class="tdot td-y"></span>
+            <span class="tdot td-g"></span>
+            <span class="term-title">wired-different — study session</span>
+          </div>
+          <div class="term-body">
+            <span class="tl"><span class="t-prompt">$</span> <span class="t-cmd">start-session --project networking-101</span></span>
+            <span class="tl t-out">Loading your progress...</span>
+            <span class="tl t-out">Project 1: Intro to Networking — 60% complete</span>
+            <span class="tl t-warn">Last session: 3 days ago. No pressure.</span>
+            <span class="tl t-dim">Picking up at: "How packets travel"</span>
+            <span class="tl t-dim">Estimated time: 12 minutes</span>
+            <span class="tl">&nbsp;</span>
+            <span class="tl"><span class="t-prompt">$</span> <span class="t-cmd">recap --last-topic</span></span>
+            <span class="tl t-out">Packets = data chunks with a to/from address.</span>
+            <span class="tl t-out">Think: a letter with a return address.</span>
+            <span class="tl t-out">That's the whole concept. Ready?</span>
+            <span class="tl">&nbsp;</span>
+            <span class="tl"><span class="t-prompt">$</span><span class="t-cursor"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <h1 class="reveal">
-    An intro to cyber.<br/>
-    A <mark>different</mark> way to think.
-  </h1>
-
-  <p class="hero-sub reveal d1">
-    An alternative way to learn. And a great way to feel good about being Wired Differently. Wired Different is an ADHD-first tech education platform built for neurodivergent adults who are ready for a real career in cybersecurity.
-  </p>
-
-  <form class="hero-form reveal d2" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
-    <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
-    <button type="submit">Get Field Notes Free</button>
-  </form>
-  <p class="hero-note reveal d3">Free. Weekly. No spam. Unsubscribe anytime.</p>
-
-</section>
-
-
-<!-- ══ STATS ══ -->
-<section id="stats">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-card reveal">
-        <span class="stat-n">3.4M</span>
-        <span class="stat-l">Cybersecurity jobs sitting unfilled globally right now.<br/><span style="font-size:.76rem;color:#B0B7C3;">ISC2 Workforce Study, 2023</span></span>
-      </div>
-      <div class="stat-card reveal d1">
-        <span class="stat-n">1 in 5</span>
-        <span class="stat-l">Entrepreneurs have ADHD or dyslexia. Underestimated — not incapable.<br/><span style="font-size:.76rem;color:#B0B7C3;">Journal of Business Venturing, 2022</span></span>
-      </div>
-      <div class="stat-card reveal d2">
-        <span class="stat-n">76%</span>
-        <span class="stat-l">of adults with ADHD report struggling to maintain consistent employment.<br/><span style="font-size:.76rem;color:#B0B7C3;">CHADD, 2022</span></span>
-      </div>
+  <div class="stat-strip reveal">
+    <div class="stat-cell">
+      <span class="stat-n">3.4M</span>
+      <span class="stat-l">Cybersecurity jobs unfilled globally right now</span>
+      <span class="stat-src">ISC2 Cybersecurity Workforce Study, 2023</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-n">1 in 5</span>
+      <span class="stat-l">Entrepreneurs have ADHD or dyslexia — underestimated, not incapable</span>
+      <span class="stat-src">Journal of Business Venturing, 2022</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-n">76%</span>
+      <span class="stat-l">of adults with ADHD report struggling to maintain consistent employment</span>
+      <span class="stat-src">CHADD, 2022</span>
     </div>
   </div>
 </section>
@@ -471,18 +561,16 @@
 
 <!-- ══ THE PROBLEM ══ -->
 <section id="problem">
-  <div class="problem-inner">
-
+  <div class="container">
     <h2 class="reveal">When you turn 18,<br/>your <mark>IEP disappears.</mark></h2>
-
-    <p class="lead reveal d1">
-      No accommodations. No support. No plan. The system that spent 12 years calling students <strong>"difficult to teach"</strong> hands them a diploma and walks away — then expects them to self-teach into a career using the same methods that never worked for them.
+    <p class="problem-intro reveal d1">
+      No accommodations. No support. No plan. The system that spent 12 years calling students <strong>"difficult to teach"</strong> hands them a diploma and walks away — then expects them to self-teach into a career using the exact same methods that never worked for them.
     </p>
 
-    <div class="problem-cards">
+    <div class="problem-grid">
       <div class="pcard reveal">
         <span class="pn">6.1M</span>
-        <p>US students have an active IEP right now. Almost none of them will receive equivalent support when they enter the workforce.</p>
+        <p>US students have an active IEP right now. Almost none will receive equivalent support when they enter the workforce.</p>
       </div>
       <div class="pcard reveal d1">
         <span class="pn">13%</span>
@@ -490,103 +578,164 @@
       </div>
     </div>
 
-    <div class="problem-callout reveal">
-      <p><strong>Wired Different was built for what comes next.</strong> A learning approach designed around how ADHD brains actually work — short projects, real credentials, and a path into tech that does not require sitting through six hours of video to get started.</p>
+    <div class="problem-cta-block reveal">
+      <p><strong>Wired Different was built for what comes next.</strong> A learning approach designed around how ADHD brains actually work — short projects, real credentials, and a path into cybersecurity that does not require sitting through six hours of video to get started.</p>
+      <a href="#survey" class="btn-yellow">Start Here</a>
     </div>
-
   </div>
 </section>
 
 
 <!-- ══ WHAT WE DO ══ -->
 <section id="what">
-  <div class="what-inner">
+  <div class="container">
+    <h2 class="reveal">How it <span>works.</span></h2>
+    <p class="sub reveal d1">Wired Different provides neurodivergent adults with the tools, structure, and support to break into cybersecurity — on their own terms.</p>
 
-    <h2 class="reveal">How it works.</h2>
-    <p class="sub reveal d1">
-      Wired Different provides neurodivergent adults with the tools, structure, and support to break into cybersecurity — on their own terms.
-    </p>
-
-    <div class="pillars">
+    <div class="pillar-grid">
       <div class="pillar reveal">
-        <span class="pillar-icon">🧠</span>
-        <h3>ADHD-Native Learning</h3>
-        <p>Projects scoped to finish in one sitting. No six-hour video courses. No bloated study guides. Content built around how ADHD brains absorb information — not how they're supposed to.</p>
-        <span class="pillar-tag">Project-based</span>
+        <!-- Replace src with your own photo. Unsplash placeholder below. -->
+        <img
+          class="pillar-photo"
+          src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80"
+          alt="Person studying cybersecurity on a laptop"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="pillar-photo-placeholder" style="display:none;">🧠</div>
+        <div class="pillar-body">
+          <span class="pillar-tag">Built for your brain</span>
+          <h3>ADHD-Native Learning</h3>
+          <p>Projects scoped to finish in one sitting. No six-hour lecture videos. No bloated study guides. Content structured around how ADHD brains absorb information — not how they're supposed to.</p>
+        </div>
       </div>
       <div class="pillar reveal d1">
-        <span class="pillar-icon">🤝</span>
-        <h3>Real Support</h3>
-        <p>Weekly field notes from someone who passed Security+ with ADHD while working full-time. An AI study companion that picks up where you left off. A community where feeling behind is the starting point, not a disqualifier.</p>
-        <span class="pillar-tag">Weekly field notes</span>
+        <img
+          class="pillar-photo"
+          src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&auto=format&fit=crop&q=80"
+          alt="Community of people working together"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="pillar-photo-placeholder" style="display:none;">🤝</div>
+        <div class="pillar-body">
+          <span class="pillar-tag">You're not alone here</span>
+          <h3>Real Support</h3>
+          <p>Weekly field notes from someone who passed Security+ with ADHD while working full-time. An AI study companion that picks up where you left off. A community where feeling behind is the starting point, not a disqualifier.</p>
+        </div>
       </div>
       <div class="pillar reveal d2">
-        <span class="pillar-icon">🎯</span>
-        <h3>Real Credentials</h3>
-        <p>Wired Different is built around earning CompTIA Security+ — one of the most recognized entry-level cybersecurity certifications in the industry. Not a participation badge. A career door opener.</p>
-        <span class="pillar-tag">CompTIA Security+</span>
+        <img
+          class="pillar-photo"
+          src="https://images.unsplash.com/photo-1550751827-4bd374173516?w=600&auto=format&fit=crop&q=80"
+          alt="Cybersecurity network visualization"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="pillar-photo-placeholder" style="display:none;">🎯</div>
+        <div class="pillar-body">
+          <span class="pillar-tag">From learning to earning</span>
+          <h3>Real Credentials</h3>
+          <p>Built around earning CompTIA Security+ — one of the most recognized entry-level cybersecurity certifications in the industry. Not a participation badge. A career door opener.</p>
+        </div>
       </div>
     </div>
-
   </div>
 </section>
 
 
 <!-- ══ ABOUT ERIC ══ -->
 <section id="about">
-  <div class="about-inner">
+  <div class="container">
+    <div class="about-grid">
 
-    <div class="founder-card reveal">
-      <div class="founder-avatar">E</div>
-      <h3>Eric Miller-Saisi</h3>
-      <div class="role">Founder · Miller Innovations LLC<br/>Houston, TX</div>
-      <div class="creds">
-        <div class="cred">
-          <span>🛡️</span>
-          <div>
-            <strong>CompTIA Security+</strong>
-            <small>Certified · Active</small>
+      <div class="reveal">
+        <div class="founder-box">
+          <!-- Replace with Eric's actual photo -->
+          <img
+            class="founder-photo"
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80"
+            alt="Eric Miller-Saisi, Founder of Wired Different"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="founder-photo-placeholder" style="display:none;">👤</div>
+          <div class="founder-info">
+            <h3>Eric Miller-Saisi</h3>
+            <div class="role">Founder · Miller Innovations LLC · Houston, TX</div>
+            <div class="creds">
+              <div class="cred">
+                <span>🛡️</span>
+                <div><strong>CompTIA Security+</strong><small>Certified · Active</small></div>
+              </div>
+              <div class="cred">
+                <span>🧠</span>
+                <div><strong>ADHD</strong><small>Not a disclaimer. The whole point.</small></div>
+              </div>
+            </div>
+            <div class="bb-box">
+              Selected · Builders + Backers<br/>National Mobility Cohort · Capital One
+            </div>
           </div>
         </div>
-        <div class="cred">
-          <span>🧠</span>
-          <div>
-            <strong>ADHD</strong>
-            <small>Not a disclaimer. The whole point.</small>
-          </div>
+      </div>
+
+      <div class="about-copy">
+        <h2 class="reveal">Built by someone who <span class="blue">knows the gap.</span></h2>
+        <p class="reveal d1">
+          Eric Miller-Saisi spent years in customer support before earning his CompTIA Security+ while working full-time — with ADHD, and without the study methods he was told to use. He threw them out and built his own.
+        </p>
+        <p class="reveal d2">
+          <strong>Wired Different is that method, built for everyone whose brain works the same way.</strong> Selected for the Builders + Backers National Mobility Cohort powered by Capital One, Wired Different is training a generation of neurodivergent adults for the careers the industry cannot fill.
+        </p>
+        <div class="pullquote reveal d3">
+          <p>"The same brain that made school hard is the reason I'm good at cybersecurity. Someone just needed to show me a path that fit."</p>
+          <cite>Eric Miller-Saisi, Founder</cite>
         </div>
       </div>
-      <div class="bb-pill">
-        Selected · Builders + Backers<br/>National Mobility Cohort · Capital One
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ FIELD NOTE PREVIEW ══ -->
+<section id="fieldnote">
+  <div class="container">
+    <div class="fn-layout">
+      <div class="fn-copy">
+        <h2 class="reveal">This is what lands <span>in your inbox.</span></h2>
+        <p class="reveal d1">No motivational content. No fluff. One real story from someone who passed Security+ with ADHD while working full-time. One thing you can do today. Three minutes.</p>
+        <p class="reveal d2">That is a Field Note. One story. One micro-task. Nothing more.</p>
+        <a href="#survey" class="reveal d3">Get the First One Free</a>
+      </div>
+      <div class="fn-card reveal d2">
+        <div class="fn-topbar">
+          <div class="fn-dots">
+            <span class="fd-r"></span><span class="fd-y"></span><span class="fd-g"></span>
+          </div>
+          <span class="fn-addr">Field Notes #001 · eric@wireddifferent.dev</span>
+        </div>
+        <div class="fn-body">
+          <div class="fn-meta">FROM: Eric M. &lt;eric@wireddifferent.dev&gt; · Issue #001</div>
+          <div class="fn-title">The Night I Almost Quit — And What I Did Instead</div>
+          <p class="fn-line">It was 11pm. 23 browser tabs open. Notes scattered across three apps. Two hours in and I had retained nothing.</p>
+          <p class="fn-line">And I genuinely thought: <em>maybe this just is not for me.</em></p>
+          <p class="fn-line">I did not quit that night. Not because of willpower. I found one reframe that changed everything.</p>
+          <div class="fn-task">
+            <div class="fn-task-lbl">// THIS WEEK'S MICRO-TASK</div>
+            <p>Set a 25-minute timer. Open one Sec+ domain. Write 3 bullets from memory. Wrong is fine. Do it again tomorrow.</p>
+          </div>
+          <div class="fn-sig">Stay in it,<br/><strong>Eric</strong></div>
+          <span class="fn-badge">3 min read · ADHD-friendly · no fluff</span>
+        </div>
       </div>
     </div>
-
-    <div class="about-text">
-      <h2 class="reveal">Built by someone who <span style="color:var(--blue)">knows the gap.</span></h2>
-      <p class="reveal d1">
-        Eric Miller-Saisi spent years in customer support before earning his CompTIA Security+ certification while working full-time — with ADHD, and without the study methods he was told to use. He threw them out and built his own.
-      </p>
-      <p class="reveal d2">
-        <strong>Wired Different is that method, built for everyone whose brain works the same way.</strong> Selected for the Builders + Backers National Mobility Cohort powered by Capital One, Wired Different is training a generation of neurodivergent adults for the careers the industry has been unable to fill.
-      </p>
-      <div class="about-quote reveal d3">
-        <p>"The same brain that made school hard is the reason I'm good at cybersecurity. Someone just needed to show me a path that fit."</p>
-        <cite>Eric Miller-Saisi, Founder</cite>
-      </div>
-    </div>
-
   </div>
 </section>
 
 
 <!-- ══ SURVEY + SIGNUP ══ -->
 <section id="survey">
-  <div class="survey-inner">
-
-    <h2 class="reveal">Help build this.<br/>Get <span style="color:var(--blue)">Field Notes free.</span></h2>
-    <p class="sub reveal d1">
-      Under 3 minutes. Every answer shapes what gets built next. Then drop your email and the first Field Note lands in your inbox.
-    </p>
+  <div class="container">
+    <h2 class="reveal">Help build this.<br/>Get <span>Field Notes free.</span></h2>
+    <p class="sub reveal d1">Under 3 minutes. Every answer shapes what gets built next. Drop your email at the end and the first Field Note lands in your inbox.</p>
 
     <form class="survey-form" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
 
@@ -634,7 +783,7 @@
         <legend><span class="qn">05</span>What has held you back before? Pick all that apply.</legend>
         <div class="opts">
           <label class="opt"><input type="checkbox" name="q5" value="consistency" /><span>Consistency. I start strong and disappear for weeks.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="theory" /><span>Too much theory and not enough actually doing something.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="theory" /><span>Too much theory, not enough actually doing something.</span></label>
           <label class="opt"><input type="checkbox" name="q5" value="direction" /><span>No clear path. I do not know what to focus on or in what order.</span></label>
           <label class="opt"><input type="checkbox" name="q5" value="overwhelm" /><span>Everything feels like too much at once.</span></label>
           <label class="opt"><input type="checkbox" name="q5" value="imposter" /><span>I do not feel like I belong in tech.</span></label>
@@ -647,17 +796,17 @@
         <textarea class="si" name="q6" placeholder="Be direct. This answer shapes more than any of the others."></textarea>
       </fieldset>
 
-      <div class="signup-block reveal">
+      <div class="signup-box reveal">
         <h3>Drop your email. Get the first Field Note free.</h3>
-        <p>One real story. One thing to do today. Three minutes. No fluff.</p>
-        <div style="display:grid;gap:10px;margin-bottom:16px;">
-          <input class="si" type="text" name="name" placeholder="First name (optional)" />
+        <p>One real story. One thing to do today. Three minutes. No fluff, no pitch.</p>
+        <div style="display:grid;gap:10px;margin-bottom:18px;">
+          <input class="si" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;" type="text" name="name" placeholder="First name (optional)" />
           <div class="email-row">
             <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
             <button type="submit">I'm In</button>
           </div>
         </div>
-        <p class="form-note">Free &nbsp;·&nbsp; No spam &nbsp;·&nbsp; Unsubscribe anytime</p>
+        <p class="form-note">// FREE &nbsp;·&nbsp; NO SPAM &nbsp;·&nbsp; UNSUBSCRIBE ANYTIME</p>
       </div>
 
     </form>
@@ -673,6 +822,7 @@
     <a href="#problem">The Problem</a>
     <a href="#what">What We Do</a>
     <a href="#about">About</a>
+    <a href="#fieldnote">Field Notes</a>
     <a href="#survey">Subscribe</a>
     <a href="mailto:eric@wireddifferent.dev">Contact</a>
   </div>
@@ -693,7 +843,7 @@
     entries.forEach(e => {
       if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.07 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 })();
 </script>
