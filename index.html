@@ -1,668 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wired Different — ADHD-First Tech Education</title>
-  <meta name="description" content="Wired Different trains neurodivergent adults for real careers in cybersecurity — using a learning approach built around how ADHD brains actually work." />
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wired Different — Cybersecurity Training for ADHD Brains</title>
+  <meta name="description" content="Wired Different helps neurodivergent adults learn cybersecurity through short lessons, real projects, and ADHD-friendly study systems."/>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0B0D12;
+      --surface:#13161E;
+      --card:#1A1E2A;
+      --border:rgba(255,255,255,.07);
+      --blue:#3B82F6;
+      --blue-lt:#60A5FA;
+      --blue-dk:#2563EB;
+      --yellow:#F59E0B;
+      --yellow-lt:#FCD34D;
+      --green:#10B981;
+      --green-lt:#34D399;
+      --purple:#8B5CF6;
+      --red:#EF4444;
+      --text:#F1F5F9;
+      --dim:#64748B;
+      --dim2:#94A3B8;
+      --mono:'Share Tech Mono',monospace;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 40px}
+    @media(max-width:600px){.wrap{padding:0 20px}}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.on{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
-    :root {
-      --bg:      #FFFDF7;
-      --surface: #ffffff;
-      --dark:    #23272A;
-      --blue:    #70B7FF;
-      --blue-dk: #3d9de6;
-      --text:    #23272A;
-      --yellow:  #FFF275;
-      --mint:    #DEFDE0;
-      --dim:     #6B7280;
-      --border:  #EDE9E0;
-      --mono:    'Share Tech Mono', monospace;
-    }
+    /* ── NAV ── */
+    nav{height:64px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;background:rgba(11,13,18,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    @media(max-width:600px){nav{padding:0 20px}}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo img{height:32px}
+    .nav-logo-txt{font-size:.95rem;font-weight:800;color:#fff;display:none}
+    .nav-logo-txt span{color:var(--blue-lt)}
+    .nav-right{display:flex;align-items:center;gap:16px}
+    .nav-streak{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--yellow);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);padding:6px 14px;border-radius:50px}
+    .nav-streak span{font-size:1rem}
+    @media(max-width:500px){.nav-streak{display:none}}
+    .nav-cta{background:var(--blue);color:#fff;padding:9px 22px;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;transition:background .2s}
+    .nav-cta:hover{background:var(--blue-dk)}
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+    /* ── HERO ── */
+    #hero{position:relative;overflow:hidden;padding:80px 0 0;background:var(--bg)}
+    .hero-glow{position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(59,130,246,.12) 0%,transparent 70%);pointer-events:none}
+    .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
 
-    .container        { max-width: 960px; margin: 0 auto; padding: 0 36px; }
-    .container-narrow { max-width: 740px; margin: 0 auto; padding: 0 36px; }
+    .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding-bottom:0}
+    @media(max-width:820px){.hero-inner{grid-template-columns:1fr;gap:48px}}
 
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
-    .reveal.on { opacity: 1; transform: none; }
-    .d1 { transition-delay: .1s; }
-    .d2 { transition-delay: .2s; }
-    .d3 { transition-delay: .3s; }
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);padding:7px 16px;border-radius:50px;font-size:.72rem;font-weight:700;color:var(--green-lt);letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px}
+    .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green-lt);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--green-lt)}50%{opacity:.3;box-shadow:none}}
 
-    /* ── Nav ── */
-    nav {
-      height: 68px; padding: 0 36px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(35,39,42,.97); backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    nav img { height: 34px; }
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-tag { font-family: var(--mono); font-size: .65rem; color: rgba(255,255,255,.35); letter-spacing: .08em; }
-    @media(max-width:600px){ .nav-tag { display:none; } }
-    .nav-cta {
-      background: var(--blue); color: #fff;
-      padding: 10px 22px; border-radius: 50px;
-      font-weight: 700; font-size: .87rem;
-      text-decoration: none; transition: background .2s, transform .15s;
-    }
-    .nav-cta:hover { background: var(--blue-dk); transform: translateY(-1px); }
+    .hero-left h1{font-size:clamp(2.4rem,4.5vw,3.6rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;color:#fff;margin-bottom:22px}
+    .hero-left h1 .hl{color:var(--blue-lt)}
+    .hero-sub{font-size:1.05rem;color:var(--dim2);line-height:1.85;margin-bottom:36px;max-width:480px}
+    .hero-sub strong{color:#fff;font-weight:600}
 
-    /* ── Hero ── */
-    #hero {
-      background: var(--dark);
-      background-image:
-        radial-gradient(ellipse at 15% 50%, rgba(112,183,255,.08) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 20%, rgba(255,242,117,.06) 0%, transparent 50%);
-      position: relative; overflow: hidden;
-    }
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(112,183,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(112,183,255,.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-    }
-    .hero-inner {
-      position: relative; z-index: 1;
-      max-width: 960px; margin: 0 auto;
-      padding: 110px 36px 90px;
-    }
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+    .btn-primary{background:var(--blue);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .2s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+    .btn-primary:hover{background:var(--blue-dk);transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,.35)}
+    .btn-ghost{background:rgba(255,255,255,.06);color:var(--dim2);padding:14px 28px;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid var(--border);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+    .btn-ghost:hover{background:rgba(255,255,255,.1);color:#fff}
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 10px;
-      border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
-      padding: 8px 20px; border-radius: 50px;
-      font-family: var(--mono); font-size: .68rem;
-      color: rgba(255,255,255,.55); letter-spacing: .05em;
-      margin-bottom: 48px;
-    }
-    .hero-badge .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #4ade80; animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 6px #4ade80} 50%{opacity:.2;box-shadow:none} }
-    .hero-badge strong { color: var(--yellow); font-family: 'Inter', sans-serif; font-weight: 700; }
+    .hero-proof{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .proof-avatars{display:flex}
+    .proof-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--bg);background:linear-gradient(135deg,var(--blue),var(--purple));margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:900;color:#fff}
+    .proof-avatar:first-child{margin-left:0}
+    .proof-text{font-size:.8rem;color:var(--dim2)}<br/>.proof-text strong{color:#fff}
 
-    .hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    @media(max-width:760px){ .hero-layout { grid-template-columns: 1fr; gap: 52px; } }
+    /* Hero right: LMS dashboard preview */
+    .hero-dashboard{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6)}
+    .hd-topbar{background:var(--card);padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .hd-dots{display:flex;gap:6px}
+    .hd-dots span{width:10px;height:10px;border-radius:50%}
+    .hdd-r{background:#FF5F57}.hdd-y{background:#FEBC2E}.hdd-g{background:#28C840}
+    .hd-title{font-family:var(--mono);font-size:.65rem;color:var(--dim)}
+    .hd-live{display:flex;align-items:center;gap:5px;font-size:.65rem;font-weight:700;color:var(--green-lt)}
+    .hd-live span{width:6px;height:6px;border-radius:50%;background:var(--green-lt);animation:pulse 2s infinite}
+    .hd-body{padding:20px}
+    .hd-xp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .hd-xp-label{font-size:.7rem;font-weight:700;color:var(--dim2)}
+    .hd-xp-val{font-family:var(--mono);font-size:.7rem;color:var(--blue-lt)}
+    .xp-bar{height:6px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden;margin-bottom:16px}
+    .xp-fill{height:100%;width:34%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:6px;animation:xpLoad 1.4s cubic-bezier(.26,1.4,.46,.98) both .8s}
+    @keyframes xpLoad{from{width:0}to{width:34%}}
+    .hd-modules{display:flex;flex-direction:column;gap:8px}
+    .hd-mod{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);transition:all .2s;cursor:pointer}
+    .hd-mod.active{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3)}
+    .hd-mod.done{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}
+    .hd-mod.locked{opacity:.4}
+    .mod-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .mod-ico.blue{background:rgba(59,130,246,.15)}
+    .mod-ico.green{background:rgba(16,185,129,.15)}
+    .mod-ico.gray{background:rgba(255,255,255,.05)}
+    .mod-ico.purple{background:rgba(139,92,246,.15)}
+    .mod-info{flex:1;min-width:0}
+    .mod-name{font-size:.82rem;font-weight:700;color:#fff;margin-bottom:3px}
+    .hd-mod.locked .mod-name{color:var(--dim)}
+    .mod-meta{font-size:.68rem;color:var(--dim);display:flex;gap:8px}
+    .mod-tag{font-family:var(--mono);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap}
+    .tag-active{background:rgba(59,130,246,.2);color:var(--blue-lt)}
+    .tag-done{background:rgba(16,185,129,.2);color:var(--green-lt)}
+    .tag-lock{background:rgba(255,255,255,.06);color:var(--dim)}
+    .mod-prog{width:48px;text-align:right;flex-shrink:0}
+    .mod-prog-bar{height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;margin-top:4px}
+    .mod-prog-fill{height:100%;border-radius:3px;background:var(--blue)}
 
-    .hero-left h1 {
-      font-size: clamp(2.6rem, 5.5vw, 4.4rem);
-      font-weight: 900; line-height: 1.05;
-      letter-spacing: -.04em; color: #fff;
-      margin-bottom: 28px;
-    }
-    .hero-left h1 .blue   { color: var(--blue); }
-    .hero-left h1 .yellow { color: var(--yellow); }
+    /* Hero bottom strip */
+    .hero-strip{background:var(--surface);border-top:1px solid var(--border);margin-top:80px;padding:28px 0}
+    .strip-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1100px;margin:0 auto;padding:0 40px}
+    @media(max-width:700px){.strip-inner{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:400px){.strip-inner{grid-template-columns:1fr}}
+    .strip-stat{padding:12px 24px;border-right:1px solid var(--border);text-align:center}
+    .strip-stat:last-child{border-right:none}
+    .strip-n{font-size:1.8rem;font-weight:900;color:var(--blue-lt);display:block;line-height:1;margin-bottom:4px}
+    .strip-l{font-size:.74rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 
-    .hero-sub {
-      font-size: 1.05rem; color: rgba(255,255,255,.55);
-      line-height: 1.85; font-weight: 300; margin-bottom: 44px;
-    }
-    .hero-sub strong { color: rgba(255,255,255,.8); font-weight: 600; }
+    /* ── LEARNING PATH ── */
+    #path{padding:100px 0;background:var(--bg)}
+    .path-head{text-align:center;max-width:640px;margin:0 auto 64px}
+    .section-label{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-lt);margin-bottom:14px;display:block}
+    .path-head h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px}
+    .path-head p{font-size:1rem;color:var(--dim2);line-height:1.85}
 
-    .hero-form {
-      display: flex; gap: 10px; flex-wrap: wrap;
-    }
-    .hero-form input[type="email"] {
-      flex: 1; min-width: 210px; padding: 14px 20px; border-radius: 50px;
-      border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.07);
-      font-family: 'Inter', sans-serif; font-size: .93rem; color: #fff;
-      outline: none; transition: border-color .2s;
-    }
-    .hero-form input[type="email"]::placeholder { color: rgba(255,255,255,.28); }
-    .hero-form input[type="email"]:focus { border-color: var(--blue); }
-    .hero-form button {
-      background: var(--blue); color: #fff; border: none;
-      padding: 14px 26px; border-radius: 50px;
-      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem;
-      cursor: pointer; white-space: nowrap;
-      transition: background .2s, transform .15s, box-shadow .2s;
-    }
-    .hero-form button:hover {
-      background: var(--blue-dk); transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(112,183,255,.4);
-    }
-    .hero-note { font-size: .73rem; color: rgba(255,255,255,.25); margin-top: 14px; }
+    .path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media(max-width:780px){.path-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:500px){.path-grid{grid-template-columns:1fr}}
 
-    /* Terminal mock */
-    .hero-terminal {
-      background: #0d1117; border: 1px solid rgba(112,183,255,.2);
-      border-radius: 16px; overflow: hidden;
-      box-shadow: 0 20px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(112,183,255,.1);
-    }
-    .term-bar {
-      background: #161b22; padding: 12px 20px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .tdot { width: 10px; height: 10px; border-radius: 50%; }
-    .td-r{background:#ff5f57} .td-y{background:#febc2e} .td-g{background:#28c840}
-    .term-title { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.3); margin-left: auto; }
-    .term-body { padding: 24px 28px; font-family: var(--mono); font-size: .82rem; line-height: 2; }
-    .tl { display: block; }
-    .t-prompt { color: #4ade80; }
-    .t-cmd    { color: rgba(255,255,255,.75); }
-    .t-out    { color: var(--blue); padding-left: 16px; }
-    .t-warn   { color: var(--yellow); padding-left: 16px; }
-    .t-dim    { color: rgba(255,255,255,.25); padding-left: 16px; }
-    .t-cursor {
-      display: inline-block; width: 9px; height: 1.1em;
-      background: var(--blue); vertical-align: text-bottom;
-      animation: blink .75s step-end infinite; margin-left: 4px;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .path-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;position:relative;overflow:hidden;transition:all .25s;cursor:pointer}
+    .path-card:hover{border-color:rgba(59,130,246,.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+    .path-card.active-card{border-color:rgba(59,130,246,.5);box-shadow:0 0 0 1px rgba(59,130,246,.3),0 16px 48px rgba(59,130,246,.1)}
+    .path-card.locked-card{opacity:.5;cursor:default}
+    .path-card.locked-card:hover{transform:none;box-shadow:none}
+    .card-glow{position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;pointer-events:none}
+    .glow-blue{background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%)}
+    .glow-green{background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%)}
+    .glow-purple{background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%)}
+    .glow-yellow{background:radial-gradient(circle,rgba(245,158,11,.12),transparent 70%)}
+    .glow-red{background:radial-gradient(circle,rgba(239,68,68,.12),transparent 70%)}
+    .glow-gray{background:none}
+    .card-num{font-family:var(--mono);font-size:.65rem;font-weight:700;color:var(--dim);letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+    .card-status{padding:3px 10px;border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .cs-free{background:rgba(16,185,129,.15);color:var(--green-lt)}
+    .cs-next{background:rgba(59,130,246,.15);color:var(--blue-lt)}
+    .cs-lock{background:rgba(255,255,255,.06);color:var(--dim)}
+    .card-ico{font-size:2rem;margin-bottom:14px;display:block}
+    .path-card h3{font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px}
+    .path-card p{font-size:.83rem;color:var(--dim2);line-height:1.65;margin-bottom:16px}
+    .card-tags{display:flex;flex-wrap:wrap;gap:6px}
+    .ct{font-family:var(--mono);font-size:.62rem;padding:4px 10px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--dim2);border:1px solid var(--border)}
+    .card-progress{margin-top:16px}
+    .cp-row{display:flex;justify-content:space-between;font-size:.7rem;color:var(--dim);margin-bottom:5px}
+    .cp-row span:last-child{color:var(--blue-lt);font-weight:700}
+    .cp-bar{height:4px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
+    .cp-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+    .lock-msg{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--dim);margin-top:12px;font-weight:600}
 
-    /* Stat strip */
-    .stat-strip {
-      background: rgba(255,255,255,.04);
-      border-top: 1px solid rgba(255,255,255,.07);
-      display: grid; grid-template-columns: repeat(3, 1fr);
-    }
-    @media(max-width:580px){ .stat-strip { grid-template-columns: 1fr; } }
-    .stat-cell {
-      padding: 36px 36px; border-right: 1px solid rgba(255,255,255,.07);
-      position: relative; z-index: 1;
-    }
-    .stat-cell:last-child { border-right: none; }
-    .stat-n { font-size: 2.4rem; font-weight: 900; color: var(--blue); display: block; line-height: 1; margin-bottom: 10px; }
-    .stat-l { font-size: .84rem; color: rgba(255,255,255,.45); line-height: 1.6; }
-    .stat-src { font-family: var(--mono); font-size: .61rem; color: rgba(255,255,255,.18); display: block; margin-top: 6px; }
+    /* ── WHY IT WORKS ── */
+    #why{padding:100px 0;background:var(--surface);border-top:1px solid var(--border)}
+    .why-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    @media(max-width:760px){.why-layout{grid-template-columns:1fr;gap:52px}}
+    .why-left h2{font-size:clamp(1.9rem,3.5vw,2.6rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:18px}
+    .why-left p{font-size:.97rem;color:var(--dim2);line-height:1.9;margin-bottom:16px}
+    .why-left p strong{color:#fff;font-weight:700}
+    .trait-list{display:flex;flex-direction:column;gap:12px;margin-top:28px}
+    .trait{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:border-color .2s}
+    .trait:hover{border-color:rgba(59,130,246,.3)}
+    .trait-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .trait-ico.b{background:rgba(59,130,246,.15)}
+    .trait-ico.g{background:rgba(16,185,129,.15)}
+    .trait-ico.y{background:rgba(245,158,11,.15)}
+    .trait-ico.p{background:rgba(139,92,246,.15)}
+    .trait h4{font-size:.88rem;font-weight:800;color:#fff;margin-bottom:3px}
+    .trait p{font-size:.8rem;color:var(--dim2);line-height:1.55}
 
-    /* ── Problem ── */
-    #problem { padding: 110px 0; background: var(--bg); border-top: 5px solid var(--yellow); }
+    /* Engagement meter */
+    .engage-widget{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .ew-head{padding:20px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .ew-head h4{font-size:.88rem;font-weight:800;color:#fff}
+    .ew-head span{font-family:var(--mono);font-size:.68rem;color:var(--green-lt)}
+    .ew-body{padding:22px}
+    .ew-metric{margin-bottom:18px}
+    .ew-metric:last-child{margin-bottom:0}
+    .em-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+    .em-label{font-size:.8rem;font-weight:600;color:var(--dim2);display:flex;align-items:center;gap:7px}
+    .em-label span{font-size:1rem}
+    .em-val{font-family:var(--mono);font-size:.78rem;font-weight:700}
+    .em-val.blue{color:var(--blue-lt)}
+    .em-val.green{color:var(--green-lt)}
+    .em-val.yellow{color:var(--yellow-lt)}
+    .em-val.purple{color:#C4B5FD}
+    .em-bar{height:6px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
+    .em-fill{height:100%;border-radius:6px}
+    .fill-blue{background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+    .fill-green{background:linear-gradient(90deg,var(--green),var(--green-lt))}
+    .fill-yellow{background:linear-gradient(90deg,#D97706,var(--yellow-lt))}
+    .fill-purple{background:linear-gradient(90deg,var(--purple),#C4B5FD)}
+    .streak-row{display:flex;gap:6px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+    .streak-day{flex:1;text-align:center}
+    .streak-dot{width:28px;height:28px;border-radius:8px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+    .sd-done{background:rgba(245,158,11,.2);color:var(--yellow-lt)}
+    .sd-today{background:var(--yellow);color:#000;font-weight:900}
+    .sd-miss{background:rgba(255,255,255,.04);color:var(--dim)}
+    .streak-day-lbl{font-size:.58rem;color:var(--dim);font-weight:600;text-transform:uppercase}
 
-    #problem h2 {
-      font-size: clamp(1.9rem, 4vw, 2.9rem);
-      font-weight: 900; line-height: 1.1; letter-spacing: -.025em;
-      margin-bottom: 20px;
-    }
-    #problem h2 mark { background: var(--yellow); padding: 0 8px; border-radius: 6px; color: var(--text); }
+    /* ── INTERACTIVE LESSON ── */
+    #trylesson{padding:100px 0;background:var(--bg);border-top:1px solid var(--border)}
+    .tl-head{text-align:center;max-width:640px;margin:0 auto 56px}
+    .tl-head h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:14px}
+    .tl-head p{font-size:1rem;color:var(--dim2);line-height:1.85}
+    .lesson-shell{max-width:800px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+    .lesson-topbar{background:var(--card);padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .l-dots{display:flex;gap:6px}
+    .l-dots span{width:10px;height:10px;border-radius:50%}
+    .ld-r{background:#FF5F57}.ld-y{background:#FEBC2E}.ld-g{background:#28C840}
+    .l-title{font-family:var(--mono);font-size:.65rem;color:var(--dim)}
+    .l-progress-dots{display:flex;gap:5px;align-items:center}
+    .lpd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .3s}
+    .lpd.done{background:var(--blue)}
+    .lpd.active{background:var(--yellow-lt);width:22px;border-radius:4px}
+    .lesson-steps{min-height:300px}
+    .lesson-step{display:none;padding:36px 36px 28px}
+    @media(max-width:600px){.lesson-step{padding:24px 20px 20px}}
+    .lesson-step.active{display:block}
+    .step-kicker{font-family:var(--mono);font-size:.65rem;color:var(--blue-lt);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;display:block}
+    .lesson-step h3{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.3}
+    .lesson-step .body{font-size:.95rem;color:var(--dim2);line-height:1.9;margin-bottom:16px;font-weight:400}
+    .lesson-step .body strong{color:#fff;font-weight:700}
+    .analogy-box{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-left:3px solid var(--blue);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0;font-size:.9rem;color:var(--dim2);line-height:1.75}
+    .analogy-box strong{color:var(--blue-lt);display:block;font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;margin-bottom:6px}
+    .task-box{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0}
+    .task-box .task-lbl{font-family:var(--mono);font-size:.62rem;color:var(--green-lt);letter-spacing:.1em;margin-bottom:7px;display:block}
+    .task-box p{font-size:.9rem;color:var(--text);font-weight:600;line-height:1.6}
+    .cert-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);padding:7px 16px;border-radius:50px;font-size:.78rem;font-weight:700;color:var(--yellow-lt);margin-top:8px}
+    .subscribe-step{text-align:center;padding:8px 0}
+    .subscribe-step h3{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:12px}
+    .subscribe-step .body{max-width:460px;margin:0 auto 28px}
+    .inline-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:460px;margin:0 auto}
+    .inline-form input{flex:1;min-width:200px;padding:13px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font-family:'Inter',sans-serif;font-size:.9rem;outline:none}
+    .inline-form input:focus{border-color:var(--blue)}
+    .inline-form input::placeholder{color:rgba(255,255,255,.25)}
+    .inline-form button{background:var(--blue);color:#fff;border:none;padding:13px 24px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;white-space:nowrap}
+    .inline-form button:hover{background:var(--blue-dk)}
+    .lesson-footer{border-top:1px solid var(--border);padding:16px 36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    @media(max-width:600px){.lesson-footer{padding:14px 20px}}
+    .lesson-counter{font-family:var(--mono);font-size:.68rem;color:var(--dim)}
+    .lesson-nav-btns{display:flex;gap:8px}
+    .ln-btn{padding:9px 20px;border-radius:8px;font-family:'Inter',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;border:none;transition:all .2s}
+    .ln-prev{background:rgba(255,255,255,.06);color:var(--dim2)}
+    .ln-prev:hover:not(:disabled){background:rgba(255,255,255,.1);color:#fff}
+    .ln-prev:disabled{opacity:.3;cursor:not-allowed}
+    .ln-next{background:var(--blue);color:#fff}
+    .ln-next:hover:not(:disabled){background:var(--blue-dk)}
+    .ln-next:disabled{opacity:.3;cursor:not-allowed}
 
-    .problem-intro { font-size: 1.1rem; color: var(--dim); max-width: 620px; line-height: 1.85; margin-bottom: 52px; }
-    .problem-intro strong { color: var(--text); }
+    /* ── FIELD NOTES PREVIEW ── */
+    #fieldnote{padding:100px 0;background:var(--surface);border-top:1px solid var(--border)}
+    .fn-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:center}
+    @media(max-width:720px){.fn-layout{grid-template-columns:1fr;gap:48px}}
+    .fn-copy h2{font-size:clamp(1.9rem,3.5vw,2.6rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:16px}
+    .fn-copy p{font-size:.97rem;color:var(--dim2);line-height:1.85;margin-bottom:14px}
+    .fn-copy a{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--blue);color:#fff;padding:13px 24px;border-radius:10px;font-weight:700;font-size:.9rem;text-decoration:none;transition:background .2s}
+    .fn-copy a:hover{background:var(--blue-dk)}
+    .fn-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.4)}
+    .fn-topbar{background:var(--bg);padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+    .fn-dots{display:flex;gap:5px}
+    .fn-dots span{width:9px;height:9px;border-radius:50%}
+    .fd-r{background:#FF5F57}.fd-y{background:#FEBC2E}.fd-g{background:#28C840}
+    .fn-addr{font-family:var(--mono);font-size:.62rem;color:var(--dim);margin-left:auto}
+    .fn-body{padding:26px 24px}
+    .fn-meta{font-family:var(--mono);font-size:.65rem;color:var(--dim);margin-bottom:4px}
+    .fn-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:14px;line-height:1.35}
+    .fn-line{font-size:.86rem;color:var(--dim2);line-height:1.8;margin-bottom:10px}
+    .fn-line em{color:#fff;font-style:italic}
+    .fn-task{background:rgba(16,185,129,.08);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:14px 16px;margin:14px 0}
+    .fn-task-lbl{font-family:var(--mono);font-size:.6rem;color:var(--green-lt);letter-spacing:.1em;margin-bottom:6px;display:block}
+    .fn-task p{font-size:.84rem;color:#fff;font-weight:600;line-height:1.55}
+    .fn-sig{font-family:var(--mono);font-size:.72rem;color:var(--dim);margin-top:6px}
+    .fn-badge{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-family:var(--mono);font-size:.6rem;color:var(--green-lt);background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);padding:4px 12px;border-radius:50px}
 
-    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media(max-width:580px){ .problem-grid { grid-template-columns: 1fr; } }
-    .pcard {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--blue);
-      border-radius: 16px; padding: 28px 24px;
-    }
-    .pcard .pn { font-size: 2.2rem; font-weight: 900; color: var(--blue); display: block; margin-bottom: 10px; }
-    .pcard p   { font-size: .88rem; color: var(--dim); line-height: 1.7; }
+    /* ── ABOUT ── */
+    #about{padding:100px 0;background:var(--bg);border-top:1px solid var(--border)}
+    .about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:72px;align-items:center}
+    @media(max-width:720px){.about-grid{grid-template-columns:1fr;gap:48px}}
+    .founder-box{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+    .founder-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#fff;margin:0 auto 14px}
+    .founder-info{padding:32px 24px;text-align:center}
+    .founder-info h3{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:3px}
+    .founder-info .role{font-size:.79rem;color:var(--dim);margin-bottom:20px}
+    .creds{display:flex;flex-direction:column;gap:8px}
+    .cred{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:11px 14px;text-align:left}
+    .cred strong{font-size:.82rem;color:#fff;display:block}
+    .cred small{font-size:.69rem;color:var(--dim)}
+    .bb-box{margin-top:10px;padding:13px 14px;background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);border-radius:10px;font-size:.76rem;font-weight:700;color:#86efac;line-height:1.6;text-align:center}
+    .about-copy h2{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:20px}
+    .about-copy h2 .hl{color:var(--blue-lt)}
+    .about-copy p{font-size:.96rem;color:var(--dim2);line-height:1.9;margin-bottom:16px}
+    .about-copy p strong{color:#fff;font-weight:700}
+    .pullquote{background:var(--yellow);border-radius:14px;padding:24px 28px;margin-top:24px}
+    .pullquote p{font-size:.94rem;font-weight:800;color:#1C1917;line-height:1.6}
+    .pullquote cite{display:block;margin-top:8px;font-size:.72rem;color:#57534e;font-style:normal}
 
-    .problem-cta-block {
-      margin-top: 48px; padding: 40px 48px;
-      background: var(--dark); border-radius: 20px;
-      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
-    }
-    .problem-cta-block p { flex: 1; font-size: 1.05rem; color: rgba(255,255,255,.8); line-height: 1.8; min-width: 260px; font-weight: 300; }
-    .problem-cta-block strong { color: var(--yellow); font-weight: 700; }
-    .btn-yellow {
-      background: var(--yellow); color: var(--text); border: none;
-      padding: 14px 28px; border-radius: 50px;
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: .92rem;
-      cursor: pointer; text-decoration: none; white-space: nowrap;
-      transition: transform .15s, box-shadow .2s;
-    }
-    .btn-yellow:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,242,117,.35); }
+    /* ── SURVEY ── */
+    #survey{padding:100px 0;background:var(--surface);border-top:1px solid var(--border)}
+    #survey h2{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:900;line-height:1.1;letter-spacing:-.025em;color:#fff;margin-bottom:12px}
+    #survey h2 span{color:var(--blue-lt)}
+    #survey .sub{font-size:1rem;color:var(--dim2);line-height:1.8;margin-bottom:36px;max-width:600px}
+    .survey-progress{margin-bottom:40px}
+    .sp-track{height:5px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden}
+    .sp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-lt));border-radius:5px;transition:width .4s ease;width:0}
+    .sp-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.67rem;color:var(--dim);margin-top:7px}
+    .survey-form{display:grid;gap:24px;max-width:760px}
+    fieldset{border:none;padding:0}
+    legend{font-weight:700;font-size:.94rem;color:#fff;margin-bottom:12px;display:block;line-height:1.55}
+    .qn{font-family:var(--mono);font-size:.65rem;color:var(--blue-lt);letter-spacing:.12em;display:block;margin-bottom:6px}
+    .opts{display:grid;gap:7px}
+    .opt{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:.9rem;color:var(--dim2);transition:all .2s;line-height:1.55;user-select:none}
+    .opt:hover{border-color:rgba(59,130,246,.4);color:#fff}
+    .opt:has(input:checked){border-color:var(--blue);background:rgba(59,130,246,.08);color:#fff}
+    .opt input{accent-color:var(--blue);width:16px;height:16px;flex-shrink:0;margin-top:2px}
+    .si{width:100%;padding:13px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:.92rem;color:#fff;outline:none;transition:border-color .2s}
+    .si:focus{border-color:var(--blue)}
+    .si::placeholder{color:rgba(255,255,255,.2)}
+    textarea.si{min-height:100px;resize:vertical}
+    .signup-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px 40px;position:relative;overflow:hidden}
+    @media(max-width:600px){.signup-box{padding:28px 22px}}
+    .signup-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple),var(--yellow))}
+    .signup-box h3{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:8px}
+    .signup-box p{font-size:.88rem;color:var(--dim2);margin-bottom:22px;line-height:1.7}
+    .email-row{display:flex;gap:10px;flex-wrap:wrap}
+    .email-row input{flex:1;min-width:200px;padding:13px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-family:'Inter',sans-serif;font-size:.92rem;color:#fff;outline:none;transition:border-color .2s}
+    .email-row input::placeholder{color:rgba(255,255,255,.25)}
+    .email-row input:focus{border-color:var(--blue)}
+    .email-row button{background:var(--blue);color:#fff;border:none;padding:13px 26px;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;white-space:nowrap;transition:background .2s}
+    .email-row button:hover{background:var(--blue-dk)}
+    .form-note{font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.18);margin-top:12px;letter-spacing:.06em}
 
-    /* ── What We Do ── */
-    #what { padding: 110px 0; background: var(--surface); border-top: 1px solid var(--border); }
-
-    #what h2 {
-      font-size: clamp(1.9rem, 4vw, 2.9rem);
-      font-weight: 900; line-height: 1.1; letter-spacing: -.025em;
-      margin-bottom: 14px;
-    }
-    #what h2 span { color: var(--blue); }
-    #what .sub { font-size: 1.02rem; color: var(--dim); max-width: 540px; line-height: 1.85; margin-bottom: 60px; }
-
-    .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    @media(max-width:720px){ .pillar-grid { grid-template-columns: 1fr; } }
-
-    .pillar {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 24px; overflow: hidden;
-      transition: transform .25s, box-shadow .25s;
-    }
-    .pillar:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,.09); }
-
-    .pillar-icon-block {
-      width: 100%; height: 100px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.8rem;
-    }
-    .pillar-body { padding: 32px 28px; }
-    .pillar-tag {
-      font-family: var(--mono); font-size: .66rem; font-weight: 700;
-      color: var(--blue-dk); background: rgba(112,183,255,.1);
-      padding: 4px 12px; border-radius: 50px;
-      display: inline-block; margin-bottom: 14px; letter-spacing: .05em;
-    }
-    .pillar h3 { font-size: 1.08rem; font-weight: 800; color: var(--text); margin-bottom: 12px; }
-    .pillar p  { font-size: .9rem; color: var(--dim); line-height: 1.8; }
-
-    /* ── Interactive Lesson ── */
-    #trylesson { padding: 110px 0; background: var(--dark); border-top: 1px solid rgba(255,255,255,.06); }
-    .tl-head { text-align: center; max-width: 600px; margin: 0 auto 56px; }
-    .tl-head h2 { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -.025em; color: #fff; margin-bottom: 14px; }
-    .tl-head h2 span { color: var(--blue); }
-    .tl-head p { font-size: 1rem; color: rgba(255,255,255,.45); line-height: 1.85; }
-    .lesson-shell { max-width: 760px; margin: 0 auto; background: #0d1117; border: 1px solid rgba(112,183,255,.2); border-radius: 20px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
-    .lesson-topbar { background: #161b22; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.06); }
-    .lesson-dots { display: flex; gap: 7px; }
-    .lesson-dots span { width: 11px; height: 11px; border-radius: 50%; }
-    .ld-r{background:#ff5f57}.ld-y{background:#febc2e}.ld-g{background:#28c840}
-    .lesson-title-bar { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.3); }
-    .lesson-progress-dots { display: flex; gap: 6px; align-items: center; }
-    .lpd { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.15); transition: background .3s; }
-    .lpd.done { background: var(--blue); }
-    .lpd.active { background: var(--yellow); width: 22px; border-radius: 4px; }
-    .lesson-steps { position: relative; min-height: 320px; }
-    .lesson-step { display: none; padding: 40px 40px 32px; }
-    @media(max-width:600px){ .lesson-step { padding: 28px 22px 24px; } }
-    .lesson-step.active { display: block; }
-    .step-kicker { font-family: var(--mono); font-size: .66rem; color: var(--blue); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 14px; display: block; }
-    .lesson-step h3 { font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 18px; line-height: 1.25; }
-    .lesson-step .body { font-size: .97rem; color: rgba(255,255,255,.6); line-height: 1.9; margin-bottom: 22px; font-weight: 300; }
-    .lesson-step .body strong { color: rgba(255,255,255,.88); font-weight: 700; }
-    .analogy-box { background: rgba(112,183,255,.07); border: 1px solid rgba(112,183,255,.2); border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 20px 0; font-size: .9rem; color: rgba(255,255,255,.7); line-height: 1.75; }
-    .analogy-box strong { color: var(--blue); display: block; font-family: var(--mono); font-size: .67rem; letter-spacing: .1em; margin-bottom: 6px; }
-    .task-box { background: rgba(74,222,128,.07); border: 1px solid rgba(74,222,128,.2); border-left: 3px solid #4ade80; border-radius: 0 12px 12px 0; padding: 18px 20px; margin: 20px 0; }
-    .task-box .task-lbl { font-family: var(--mono); font-size: .63rem; color: #4ade80; letter-spacing: .12em; margin-bottom: 8px; display: block; }
-    .task-box p { font-size: .92rem; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.6; }
-    .cert-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,242,117,.1); border: 1px solid rgba(255,242,117,.25); padding: 7px 16px; border-radius: 50px; font-size: .78rem; font-weight: 700; color: var(--yellow); margin-top: 10px; }
-    .lesson-step .subscribe-step { text-align: center; }
-    .subscribe-step h3 { font-size: 1.4rem; }
-    .subscribe-step .body { max-width: 480px; margin: 0 auto 28px; }
-    .subscribe-step .inline-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 480px; margin: 0 auto; }
-    .subscribe-step .inline-form input { flex:1; min-width:200px; padding:14px 20px; border-radius:50px; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.07); font-family:'Inter',sans-serif; font-size:.93rem; color:#fff; outline:none; }
-    .subscribe-step .inline-form input::placeholder { color:rgba(255,255,255,.28); }
-    .subscribe-step .inline-form button { background:var(--blue); color:#fff; border:none; padding:14px 26px; border-radius:50px; font-weight:700; font-size:.93rem; cursor:pointer; white-space:nowrap; }
-    .subscribe-step .inline-form button:hover { background:var(--blue-dk); }
-    .lesson-footer { border-top: 1px solid rgba(255,255,255,.07); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    @media(max-width:600px){ .lesson-footer { padding: 14px 22px; } }
-    .lesson-counter { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.25); }
-    .lesson-nav-btns { display: flex; gap: 10px; }
-    .ln-btn { padding: 10px 22px; border-radius: 50px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: .87rem; cursor: pointer; border: none; transition: all .2s; }
-    .ln-prev { background: rgba(255,255,255,.07); color: rgba(255,255,255,.5); }
-    .ln-prev:hover { background: rgba(255,255,255,.12); color: #fff; }
-    .ln-prev:disabled { opacity: .3; cursor: not-allowed; }
-    .ln-next { background: var(--blue); color: #fff; }
-    .ln-next:hover { background: var(--blue-dk); }
-    .ln-next:disabled { opacity: .3; cursor: not-allowed; }
-
-    /* Survey progress bar */
-    .survey-progress { margin-bottom: 40px; }
-    .sp-track { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .sp-fill { height: 100%; background: var(--blue); border-radius: 4px; transition: width .4s ease; width: 0%; }
-    .sp-label { font-family: var(--mono); font-size: .68rem; color: var(--dim); margin-top: 8px; display: flex; justify-content: space-between; }
-
-    /* ── About ── */
-    #about { padding: 110px 0; background: var(--dark); }
-
-    .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 72px; align-items: center; }
-    @media(max-width:720px){ .about-grid { grid-template-columns: 1fr; gap: 48px; } }
-
-    .founder-box {
-      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 24px; overflow: hidden;
-    }
-    .founder-avatar {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), #b3d9ff);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; font-weight: 900; color: #fff;
-      margin: 0 auto 16px;
-    }
-    .founder-info { padding: 36px 28px; text-align: center; }
-    .founder-info h3 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
-    .founder-info .role { font-size: .82rem; color: rgba(255,255,255,.4); margin-bottom: 22px; }
-    .creds { display: flex; flex-direction: column; gap: 8px; }
-    .cred {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
-      border-radius: 12px; padding: 11px 14px;
-    }
-    .cred strong { font-size: .84rem; color: rgba(255,255,255,.88); display: block; }
-    .cred small   { font-size: .71rem; color: rgba(255,255,255,.35); }
-    .bb-box {
-      margin-top: 12px; padding: 14px 16px;
-      background: rgba(222,253,224,.08); border: 1px solid rgba(222,253,224,.18);
-      border-radius: 12px; font-size: .79rem; font-weight: 700;
-      color: #86efac; line-height: 1.65; text-align: center;
-    }
-
-    .about-copy h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 900; line-height: 1.1;
-      letter-spacing: -.025em; color: #fff; margin-bottom: 24px;
-    }
-    .about-copy h2 .blue { color: var(--blue); }
-    .about-copy p { font-size: .98rem; color: rgba(255,255,255,.6); line-height: 1.9; margin-bottom: 18px; font-weight: 300; }
-    .about-copy p strong { color: rgba(255,255,255,.88); font-weight: 700; }
-    .about-copy p em { color: var(--blue); font-style: normal; font-weight: 600; }
-    .pullquote {
-      background: var(--yellow); border-radius: 16px;
-      padding: 26px 30px; margin-top: 28px;
-    }
-    .pullquote p { font-size: .97rem; font-weight: 800; color: var(--text); line-height: 1.6; }
-    .pullquote cite { display: block; margin-top: 10px; font-size: .73rem; color: #555; font-style: normal; }
-
-    /* ── Field Note Preview ── */
-    #fieldnote { padding: 110px 0; background: var(--bg); border-top: 1px solid var(--border); }
-
-    .fn-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center; }
-    @media(max-width:700px){ .fn-layout { grid-template-columns: 1fr; } }
-
-    .fn-copy h2 {
-      font-size: clamp(1.9rem, 4vw, 2.7rem);
-      font-weight: 900; line-height: 1.1; letter-spacing: -.025em; margin-bottom: 18px;
-    }
-    .fn-copy h2 span { color: var(--blue); }
-    .fn-copy p { font-size: 1rem; color: var(--dim); line-height: 1.85; margin-bottom: 14px; }
-    .fn-copy a {
-      display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
-      background: var(--blue); color: #fff;
-      padding: 13px 26px; border-radius: 50px;
-      font-weight: 700; font-size: .9rem; text-decoration: none;
-      transition: background .2s, transform .15s;
-    }
-    .fn-copy a:hover { background: var(--blue-dk); transform: translateY(-2px); }
-
-    .fn-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-      box-shadow: 0 12px 60px rgba(0,0,0,.08);
-    }
-    .fn-topbar {
-      background: var(--dark); padding: 12px 20px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .fn-dots { display: flex; gap: 6px; }
-    .fn-dots span { width: 10px; height: 10px; border-radius: 50%; }
-    .fd-r{background:#ff5f57} .fd-y{background:#febc2e} .fd-g{background:#28c840}
-    .fn-addr { font-family: var(--mono); font-size: .65rem; color: rgba(255,255,255,.3); margin-left: auto; }
-    .fn-body { padding: 28px 28px; }
-    .fn-meta { font-family: var(--mono); font-size: .68rem; color: var(--dim); margin-bottom: 4px; }
-    .fn-title { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 16px; line-height: 1.35; }
-    .fn-line { font-size: .88rem; color: var(--dim); line-height: 1.8; margin-bottom: 12px; }
-    .fn-line em { color: var(--text); font-style: italic; }
-    .fn-task {
-      background: var(--mint); border-left: 3px solid #4ade80;
-      border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0;
-    }
-    .fn-task-lbl { font-family: var(--mono); font-size: .61rem; color: #2d7a35; letter-spacing: .1em; margin-bottom: 6px; }
-    .fn-task p   { font-size: .86rem; color: var(--text); font-weight: 600; }
-    .fn-sig { font-family: var(--mono); font-size: .74rem; color: var(--dim); margin-top: 4px; }
-    .fn-badge {
-      display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
-      font-family: var(--mono); font-size: .62rem; color: #2d7a35;
-      background: var(--mint); border: 1px solid #b8f0bb;
-      padding: 4px 12px; border-radius: 50px;
-    }
-
-    /* ── Survey ── */
-    #survey { padding: 110px 0; background: var(--surface); border-top: 1px solid var(--border); }
-
-    #survey h2 {
-      font-size: clamp(1.9rem, 4vw, 2.7rem);
-      font-weight: 900; line-height: 1.1; letter-spacing: -.025em; margin-bottom: 14px;
-    }
-    #survey h2 span { color: var(--blue); }
-    #survey .sub { font-size: 1rem; color: var(--dim); line-height: 1.8; margin-bottom: 52px; }
-
-    .survey-form { display: grid; gap: 28px; max-width: 760px; }
-    fieldset { border: none; padding: 0; }
-    legend {
-      font-weight: 700; font-size: .96rem; color: var(--text);
-      margin-bottom: 14px; display: block; line-height: 1.55;
-    }
-    .qn {
-      font-family: var(--mono); font-size: .67rem; color: var(--blue);
-      letter-spacing: .12em; display: block; margin-bottom: 7px;
-    }
-    .opts { display: grid; gap: 8px; }
-    .opt {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 13px 18px; border-radius: 14px;
-      border: 1.5px solid var(--border); background: var(--bg);
-      cursor: pointer; font-size: .92rem; color: var(--text);
-      transition: all .2s; line-height: 1.55; user-select: none;
-    }
-    .opt:hover { border-color: var(--blue); background: rgba(112,183,255,.04); }
-    .opt:has(input:checked) { border-color: var(--blue); background: rgba(112,183,255,.06); }
-    .opt input { accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
-
-    .si {
-      width: 100%; padding: 14px 18px; border-radius: 14px;
-      border: 1.5px solid var(--border); background: var(--bg);
-      font-family: 'Inter', sans-serif; font-size: .94rem; color: var(--text);
-      outline: none; transition: border-color .2s, box-shadow .2s;
-    }
-    .si:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(112,183,255,.12); }
-    .si::placeholder { color: #B0B7C3; }
-    textarea.si { min-height: 100px; resize: vertical; }
-
-    .signup-box {
-      background: var(--dark); border-radius: 24px;
-      padding: 48px 48px; position: relative; overflow: hidden;
-    }
-    .signup-box::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--blue), var(--yellow));
-    }
-    .signup-box h3 { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
-    .signup-box p  { font-size: .9rem; color: rgba(255,255,255,.5); margin-bottom: 24px; line-height: 1.7; }
-    .email-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .email-row input {
-      flex: 1; min-width: 200px; padding: 14px 20px; border-radius: 50px;
-      border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.08);
-      font-family: 'Inter', sans-serif; font-size: .93rem; color: #fff; outline: none;
-      transition: border-color .2s;
-    }
-    .email-row input::placeholder { color: rgba(255,255,255,.28); }
-    .email-row input:focus { border-color: var(--blue); }
-    .email-row button {
-      background: var(--blue); color: #fff; border: none;
-      padding: 14px 28px; border-radius: 50px;
-      font-family: 'Inter', sans-serif; font-weight: 700; font-size: .93rem;
-      cursor: pointer; white-space: nowrap;
-      transition: background .2s, transform .15s;
-    }
-    .email-row button:hover { background: var(--blue-dk); transform: translateY(-2px); }
-    .form-note { font-family: var(--mono); font-size: .63rem; color: rgba(255,255,255,.2); margin-top: 14px; letter-spacing: .07em; }
-
-    /* ── Footer ── */
-    footer {
-      background: var(--dark); border-top: 1px solid rgba(255,255,255,.06);
-      padding: 72px 36px 48px; text-align: center;
-    }
-    footer img { height: 30px; margin-bottom: 28px; opacity: .8; }
-    .foot-links { display: flex; justify-content: center; gap: 26px; margin-bottom: 24px; flex-wrap: wrap; }
-    .foot-links a { font-size: .8rem; color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s; }
-    .foot-links a:hover { color: var(--blue); }
-    .foot-copy { font-size: .76rem; color: rgba(255,255,255,.22); line-height: 2.2; }
-    .foot-copy a { color: rgba(112,183,255,.5); text-decoration: none; }
-    .foot-copy a:hover { color: var(--blue); }
-    .foot-pills { display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
-    .foot-pill { font-size: .68rem; font-weight: 600; padding: 5px 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.25); }
-
-    @media(max-width:768px){
-      section { padding-top: 88px !important; padding-bottom: 88px !important; }
-      .hero-inner { padding: 88px 28px 72px; }
-      .container, .container-narrow { padding: 0 24px; }
-      nav { padding: 0 22px; }
-      .problem-cta-block { padding: 28px 24px; }
-      .signup-box { padding: 32px 24px; }
-      footer { padding: 56px 24px 40px; }
-    }
-    @media(max-width:480px){
-      .hero-left h1 { font-size: 2.6rem; }
-    }
+    /* ── FOOTER ── */
+    footer{background:var(--bg);border-top:1px solid var(--border);padding:64px 40px 44px;text-align:center}
+    @media(max-width:600px){footer{padding:48px 20px 36px}}
+    footer img{height:28px;margin:0 auto 10px;display:block;opacity:.6}
+    .foot-name{font-size:.95rem;font-weight:800;color:#fff;display:none;margin-bottom:10px}
+    .foot-name span{color:var(--blue-lt)}
+    .foot-tagline{font-size:.84rem;color:var(--dim);margin-bottom:32px}
+    .foot-links{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:22px}
+    .foot-links a{font-size:.8rem;color:var(--dim);text-decoration:none;transition:color .2s;font-weight:600}
+    .foot-links a:hover{color:var(--blue-lt)}
+    .foot-copy{font-size:.73rem;color:rgba(255,255,255,.15);line-height:2.2}
+    .foot-copy a{color:rgba(96,165,250,.4);text-decoration:none}
+    .foot-copy a:hover{color:var(--blue-lt)}
+    .foot-pills{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
+    .fp{font-size:.66rem;font-weight:600;padding:5px 13px;border-radius:50px;border:1px solid var(--border);color:var(--dim)}
   </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <img src="WiredDifferent_Logo.svg" alt="Wired Different" />
+  <a class="nav-logo" href="#hero">
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="nav-logo-txt" style="display:none;">Wired <span>Different</span></span>
+  </a>
   <div class="nav-right">
-    <span class="nav-tag">ADHD-FIRST TECH EDUCATION</span>
-    <a href="#survey" class="nav-cta">Get Field Notes Free</a>
+    <div class="nav-streak"><span>🔥</span> 3-day streak</div>
+    <a href="#trylesson" class="nav-cta">Try a Free Lesson</a>
   </div>
 </nav>
 
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-inner">
-
-    <div class="hero-badge reveal">
-      <span class="dot"></span>
-      Selected &nbsp;·&nbsp; <strong>Builders + Backers National Mobility Cohort</strong> &nbsp;·&nbsp; Powered by Capital One
-    </div>
-
-    <div class="hero-layout">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="wrap">
+    <div class="hero-inner">
       <div class="hero-left">
-        <h1 class="reveal">
-          Cybersecurity training<br/>built for those who<br/><span class="yellow">think differently.</span>
-        </h1>
-        <p class="hero-sub reveal d1">
-          <strong>Wired Different helps neurodivergent adults learn cybersecurity</strong> through short lessons, real-world projects, and ADHD-friendly study systems — so you can break into tech without burning out first.
-        </p>
-        <div class="hero-form reveal d2" style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="#trylesson" class="hero-form button" style="background:var(--blue);color:#fff;padding:14px 28px;border-radius:50px;font-weight:700;font-size:.93rem;text-decoration:none;white-space:nowrap;">Try a Free Lesson →</a>
-          <a href="#fieldnote" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);padding:14px 28px;border-radius:50px;font-weight:700;font-size:.93rem;text-decoration:none;border:1px solid rgba(255,255,255,.15);white-space:nowrap;">See the Newsletter</a>
+        <div class="hero-badge reveal"><span class="dot"></span>Builders + Backers · Powered by Capital One</div>
+        <h1 class="reveal">Cybersecurity training<br/>built for those who<br/><span class="hl">think differently.</span></h1>
+        <p class="hero-sub reveal d1"><strong>Wired Different helps neurodivergent adults break into cybersecurity</strong> through short lessons, real-world projects, and ADHD-friendly study systems — so you can build a career without burning out first.</p>
+        <div class="hero-btns reveal d2">
+          <a href="#trylesson" class="btn-primary">Start Module 1 Free →</a>
+          <a href="#path" class="btn-ghost">See the Full Path</a>
         </div>
-        <p class="hero-note reveal d3">Free. No email required to try a lesson.</p>
+        <div class="hero-proof reveal d3">
+          <div class="proof-avatars">
+            <div class="proof-avatar">E</div>
+            <div class="proof-avatar">J</div>
+            <div class="proof-avatar">M</div>
+            <div class="proof-avatar">T</div>
+          </div>
+          <span class="proof-text">Joined by <strong>500+ learners</strong> with ADHD &amp; neurodivergent brains</span>
+        </div>
       </div>
 
+      <!-- LMS Dashboard Preview -->
       <div class="reveal d2">
-        <div class="hero-terminal">
-          <div class="term-bar">
-            <span class="tdot td-r"></span>
-            <span class="tdot td-y"></span>
-            <span class="tdot td-g"></span>
-            <span class="term-title">wired-different — study session</span>
+        <div class="hero-dashboard">
+          <div class="hd-topbar">
+            <div class="hd-dots"><span class="hdd-r"></span><span class="hdd-y"></span><span class="hdd-g"></span></div>
+            <span class="hd-title">wired-different — my learning path</span>
+            <div class="hd-live"><span></span>Live</div>
           </div>
-          <div class="term-body">
-            <span class="tl"><span class="t-prompt">$</span> <span class="t-cmd">start-session --project networking-101</span></span>
-            <span class="tl t-out">Loading your progress...</span>
-            <span class="tl t-out">Project 1: Intro to Networking — 60% complete</span>
-            <span class="tl t-warn">Last session: 3 days ago. No pressure.</span>
-            <span class="tl t-dim">Picking up at: "How packets travel"</span>
-            <span class="tl t-dim">Estimated time: 12 minutes</span>
-            <span class="tl">&nbsp;</span>
-            <span class="tl"><span class="t-prompt">$</span> <span class="t-cmd">recap --last-topic</span></span>
-            <span class="tl t-out">Packets = data chunks with a to/from address.</span>
-            <span class="tl t-out">Think: a letter with a return address.</span>
-            <span class="tl t-out">That's the whole concept. Ready?</span>
-            <span class="tl">&nbsp;</span>
-            <span class="tl"><span class="t-prompt">$</span><span class="t-cursor"></span></span>
+          <div class="hd-body">
+            <div class="hd-xp-row">
+              <span class="hd-xp-label">🏆 XP Progress — Level 2</span>
+              <span class="hd-xp-val">340 / 1000 XP</span>
+            </div>
+            <div class="xp-bar"><div class="xp-fill"></div></div>
+            <div class="hd-modules">
+              <div class="hd-mod done">
+                <div class="mod-ico green">✅</div>
+                <div class="mod-info">
+                  <div class="mod-name">Intro to Cybersecurity</div>
+                  <div class="mod-meta"><span>4 lessons</span><span>·</span><span>Complete</span></div>
+                </div>
+                <div><span class="mod-tag tag-done">Done</span></div>
+              </div>
+              <div class="hd-mod active">
+                <div class="mod-ico blue">🌐</div>
+                <div class="mod-info">
+                  <div class="mod-name">Networking 101</div>
+                  <div class="mod-meta"><span>6 lessons</span><span>·</span><span>In progress</span></div>
+                  <div class="mod-prog-bar"><div class="mod-prog-fill" style="width:60%"></div></div>
+                </div>
+                <div><span class="mod-tag tag-active">60%</span></div>
+              </div>
+              <div class="hd-mod locked">
+                <div class="mod-ico gray">🔒</div>
+                <div class="mod-info">
+                  <div class="mod-name">Threats &amp; Attacks</div>
+                  <div class="mod-meta"><span>8 lessons</span><span>·</span><span>Locked</span></div>
+                </div>
+                <div><span class="mod-tag tag-lock">Next</span></div>
+              </div>
+              <div class="hd-mod locked">
+                <div class="mod-ico gray">🔒</div>
+                <div class="mod-info">
+                  <div class="mod-name">Cryptography Basics</div>
+                  <div class="mod-meta"><span>5 lessons</span><span>·</span><span>Locked</span></div>
+                </div>
+                <div><span class="mod-tag tag-lock">Next</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
-  <div class="stat-strip reveal">
-    <div class="stat-cell">
-      <span class="stat-n">3.4M</span>
-      <span class="stat-l">Cybersecurity jobs unfilled globally right now</span>
-      <span class="stat-src">ISC2 Cybersecurity Workforce Study, 2023</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-n">1 in 5</span>
-      <span class="stat-l">Entrepreneurs have ADHD or dyslexia — underestimated, not incapable</span>
-      <span class="stat-src">Journal of Business Venturing, 2022</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-n">76%</span>
-      <span class="stat-l">of adults with ADHD report struggling to maintain consistent employment</span>
-      <span class="stat-src">CHADD, 2022</span>
+  <div class="hero-strip">
+    <div class="strip-inner">
+      <div class="strip-stat reveal"><span class="strip-n">3.4M</span><span class="strip-l">Cybersecurity jobs unfilled</span></div>
+      <div class="strip-stat reveal d1"><span class="strip-n">500+</span><span class="strip-l">Learners enrolled</span></div>
+      <div class="strip-stat reveal d2"><span class="strip-n">1 in 5</span><span class="strip-l">Entrepreneurs have ADHD</span></div>
+      <div class="strip-stat reveal d3"><span class="strip-n">Free</span><span class="strip-l">To start — no card needed</span></div>
     </div>
   </div>
 </section>
 
 
-<!-- ══ THE PROBLEM ══ -->
-<section id="problem">
-  <div class="container">
-    <h2 class="reveal">When you turn 18,<br/>your <mark>IEP disappears.</mark></h2>
-    <p class="problem-intro reveal d1">
-      No accommodations. No support. No plan. The system that spent 12 years calling students <strong>"difficult to teach"</strong> hands them a diploma and walks away — then expects them to self-teach into a career using the exact same methods that never worked for them.
-    </p>
-
-    <div class="problem-grid">
-      <div class="pcard reveal">
-        <span class="pn">6.1M</span>
-        <p>US students have an active IEP right now. Almost none will receive equivalent support when they enter the workforce.</p>
-      </div>
-      <div class="pcard reveal d1">
-        <span class="pn">13%</span>
-        <p>of tech workers identify as disabled — despite ADHD being a documented advantage in threat detection, pattern recognition, and systems thinking.</p>
-      </div>
+<!-- ══ LEARNING PATH ══ -->
+<section id="path">
+  <div class="wrap">
+    <div class="path-head">
+      <span class="section-label reveal">Your Learning Path</span>
+      <h2 class="reveal">From zero to Security+.<br/>One module at a time.</h2>
+      <p class="reveal d1">No six-hour videos. No bloated study guides. Each module is scoped to a single sitting — designed so your brain can actually finish it and feel the win.</p>
     </div>
-
-    <div class="problem-cta-block reveal">
-      <p><strong>Wired Different was built for what comes next.</strong> A learning approach designed around how ADHD brains actually work — short projects, real credentials, and a path into cybersecurity that does not require sitting through six hours of video to get started.</p>
-      <a href="#survey" class="btn-yellow">Start Here</a>
+    <div class="path-grid">
+      <div class="path-card active-card reveal">
+        <div class="card-glow glow-green"></div>
+        <div class="card-num">MODULE 01 <span class="card-status cs-free">Free</span></div>
+        <span class="card-ico">🛡️</span>
+        <h3>Intro to Cybersecurity</h3>
+        <p>What it is, why it matters, and why your ADHD brain is already wired for it. The foundation everything else builds on.</p>
+        <div class="card-tags"><span class="ct">Beginner</span><span class="ct">4 lessons</span><span class="ct">~45 min</span></div>
+        <div class="card-progress">
+          <div class="cp-row"><span>Your progress</span><span>100%</span></div>
+          <div class="cp-bar"><div class="cp-fill" style="width:100%;background:linear-gradient(90deg,var(--green),var(--green-lt))"></div></div>
+        </div>
+      </div>
+      <div class="path-card active-card reveal d1">
+        <div class="card-glow glow-blue"></div>
+        <div class="card-num">MODULE 02 <span class="card-status cs-next">In Progress</span></div>
+        <span class="card-ico">🌐</span>
+        <h3>Networking 101</h3>
+        <p>How data moves. IP addresses, packets, ports, protocols — explained the way an ADHD brain actually absorbs it.</p>
+        <div class="card-tags"><span class="ct">Beginner</span><span class="ct">6 lessons</span><span class="ct">~60 min</span></div>
+        <div class="card-progress">
+          <div class="cp-row"><span>Your progress</span><span>60%</span></div>
+          <div class="cp-bar"><div class="cp-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+      <div class="path-card reveal d2">
+        <div class="card-glow glow-red"></div>
+        <div class="card-num">MODULE 03 <span class="card-status cs-lock">Locked</span></div>
+        <span class="card-ico">⚠️</span>
+        <h3>Threats &amp; Attacks</h3>
+        <p>Malware, phishing, social engineering, ransomware — the full threat landscape and how defenders think about it.</p>
+        <div class="card-tags"><span class="ct">Intermediate</span><span class="ct">8 lessons</span><span class="ct">~90 min</span></div>
+        <div class="lock-msg">🔒 Complete Module 02 to unlock</div>
+      </div>
+      <div class="path-card locked-card reveal">
+        <div class="card-glow glow-yellow"></div>
+        <div class="card-num">MODULE 04 <span class="card-status cs-lock">Locked</span></div>
+        <span class="card-ico">🔐</span>
+        <h3>Cryptography Basics</h3>
+        <p>Encryption, hashing, PKI, and certificates — broken down so the Security+ exam questions actually make sense.</p>
+        <div class="card-tags"><span class="ct">Intermediate</span><span class="ct">5 lessons</span><span class="ct">~50 min</span></div>
+        <div class="lock-msg">🔒 Unlocks after Module 03</div>
+      </div>
+      <div class="path-card locked-card reveal d1">
+        <div class="card-glow glow-purple"></div>
+        <div class="card-num">MODULE 05 <span class="card-status cs-lock">Locked</span></div>
+        <span class="card-ico">🏢</span>
+        <h3>Identity &amp; Access</h3>
+        <p>Authentication, authorization, MFA, and IAM — controlling who gets in and what they can touch.</p>
+        <div class="card-tags"><span class="ct">Intermediate</span><span class="ct">6 lessons</span><span class="ct">~55 min</span></div>
+        <div class="lock-msg">🔒 Unlocks after Module 04</div>
+      </div>
+      <div class="path-card locked-card reveal d2">
+        <div class="card-glow glow-gray"></div>
+        <div class="card-num">MODULE 06 <span class="card-status cs-lock">Locked</span></div>
+        <span class="card-ico">🎯</span>
+        <h3>Sec+ Exam Prep</h3>
+        <p>Practice questions, timed drills, and memory techniques that work with ADHD — not against it.</p>
+        <div class="card-tags"><span class="ct">Advanced</span><span class="ct">10 lessons</span><span class="ct">~2 hrs</span></div>
+        <div class="lock-msg">🔒 Final module — unlocks at Module 05</div>
+      </div>
     </div>
   </div>
 </section>
 
 
-<!-- ══ WHAT WE DO ══ -->
-<section id="what">
-  <div class="container">
-    <h2 class="reveal">How it <span>works.</span></h2>
-    <p class="sub reveal d1">Wired Different provides neurodivergent adults with the tools, structure, and support to break into cybersecurity — on their own terms.</p>
+<!-- ══ WHY IT WORKS ══ -->
+<section id="why">
+  <div class="wrap">
+    <div class="why-layout">
+      <div class="why-left">
+        <span class="section-label reveal">Built for Your Brain</span>
+        <h2 class="reveal">ADHD isn't the obstacle.<br/>The wrong system is.</h2>
+        <p class="reveal d1">Traditional cybersecurity training was built for neurotypical learners — long lectures, dense textbooks, and six-hour video courses. <strong>That's not a content problem. It's a design problem.</strong></p>
+        <p class="reveal d2">Wired Different is built around how ADHD brains actually process and retain information. Short, scoped, hands-on — with built-in momentum.</p>
+        <div class="trait-list">
+          <div class="trait reveal">
+            <div class="trait-ico b">⚡</div>
+            <div><h4>Lessons under 15 minutes</h4><p>Scoped to a single concept. You finish every session — not just start it.</p></div>
+          </div>
+          <div class="trait reveal d1">
+            <div class="trait-ico g">🔁</div>
+            <div><h4>Pickup where you left off</h4><p>No pressure. Your progress is saved. The system picks you back up, not punishes you for stepping away.</p></div>
+          </div>
+          <div class="trait reveal d2">
+            <div class="trait-ico y">🎯</div>
+            <div><h4>Micro-tasks, not marathons</h4><p>One real thing to do per lesson. Builds the habit of doing instead of just consuming content.</p></div>
+          </div>
+          <div class="trait reveal d3">
+            <div class="trait-ico p">🏆</div>
+            <div><h4>XP, streaks &amp; milestones</h4><p>Dopamine-friendly progress mechanics that reward showing up — not just finishing.</p></div>
+          </div>
+        </div>
+      </div>
 
-    <div class="pillar-grid">
-      <div class="pillar reveal">
-        <div class="pillar-icon-block" style="background:rgba(112,183,255,.08);">🧠</div>
-        <div class="pillar-body">
-          <span class="pillar-tag">Built for your brain</span>
-          <h3>ADHD-Native Learning</h3>
-          <p>Projects scoped to finish in one sitting. No six-hour lecture videos. No bloated study guides. Content structured around how ADHD brains absorb information — not how they're supposed to.</p>
+      <!-- Engagement widget -->
+      <div class="engage-widget reveal d2">
+        <div class="ew-head">
+          <h4>Your Engagement Dashboard</h4>
+          <span>↑ 24% this week</span>
         </div>
-      </div>
-      <div class="pillar reveal d1">
-        <div class="pillar-icon-block" style="background:rgba(222,253,224,.5);">🤝</div>
-        <div class="pillar-body">
-          <span class="pillar-tag">You're not alone here</span>
-          <h3>Real Support</h3>
-          <p>Weekly field notes from someone who passed Security+ with ADHD while working full-time. An AI study companion that picks up where you left off. A community where feeling behind is the starting point, not a disqualifier.</p>
-        </div>
-      </div>
-      <div class="pillar reveal d2">
-        <div class="pillar-icon-block" style="background:rgba(255,242,117,.25);">🎯</div>
-        <div class="pillar-body">
-          <span class="pillar-tag">From learning to earning</span>
-          <h3>Real Credentials</h3>
-          <p>Built around earning CompTIA Security+ — one of the most recognized entry-level cybersecurity certifications in the industry. Not a participation badge. A career door opener.</p>
+        <div class="ew-body">
+          <div class="ew-metric">
+            <div class="em-row"><span class="em-label"><span>📚</span> Lessons Completed</span><span class="em-val blue">12 / 35</span></div>
+            <div class="em-bar"><div class="em-fill fill-blue" style="width:34%"></div></div>
+          </div>
+          <div class="ew-metric">
+            <div class="em-row"><span class="em-label"><span>⏱️</span> Focus Time</span><span class="em-val green">3h 42m</span></div>
+            <div class="em-bar"><div class="em-fill fill-green" style="width:55%"></div></div>
+          </div>
+          <div class="ew-metric">
+            <div class="em-row"><span class="em-label"><span>🔥</span> Current Streak</span><span class="em-val yellow">3 days</span></div>
+            <div class="em-bar"><div class="em-fill fill-yellow" style="width:43%"></div></div>
+          </div>
+          <div class="ew-metric">
+            <div class="em-row"><span class="em-label"><span>🏆</span> XP Earned</span><span class="em-val purple">340 XP</span></div>
+            <div class="em-bar"><div class="em-fill fill-purple" style="width:34%"></div></div>
+          </div>
+          <div class="streak-row">
+            <div class="streak-day"><div class="streak-dot sd-done">✓</div><div class="streak-day-lbl">Mon</div></div>
+            <div class="streak-day"><div class="streak-dot sd-done">✓</div><div class="streak-day-lbl">Tue</div></div>
+            <div class="streak-day"><div class="streak-dot sd-done">✓</div><div class="streak-day-lbl">Wed</div></div>
+            <div class="streak-day"><div class="streak-dot sd-today">🔥</div><div class="streak-day-lbl">Thu</div></div>
+            <div class="streak-day"><div class="streak-dot sd-miss">–</div><div class="streak-day-lbl">Fri</div></div>
+            <div class="streak-day"><div class="streak-dot sd-miss">–</div><div class="streak-day-lbl">Sat</div></div>
+            <div class="streak-day"><div class="streak-dot sd-miss">–</div><div class="streak-day-lbl">Sun</div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -672,16 +615,17 @@
 
 <!-- ══ INTERACTIVE LESSON ══ -->
 <section id="trylesson">
-  <div class="container">
+  <div class="wrap">
     <div class="tl-head reveal">
-      <h2>Try a lesson. <span>Right now. Free.</span></h2>
-      <p>This is exactly what Wired Different feels like. No six-hour video. No wall of text. A real concept, explained the way an ADHD brain actually absorbs it.</p>
+      <span class="section-label">Try It Free</span>
+      <h2>A real lesson. Right now.<br/>No signup required.</h2>
+      <p>This is exactly what Wired Different feels like — one concept, one analogy, one task. Three minutes and you walk away knowing something real.</p>
     </div>
     <div class="lesson-shell reveal d1">
       <div class="lesson-topbar">
-        <div class="lesson-dots"><span class="ld-r"></span><span class="ld-y"></span><span class="ld-g"></span></div>
-        <span class="lesson-title-bar">wired-different — intro-to-cyber / lesson-01</span>
-        <div class="lesson-progress-dots">
+        <div class="l-dots"><span class="ld-r"></span><span class="ld-y"></span><span class="ld-g"></span></div>
+        <span class="l-title">Module 01 · Lesson 03 — What is a Firewall?</span>
+        <div class="l-progress-dots">
           <div class="lpd active" id="pd0"></div>
           <div class="lpd" id="pd1"></div>
           <div class="lpd" id="pd2"></div>
@@ -689,74 +633,61 @@
           <div class="lpd" id="pd4"></div>
         </div>
       </div>
-
       <div class="lesson-steps">
-
-        <!-- STEP 1 -->
         <div class="lesson-step active" id="ls0">
-          <span class="step-kicker">Lesson 01 · Intro to Cybersecurity</span>
+          <span class="step-kicker">Module 01 · Intro to Cybersecurity</span>
           <h3>What even is cybersecurity?</h3>
-          <p class="body">Cybersecurity is about <strong>protecting systems, networks, and data from people who shouldn't have access to them.</strong> That's it. Everything else — firewalls, encryption, threat detection — is just a specific way of doing that job.</p>
-          <p class="body">The reason it's a <strong>$188 billion industry</strong> is because there are millions of systems worth protecting and not nearly enough people who know how to protect them.</p>
+          <p class="body">Cybersecurity is about <strong>protecting systems, networks, and data from people who shouldn't have access to them.</strong> That's it. Everything else is just a specific way of doing that job.</p>
+          <p class="body">The reason it's a <strong>$188 billion industry</strong> is simple: there are millions of systems worth protecting and not nearly enough people who know how to protect them. That's the gap you're walking into.</p>
           <div class="analogy-box">
-            <strong>// PLAIN ENGLISH ANALOGY</strong>
-            Think of every company's digital infrastructure like a building. Cybersecurity is the team responsible for the locks, the cameras, the alarm system, and knowing what to do when someone tries to break in.
+            <strong>// PLAIN ENGLISH</strong>
+            Think of every company's digital infrastructure like a building. Cybersecurity is the team responsible for the locks, the cameras, the alarm system — and knowing what to do when someone tries to break in.
           </div>
         </div>
-
-        <!-- STEP 2 -->
         <div class="lesson-step" id="ls1">
-          <span class="step-kicker">Lesson 01 · Why Your Brain Is Built For This</span>
-          <h3>ADHD is an advantage here — not a liability.</h3>
-          <p class="body">Cybersecurity rewards the exact traits that make traditional jobs frustrating for ADHD brains.</p>
+          <span class="step-kicker">Module 01 · Why Your Brain Is an Advantage</span>
+          <h3>ADHD is a feature here — not a bug.</h3>
+          <p class="body">Cybersecurity rewards the exact traits that make traditional work environments frustrating for ADHD brains.</p>
           <div class="analogy-box">
-            <strong>// TRAITS THAT TRANSLATE</strong>
-            Pattern recognition under pressure · Hyperfocus during incident response · Creative problem-solving when logic fails · High tolerance for ambiguity and fast-changing situations
+            <strong>// TRAITS THAT DIRECTLY TRANSFER</strong>
+            Pattern recognition under pressure · Hyperfocus during incident response · Creative problem-solving when logic fails · High tolerance for ambiguity and constantly changing situations
           </div>
           <p class="body">The industry has a 3.4 million job shortage. <strong>It's not a talent shortage — it's a pipeline problem.</strong> The people who need this career most are the ones who were told they couldn't do it.</p>
         </div>
-
-        <!-- STEP 3 -->
         <div class="lesson-step" id="ls2">
-          <span class="step-kicker">Lesson 01 · The First Real Concept</span>
+          <span class="step-kicker">Module 01 · Core Concept</span>
           <h3>What is a firewall — actually?</h3>
-          <p class="body">A firewall is a <strong>filter</strong> that sits between a network and everything trying to connect to it. It checks every incoming and outgoing connection against a set of rules and decides: let it through, or block it.</p>
+          <p class="body">A firewall is a <strong>filter</strong> that sits between a network and everything trying to connect to it. It checks every incoming and outgoing connection against a ruleset and decides: let it through, or block it.</p>
           <div class="analogy-box">
-            <strong>// THE ANALOGY THAT ACTUALLY STICKS</strong>
-            A firewall is a bouncer at the door of a venue. It has a guest list (the rules). It checks every person trying to get in. If you're on the list — you're in. If not — you're not getting past that rope.
+            <strong>// THE ANALOGY THAT STICKS</strong>
+            A firewall is a bouncer at the door. It has a guest list — the rules. Every person trying to get in gets checked. On the list? You're in. Not on the list? You're not getting past that rope. Same idea, different context.
           </div>
-          <p class="body">That's the whole concept. Everything else about firewalls is just a variation of that idea. <strong>Once you have the mental model, the technical details fill in naturally.</strong></p>
+          <p class="body">That's the whole concept. <strong>Once you have the mental model, the technical details fill in naturally.</strong></p>
         </div>
-
-        <!-- STEP 4 -->
         <div class="lesson-step" id="ls3">
-          <span class="step-kicker">Lesson 01 · Your Micro-Task</span>
-          <h3>One thing to do in the next 25 minutes.</h3>
-          <p class="body">ADHD-friendly studying doesn't mean shorter. It means <strong>scoped to a finish line you can actually see.</strong> Here's yours:</p>
+          <span class="step-kicker">Module 01 · Your Micro-Task</span>
+          <h3>One thing. 25 minutes. Go.</h3>
+          <p class="body">ADHD-friendly studying means scoped to a finish line you can actually see. Here's yours:</p>
           <div class="task-box">
-            <span class="task-lbl">// THIS SESSION'S MICRO-TASK</span>
-            <p>Open a blank note. Write down, in your own words: What is a firewall and what does it do? Aim for 3 sentences. Doesn't need to be perfect. Just prove to yourself the idea landed.</p>
+            <span class="task-lbl">// THIS LESSON'S MICRO-TASK</span>
+            <p>Open a blank note. Write down what a firewall is in your own words — aim for 3 sentences. Doesn't need to be perfect. Just prove to yourself the concept landed.</p>
           </div>
-          <p class="body">That's it. If you can explain it in plain English, you understand it better than most people who "studied" it for hours.</p>
-          <span class="cert-tag">🎯 This maps to CompTIA Security+ Domain 3.3 — Network Security</span>
+          <p class="body">If you can explain it in plain English, you understand it better than most people who "studied" it for hours.</p>
+          <span class="cert-tag">🎯 CompTIA Security+ Domain 3.3 — Network Security</span>
         </div>
-
-        <!-- STEP 5 — Subscribe -->
         <div class="lesson-step" id="ls4">
           <div class="subscribe-step">
-            <span class="step-kicker">You just finished Lesson 01.</span>
+            <span class="step-kicker">You just finished a lesson.</span>
             <h3>Want the next one in your inbox?</h3>
-            <p class="body">Every Field Note is built exactly like this. One concept. One analogy. One task. Three minutes — and you walk away knowing something real.</p>
+            <p class="body">Every Field Note is built exactly like this. One concept. One analogy. One task. Three minutes — and you leave knowing something real.</p>
             <form class="inline-form" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
               <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
               <button type="submit">Send Me the Next One</button>
             </form>
-            <p style="font-family:var(--mono);font-size:.63rem;color:rgba(255,255,255,.2);margin-top:14px;">// FREE · NO SPAM · UNSUBSCRIBE ANYTIME</p>
+            <p style="font-family:var(--mono);font-size:.62rem;color:rgba(255,255,255,.18);margin-top:12px">// FREE · NO SPAM · UNSUBSCRIBE ANYTIME</p>
           </div>
         </div>
-
       </div>
-
       <div class="lesson-footer">
         <span class="lesson-counter" id="lesson-counter">Step 1 of 5</span>
         <div class="lesson-nav-btns">
@@ -769,68 +700,20 @@
 </section>
 
 
-<!-- ══ ABOUT ERIC ══ -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-
-      <div class="reveal">
-        <div class="founder-box">
-          <div class="founder-info">
-            <div class="founder-avatar">E</div>
-            <h3>Eric Miller-Saisi</h3>
-            <div class="role">Founder · Miller Innovations LLC · Houston, TX</div>
-            <div class="creds">
-              <div class="cred">
-                <span>🛡️</span>
-                <div><strong>CompTIA Security+</strong><small>Certified · Active</small></div>
-              </div>
-              <div class="cred">
-                <span>🧠</span>
-                <div><strong>ADHD</strong><small>Not a disclaimer. The whole point.</small></div>
-              </div>
-            </div>
-            <div class="bb-box">
-              Selected · Builders + Backers<br/>National Mobility Cohort · Capital One
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="about-copy">
-        <h2 class="reveal">Built by someone who <span class="blue">knows the gap.</span></h2>
-        <p class="reveal d1">
-          Eric Miller-Saisi spent years in customer support before earning his CompTIA Security+ while working full-time — with ADHD, and without the study methods he was told to use. He threw them out and built his own.
-        </p>
-        <p class="reveal d2">
-          <strong>Wired Different is that method, built for everyone whose brain works the same way.</strong> Selected for the Builders + Backers National Mobility Cohort powered by Capital One, Wired Different is training a generation of neurodivergent adults for the careers the industry cannot fill.
-        </p>
-        <div class="pullquote reveal d3">
-          <p>"The same brain that made school hard is the reason I'm good at cybersecurity. Someone just needed to show me a path that fit."</p>
-          <cite>Eric Miller-Saisi, Founder</cite>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ══ FIELD NOTE PREVIEW ══ -->
+<!-- ══ FIELD NOTES PREVIEW ══ -->
 <section id="fieldnote">
-  <div class="container">
+  <div class="wrap">
     <div class="fn-layout">
       <div class="fn-copy">
-        <h2 class="reveal">This is what lands <span>in your inbox.</span></h2>
+        <span class="section-label reveal">The Newsletter</span>
+        <h2 class="reveal">This is what lands<br/>in your inbox.</h2>
         <p class="reveal d1">No motivational content. No fluff. One real story from someone who passed Security+ with ADHD while working full-time. One thing you can do today. Three minutes.</p>
-        <p class="reveal d2">That is a Field Note. One story. One micro-task. Nothing more.</p>
+        <p class="reveal d2">That's a Field Note. One story. One micro-task. Nothing more.</p>
         <a href="#survey" class="reveal d3">Get the First One Free</a>
       </div>
       <div class="fn-card reveal d2">
         <div class="fn-topbar">
-          <div class="fn-dots">
-            <span class="fd-r"></span><span class="fd-y"></span><span class="fd-g"></span>
-          </div>
+          <div class="fn-dots"><span class="fd-r"></span><span class="fd-y"></span><span class="fd-g"></span></div>
           <span class="fn-addr">Field Notes #001 · eric@wireddifferent.dev</span>
         </div>
         <div class="fn-body">
@@ -840,8 +723,8 @@
           <p class="fn-line">And I genuinely thought: <em>maybe this just is not for me.</em></p>
           <p class="fn-line">I did not quit that night. Not because of willpower. I found one reframe that changed everything.</p>
           <div class="fn-task">
-            <div class="fn-task-lbl">// THIS WEEK'S MICRO-TASK</div>
-            <p>Set a 25-minute timer. Open one Sec+ domain. Write 3 bullets from memory. Wrong is fine. Do it again tomorrow.</p>
+            <span class="fn-task-lbl">// THIS WEEK'S MICRO-TASK</span>
+            <p>Set a 25-min timer. Open one Sec+ domain. Write 3 bullets from memory. Wrong is fine. Do it again tomorrow.</p>
           </div>
           <div class="fn-sig">Stay in it,<br/><strong>Eric</strong></div>
           <span class="fn-badge">3 min read · ADHD-friendly · no fluff</span>
@@ -852,88 +735,113 @@
 </section>
 
 
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="founder-box">
+          <div class="founder-info">
+            <div class="founder-avatar">E</div>
+            <h3>Eric Miller-Saisi</h3>
+            <div class="role">Founder · Miller Innovations LLC</div>
+            <div class="creds">
+              <div class="cred"><span>🛡️</span><div><strong>CompTIA Security+</strong><small>Certified · Active</small></div></div>
+              <div class="cred"><span>🧠</span><div><strong>ADHD</strong><small>Not a disclaimer. The whole point.</small></div></div>
+            </div>
+            <div class="bb-box">Selected · Builders + Backers<br/>National Mobility Cohort · Capital One</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-copy">
+        <span class="section-label reveal">About the Founder</span>
+        <h2 class="reveal">Built by someone who <span class="hl">knows the gap.</span></h2>
+        <p class="reveal d1">Eric Miller-Saisi spent years in customer support before earning his CompTIA Security+ while working full-time — with ADHD, and without the study methods he was told to use. He threw them out and built his own.</p>
+        <p class="reveal d2"><strong>Wired Different is that method, built for everyone whose brain works the same way.</strong> Selected for the Builders + Backers National Mobility Cohort powered by Capital One, Wired Different is training a generation of neurodivergent adults for the careers the industry cannot fill.</p>
+        <div class="pullquote reveal d3">
+          <p>"The same brain that made school hard is the reason I'm good at cybersecurity. Someone just needed to show me a path that fit."</p>
+          <cite>Eric Miller-Saisi, Founder</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ══ SURVEY + SIGNUP ══ -->
 <section id="survey">
-  <div class="container">
-    <h2 class="reveal">Help build this.<br/>Get <span>Field Notes free.</span></h2>
-    <p class="sub reveal d1">Under 3 minutes. Every answer shapes what gets built next. Drop your email at the end and the first Field Note lands in your inbox.</p>
+  <div class="wrap">
+    <span class="section-label reveal">Help Build This</span>
+    <h2 class="reveal">Shape what gets built next.<br/>Get <span>Field Notes free.</span></h2>
+    <p class="sub reveal d1">Under 3 minutes. Every answer shapes what we build next. Drop your email at the end and the first Field Note lands in your inbox.</p>
     <div class="survey-progress reveal">
       <div class="sp-track"><div class="sp-fill" id="sp-fill"></div></div>
       <div class="sp-label"><span id="sp-label-left">0% complete</span><span>6 questions</span></div>
     </div>
-
     <form class="survey-form" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
-
       <fieldset class="reveal">
         <legend><span class="qn">01</span>What brings you here?</legend>
         <div class="opts">
-          <label class="opt"><input type="radio" name="q1" value="adhd-cyber" required /><span>ADHD and cybersecurity is a real struggle. This is exactly what I have been looking for.</span></label>
-          <label class="opt"><input type="radio" name="q1" value="break-in" /><span>I want to break into cybersecurity and need a path that works for how my brain works.</span></label>
-          <label class="opt"><input type="radio" name="q1" value="level-up" /><span>Already in tech. I want to go deeper on security.</span></label>
-          <label class="opt"><input type="radio" name="q1" value="curious" /><span>Something caught my eye. Still figuring out if this is for me.</span></label>
+          <label class="opt"><input type="radio" name="q1" value="adhd-cyber" required/><span>ADHD and cybersecurity is a real struggle. This is exactly what I have been looking for.</span></label>
+          <label class="opt"><input type="radio" name="q1" value="break-in"/><span>I want to break into cybersecurity and need a path that works for how my brain works.</span></label>
+          <label class="opt"><input type="radio" name="q1" value="level-up"/><span>Already in tech. I want to go deeper on security.</span></label>
+          <label class="opt"><input type="radio" name="q1" value="curious"/><span>Something caught my eye. Still figuring out if this is for me.</span></label>
         </div>
       </fieldset>
-
       <fieldset class="reveal">
         <legend><span class="qn">02</span>Where are you right now?</legend>
         <div class="opts">
-          <label class="opt"><input type="radio" name="q2" value="student" required /><span>In school or recently graduated. Figuring out what comes next.</span></label>
-          <label class="opt"><input type="radio" name="q2" value="pivot" /><span>Employed but not in tech. Thinking about making a change.</span></label>
-          <label class="opt"><input type="radio" name="q2" value="active" /><span>Actively trying to break into cybersecurity right now.</span></label>
-          <label class="opt"><input type="radio" name="q2" value="underemployed" /><span>Underemployed or between jobs. Trying to build something better.</span></label>
+          <label class="opt"><input type="radio" name="q2" value="student" required/><span>In school or recently graduated. Figuring out what comes next.</span></label>
+          <label class="opt"><input type="radio" name="q2" value="pivot"/><span>Employed but not in tech. Thinking about making a change.</span></label>
+          <label class="opt"><input type="radio" name="q2" value="active"/><span>Actively trying to break into cybersecurity right now.</span></label>
+          <label class="opt"><input type="radio" name="q2" value="underemployed"/><span>Underemployed or between jobs. Trying to build something better.</span></label>
         </div>
       </fieldset>
-
       <fieldset class="reveal">
         <legend><span class="qn">03</span>Do you identify as neurodivergent?</legend>
         <div class="opts">
-          <label class="opt"><input type="radio" name="q3" value="adhd" required /><span>Yes, diagnosed ADHD.</span></label>
-          <label class="opt"><input type="radio" name="q3" value="other" /><span>Yes, another diagnosis — dyslexia, autism, or something else.</span></label>
-          <label class="opt"><input type="radio" name="q3" value="self-id" /><span>Not diagnosed, but everything I read about ADHD describes me.</span></label>
-          <label class="opt"><input type="radio" name="q3" value="no" /><span>No. I am here for the cybersecurity content.</span></label>
+          <label class="opt"><input type="radio" name="q3" value="adhd" required/><span>Yes, diagnosed ADHD.</span></label>
+          <label class="opt"><input type="radio" name="q3" value="other"/><span>Yes, another diagnosis — dyslexia, autism, or something else.</span></label>
+          <label class="opt"><input type="radio" name="q3" value="self-id"/><span>Not diagnosed, but everything I read about ADHD describes me.</span></label>
+          <label class="opt"><input type="radio" name="q3" value="no"/><span>No. I am here for the cybersecurity content.</span></label>
         </div>
       </fieldset>
-
       <fieldset class="reveal">
         <legend><span class="qn">04</span>How do you learn best?</legend>
         <div class="opts">
-          <label class="opt"><input type="radio" name="q4" value="hands-on" required /><span>Hands-on. I need to build something real to understand it.</span></label>
-          <label class="opt"><input type="radio" name="q4" value="read" /><span>Short, direct written explanations with no padding.</span></label>
-          <label class="opt"><input type="radio" name="q4" value="watch" /><span>Watching someone walk through it step by step.</span></label>
-          <label class="opt"><input type="radio" name="q4" value="mix" /><span>A mix. Depends on the topic.</span></label>
+          <label class="opt"><input type="radio" name="q4" value="hands-on" required/><span>Hands-on. I need to build something real to understand it.</span></label>
+          <label class="opt"><input type="radio" name="q4" value="read"/><span>Short, direct written explanations with no padding.</span></label>
+          <label class="opt"><input type="radio" name="q4" value="watch"/><span>Watching someone walk through it step by step.</span></label>
+          <label class="opt"><input type="radio" name="q4" value="mix"/><span>A mix. Depends on the topic.</span></label>
         </div>
       </fieldset>
-
       <fieldset class="reveal">
-        <legend><span class="qn">05</span>What has held you back before? Pick all that apply.</legend>
+        <legend><span class="qn">05</span>What has held you back before?</legend>
         <div class="opts">
-          <label class="opt"><input type="checkbox" name="q5" value="consistency" /><span>Consistency. I start strong and disappear for weeks.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="theory" /><span>Too much theory, not enough actually doing something.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="direction" /><span>No clear path. I do not know what to focus on or in what order.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="overwhelm" /><span>Everything feels like too much at once.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="imposter" /><span>I do not feel like I belong in tech.</span></label>
-          <label class="opt"><input type="checkbox" name="q5" value="cost" /><span>Cost. Most programs are financially out of reach.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="consistency"/><span>Consistency. I start strong and disappear for weeks.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="theory"/><span>Too much theory, not enough actually doing something.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="direction"/><span>No clear path. I do not know what to focus on or in what order.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="overwhelm"/><span>Everything feels like too much at once.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="imposter"/><span>I do not feel like I belong in tech.</span></label>
+          <label class="opt"><input type="checkbox" name="q5" value="cost"/><span>Cost. Most programs are financially out of reach.</span></label>
         </div>
       </fieldset>
-
       <fieldset class="reveal">
         <legend><span class="qn">06</span>What would make Wired Different worth opening every single week?</legend>
         <textarea class="si" name="q6" placeholder="Be direct. This answer shapes more than any of the others."></textarea>
       </fieldset>
-
       <div class="signup-box reveal">
         <h3>Drop your email. Get the first Field Note free.</h3>
         <p>One real story. One thing to do today. Three minutes. No fluff, no pitch.</p>
-        <div style="display:grid;gap:10px;margin-bottom:18px;">
-          <input class="si" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;" type="text" name="name" placeholder="First name (optional)" />
+        <div style="display:grid;gap:10px;margin-bottom:16px">
+          <input class="si" style="border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff" type="text" name="name" placeholder="First name (optional)"/>
           <div class="email-row">
-            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
             <button type="submit">I'm In</button>
           </div>
         </div>
-        <p class="form-note">// FREE &nbsp;·&nbsp; NO SPAM &nbsp;·&nbsp; UNSUBSCRIBE ANYTIME</p>
+        <p class="form-note">// FREE · NO SPAM · UNSUBSCRIBE ANYTIME</p>
       </div>
-
     </form>
   </div>
 </section>
@@ -941,85 +849,81 @@
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <img src="WiredDifferent_Logo.svg" alt="Wired Different" />
+  <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';document.getElementById('ftxt').style.display='block'"/>
+  <div class="foot-name" id="ftxt">Wired <span>Different</span></div>
+  <p class="foot-tagline">Cybersecurity training built for the way your brain actually works.</p>
   <div class="foot-links">
-    <a href="#hero">Home</a>
-    <a href="#problem">The Problem</a>
-    <a href="#what">What We Do</a>
-    <a href="#about">About</a>
+    <a href="#path">Learning Path</a>
+    <a href="#why">Why It Works</a>
+    <a href="#trylesson">Try a Lesson</a>
     <a href="#fieldnote">Field Notes</a>
+    <a href="#about">About</a>
     <a href="#survey">Subscribe</a>
     <a href="mailto:eric@wireddifferent.dev">Contact</a>
   </div>
   <p class="foot-copy">
     Wired Different is a Miller Innovations LLC product. All rights reserved.<br/>
-    Made with love in Texas &nbsp;·&nbsp; <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
+    Made in Texas · <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
   </p>
   <div class="foot-pills">
-    <span class="foot-pill">Builders + Backers Mobility Cohort</span>
-    <span class="foot-pill">Powered by Capital One</span>
-    <span class="foot-pill">Houston, TX</span>
+    <span class="fp">Builders + Backers Mobility Cohort</span>
+    <span class="fp">Powered by Capital One</span>
+    <span class="fp">Houston, TX</span>
   </div>
 </footer>
+
 
 <script>
 // Scroll reveal
 (function(){
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.07 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+  },{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 })();
 
 // Interactive lesson
-var currentStep = 0;
-var totalSteps = 5;
+var currentStep=0,totalSteps=5;
 function lessonNav(dir){
-  var next = currentStep + dir;
-  if(next < 0 || next >= totalSteps) return;
+  var next=currentStep+dir;
+  if(next<0||next>=totalSteps)return;
   document.getElementById('ls'+currentStep).classList.remove('active');
-  currentStep = next;
+  currentStep=next;
   document.getElementById('ls'+currentStep).classList.add('active');
-  // Progress dots
   for(var i=0;i<totalSteps;i++){
-    var d = document.getElementById('pd'+i);
-    if(!d) continue;
-    d.className = 'lpd';
-    if(i < currentStep) d.classList.add('done');
-    if(i === currentStep) d.classList.add('active');
+    var d=document.getElementById('pd'+i);
+    if(!d)continue;
+    d.className='lpd';
+    if(i<currentStep)d.classList.add('done');
+    if(i===currentStep)d.classList.add('active');
   }
-  // Buttons
-  document.getElementById('ln-prev').disabled = currentStep === 0;
-  var nextBtn = document.getElementById('ln-next');
-  nextBtn.disabled = currentStep === totalSteps - 1;
-  nextBtn.textContent = currentStep === totalSteps - 2 ? 'Finish →' : 'Next →';
-  document.getElementById('lesson-counter').textContent = 'Step '+(currentStep+1)+' of '+totalSteps;
-  // Scroll lesson into view on mobile
-  document.querySelector('.lesson-shell').scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById('ln-prev').disabled=currentStep===0;
+  var nb=document.getElementById('ln-next');
+  nb.disabled=currentStep===totalSteps-1;
+  nb.textContent=currentStep===totalSteps-2?'Finish →':'Next →';
+  document.getElementById('lesson-counter').textContent='Step '+(currentStep+1)+' of '+totalSteps;
+  document.querySelector('.lesson-shell').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// Survey progress bar
+// Survey progress
 (function(){
-  var fields = document.querySelectorAll('#survey fieldset');
-  var total = fields.length;
+  var fields=document.querySelectorAll('#survey fieldset'),total=fields.length;
   function update(){
-    var answered = 0;
+    var answered=0;
     fields.forEach(function(fs){
-      var checked = fs.querySelector('input:checked');
-      var text = fs.querySelector('textarea');
-      if(checked || (text && text.value.trim().length > 0)) answered++;
+      var checked=fs.querySelector('input:checked');
+      var text=fs.querySelector('textarea');
+      if(checked||(text&&text.value.trim().length>0))answered++;
     });
-    var pct = Math.round((answered/total)*100);
-    var fill = document.getElementById('sp-fill');
-    var lbl = document.getElementById('sp-label-left');
-    if(fill) fill.style.width = pct+'%';
-    if(lbl) lbl.textContent = pct+'% complete';
+    var pct=Math.round((answered/total)*100);
+    var fill=document.getElementById('sp-fill');
+    var lbl=document.getElementById('sp-label-left');
+    if(fill)fill.style.width=pct+'%';
+    if(lbl)lbl.textContent=pct+'% complete';
   }
-  document.querySelectorAll('#survey input, #survey textarea').forEach(function(el){
-    el.addEventListener('change', update);
-    el.addEventListener('input', update);
+  document.querySelectorAll('#survey input,#survey textarea').forEach(function(el){
+    el.addEventListener('change',update);
+    el.addEventListener('input',update);
   });
 })();
 </script>
