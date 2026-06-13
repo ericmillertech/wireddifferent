@@ -261,6 +261,62 @@
     .pillar h3 { font-size: 1.08rem; font-weight: 800; color: var(--text); margin-bottom: 12px; }
     .pillar p  { font-size: .9rem; color: var(--dim); line-height: 1.8; }
 
+    /* ── Interactive Lesson ── */
+    #trylesson { padding: 110px 0; background: var(--dark); border-top: 1px solid rgba(255,255,255,.06); }
+    .tl-head { text-align: center; max-width: 600px; margin: 0 auto 56px; }
+    .tl-head h2 { font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -.025em; color: #fff; margin-bottom: 14px; }
+    .tl-head h2 span { color: var(--blue); }
+    .tl-head p { font-size: 1rem; color: rgba(255,255,255,.45); line-height: 1.85; }
+    .lesson-shell { max-width: 760px; margin: 0 auto; background: #0d1117; border: 1px solid rgba(112,183,255,.2); border-radius: 20px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+    .lesson-topbar { background: #161b22; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .lesson-dots { display: flex; gap: 7px; }
+    .lesson-dots span { width: 11px; height: 11px; border-radius: 50%; }
+    .ld-r{background:#ff5f57}.ld-y{background:#febc2e}.ld-g{background:#28c840}
+    .lesson-title-bar { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.3); }
+    .lesson-progress-dots { display: flex; gap: 6px; align-items: center; }
+    .lpd { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.15); transition: background .3s; }
+    .lpd.done { background: var(--blue); }
+    .lpd.active { background: var(--yellow); width: 22px; border-radius: 4px; }
+    .lesson-steps { position: relative; min-height: 320px; }
+    .lesson-step { display: none; padding: 40px 40px 32px; }
+    @media(max-width:600px){ .lesson-step { padding: 28px 22px 24px; } }
+    .lesson-step.active { display: block; }
+    .step-kicker { font-family: var(--mono); font-size: .66rem; color: var(--blue); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 14px; display: block; }
+    .lesson-step h3 { font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 18px; line-height: 1.25; }
+    .lesson-step .body { font-size: .97rem; color: rgba(255,255,255,.6); line-height: 1.9; margin-bottom: 22px; font-weight: 300; }
+    .lesson-step .body strong { color: rgba(255,255,255,.88); font-weight: 700; }
+    .analogy-box { background: rgba(112,183,255,.07); border: 1px solid rgba(112,183,255,.2); border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 20px 0; font-size: .9rem; color: rgba(255,255,255,.7); line-height: 1.75; }
+    .analogy-box strong { color: var(--blue); display: block; font-family: var(--mono); font-size: .67rem; letter-spacing: .1em; margin-bottom: 6px; }
+    .task-box { background: rgba(74,222,128,.07); border: 1px solid rgba(74,222,128,.2); border-left: 3px solid #4ade80; border-radius: 0 12px 12px 0; padding: 18px 20px; margin: 20px 0; }
+    .task-box .task-lbl { font-family: var(--mono); font-size: .63rem; color: #4ade80; letter-spacing: .12em; margin-bottom: 8px; display: block; }
+    .task-box p { font-size: .92rem; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.6; }
+    .cert-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,242,117,.1); border: 1px solid rgba(255,242,117,.25); padding: 7px 16px; border-radius: 50px; font-size: .78rem; font-weight: 700; color: var(--yellow); margin-top: 10px; }
+    .lesson-step .subscribe-step { text-align: center; }
+    .subscribe-step h3 { font-size: 1.4rem; }
+    .subscribe-step .body { max-width: 480px; margin: 0 auto 28px; }
+    .subscribe-step .inline-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 480px; margin: 0 auto; }
+    .subscribe-step .inline-form input { flex:1; min-width:200px; padding:14px 20px; border-radius:50px; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.07); font-family:'Inter',sans-serif; font-size:.93rem; color:#fff; outline:none; }
+    .subscribe-step .inline-form input::placeholder { color:rgba(255,255,255,.28); }
+    .subscribe-step .inline-form button { background:var(--blue); color:#fff; border:none; padding:14px 26px; border-radius:50px; font-weight:700; font-size:.93rem; cursor:pointer; white-space:nowrap; }
+    .subscribe-step .inline-form button:hover { background:var(--blue-dk); }
+    .lesson-footer { border-top: 1px solid rgba(255,255,255,.07); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    @media(max-width:600px){ .lesson-footer { padding: 14px 22px; } }
+    .lesson-counter { font-family: var(--mono); font-size: .68rem; color: rgba(255,255,255,.25); }
+    .lesson-nav-btns { display: flex; gap: 10px; }
+    .ln-btn { padding: 10px 22px; border-radius: 50px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: .87rem; cursor: pointer; border: none; transition: all .2s; }
+    .ln-prev { background: rgba(255,255,255,.07); color: rgba(255,255,255,.5); }
+    .ln-prev:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .ln-prev:disabled { opacity: .3; cursor: not-allowed; }
+    .ln-next { background: var(--blue); color: #fff; }
+    .ln-next:hover { background: var(--blue-dk); }
+    .ln-next:disabled { opacity: .3; cursor: not-allowed; }
+
+    /* Survey progress bar */
+    .survey-progress { margin-bottom: 40px; }
+    .sp-track { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .sp-fill { height: 100%; background: var(--blue); border-radius: 4px; transition: width .4s ease; width: 0%; }
+    .sp-label { font-family: var(--mono); font-size: .68rem; color: var(--dim); margin-top: 8px; display: flex; justify-content: space-between; }
+
     /* ── About ── */
     #about { padding: 110px 0; background: var(--dark); }
 
@@ -495,11 +551,11 @@
         <p class="hero-sub reveal d1">
           <strong>Wired Different helps neurodivergent adults learn cybersecurity</strong> through short lessons, real-world projects, and ADHD-friendly study systems — so you can break into tech without burning out first.
         </p>
-        <form class="hero-form reveal d2" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
-          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
-          <button type="submit">Get Field Notes Free</button>
-        </form>
-        <p class="hero-note reveal d3">Free. Weekly. No spam. Unsubscribe anytime.</p>
+        <div class="hero-form reveal d2" style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#trylesson" class="hero-form button" style="background:var(--blue);color:#fff;padding:14px 28px;border-radius:50px;font-weight:700;font-size:.93rem;text-decoration:none;white-space:nowrap;">Try a Free Lesson →</a>
+          <a href="#fieldnote" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);padding:14px 28px;border-radius:50px;font-weight:700;font-size:.93rem;text-decoration:none;border:1px solid rgba(255,255,255,.15);white-space:nowrap;">See the Newsletter</a>
+        </div>
+        <p class="hero-note reveal d3">Free. No email required to try a lesson.</p>
       </div>
 
       <div class="reveal d2">
@@ -614,6 +670,105 @@
 </section>
 
 
+<!-- ══ INTERACTIVE LESSON ══ -->
+<section id="trylesson">
+  <div class="container">
+    <div class="tl-head reveal">
+      <h2>Try a lesson. <span>Right now. Free.</span></h2>
+      <p>This is exactly what Wired Different feels like. No six-hour video. No wall of text. A real concept, explained the way an ADHD brain actually absorbs it.</p>
+    </div>
+    <div class="lesson-shell reveal d1">
+      <div class="lesson-topbar">
+        <div class="lesson-dots"><span class="ld-r"></span><span class="ld-y"></span><span class="ld-g"></span></div>
+        <span class="lesson-title-bar">wired-different — intro-to-cyber / lesson-01</span>
+        <div class="lesson-progress-dots">
+          <div class="lpd active" id="pd0"></div>
+          <div class="lpd" id="pd1"></div>
+          <div class="lpd" id="pd2"></div>
+          <div class="lpd" id="pd3"></div>
+          <div class="lpd" id="pd4"></div>
+        </div>
+      </div>
+
+      <div class="lesson-steps">
+
+        <!-- STEP 1 -->
+        <div class="lesson-step active" id="ls0">
+          <span class="step-kicker">Lesson 01 · Intro to Cybersecurity</span>
+          <h3>What even is cybersecurity?</h3>
+          <p class="body">Cybersecurity is about <strong>protecting systems, networks, and data from people who shouldn't have access to them.</strong> That's it. Everything else — firewalls, encryption, threat detection — is just a specific way of doing that job.</p>
+          <p class="body">The reason it's a <strong>$188 billion industry</strong> is because there are millions of systems worth protecting and not nearly enough people who know how to protect them.</p>
+          <div class="analogy-box">
+            <strong>// PLAIN ENGLISH ANALOGY</strong>
+            Think of every company's digital infrastructure like a building. Cybersecurity is the team responsible for the locks, the cameras, the alarm system, and knowing what to do when someone tries to break in.
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="lesson-step" id="ls1">
+          <span class="step-kicker">Lesson 01 · Why Your Brain Is Built For This</span>
+          <h3>ADHD is an advantage here — not a liability.</h3>
+          <p class="body">Cybersecurity rewards the exact traits that make traditional jobs frustrating for ADHD brains.</p>
+          <div class="analogy-box">
+            <strong>// TRAITS THAT TRANSLATE</strong>
+            Pattern recognition under pressure · Hyperfocus during incident response · Creative problem-solving when logic fails · High tolerance for ambiguity and fast-changing situations
+          </div>
+          <p class="body">The industry has a 3.4 million job shortage. <strong>It's not a talent shortage — it's a pipeline problem.</strong> The people who need this career most are the ones who were told they couldn't do it.</p>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="lesson-step" id="ls2">
+          <span class="step-kicker">Lesson 01 · The First Real Concept</span>
+          <h3>What is a firewall — actually?</h3>
+          <p class="body">A firewall is a <strong>filter</strong> that sits between a network and everything trying to connect to it. It checks every incoming and outgoing connection against a set of rules and decides: let it through, or block it.</p>
+          <div class="analogy-box">
+            <strong>// THE ANALOGY THAT ACTUALLY STICKS</strong>
+            A firewall is a bouncer at the door of a venue. It has a guest list (the rules). It checks every person trying to get in. If you're on the list — you're in. If not — you're not getting past that rope.
+          </div>
+          <p class="body">That's the whole concept. Everything else about firewalls is just a variation of that idea. <strong>Once you have the mental model, the technical details fill in naturally.</strong></p>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="lesson-step" id="ls3">
+          <span class="step-kicker">Lesson 01 · Your Micro-Task</span>
+          <h3>One thing to do in the next 25 minutes.</h3>
+          <p class="body">ADHD-friendly studying doesn't mean shorter. It means <strong>scoped to a finish line you can actually see.</strong> Here's yours:</p>
+          <div class="task-box">
+            <span class="task-lbl">// THIS SESSION'S MICRO-TASK</span>
+            <p>Open a blank note. Write down, in your own words: What is a firewall and what does it do? Aim for 3 sentences. Doesn't need to be perfect. Just prove to yourself the idea landed.</p>
+          </div>
+          <p class="body">That's it. If you can explain it in plain English, you understand it better than most people who "studied" it for hours.</p>
+          <span class="cert-tag">🎯 This maps to CompTIA Security+ Domain 3.3 — Network Security</span>
+        </div>
+
+        <!-- STEP 5 — Subscribe -->
+        <div class="lesson-step" id="ls4">
+          <div class="subscribe-step">
+            <span class="step-kicker">You just finished Lesson 01.</span>
+            <h3>Want the next one in your inbox?</h3>
+            <p class="body">Every Field Note is built exactly like this. One concept. One analogy. One task. Three minutes — and you walk away knowing something real.</p>
+            <form class="inline-form" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
+              <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+              <button type="submit">Send Me the Next One</button>
+            </form>
+            <p style="font-family:var(--mono);font-size:.63rem;color:rgba(255,255,255,.2);margin-top:14px;">// FREE · NO SPAM · UNSUBSCRIBE ANYTIME</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="lesson-footer">
+        <span class="lesson-counter" id="lesson-counter">Step 1 of 5</span>
+        <div class="lesson-nav-btns">
+          <button class="ln-btn ln-prev" id="ln-prev" onclick="lessonNav(-1)" disabled>← Back</button>
+          <button class="ln-btn ln-next" id="ln-next" onclick="lessonNav(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ══ ABOUT ERIC ══ -->
 <section id="about">
   <div class="container">
@@ -702,6 +857,10 @@
   <div class="container">
     <h2 class="reveal">Help build this.<br/>Get <span>Field Notes free.</span></h2>
     <p class="sub reveal d1">Under 3 minutes. Every answer shapes what gets built next. Drop your email at the end and the first Field Note lands in your inbox.</p>
+    <div class="survey-progress reveal">
+      <div class="sp-track"><div class="sp-fill" id="sp-fill"></div></div>
+      <div class="sp-label"><span id="sp-label-left">0% complete</span><span>6 questions</span></div>
+    </div>
 
     <form class="survey-form" action="https://wired-different-12b9d4.beehiiv.com/subscribe" method="post" target="_blank">
 
@@ -804,6 +963,7 @@
 </footer>
 
 <script>
+// Scroll reveal
 (function(){
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -811,6 +971,56 @@
     });
   }, { threshold: 0.07 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+// Interactive lesson
+var currentStep = 0;
+var totalSteps = 5;
+function lessonNav(dir){
+  var next = currentStep + dir;
+  if(next < 0 || next >= totalSteps) return;
+  document.getElementById('ls'+currentStep).classList.remove('active');
+  currentStep = next;
+  document.getElementById('ls'+currentStep).classList.add('active');
+  // Progress dots
+  for(var i=0;i<totalSteps;i++){
+    var d = document.getElementById('pd'+i);
+    if(!d) continue;
+    d.className = 'lpd';
+    if(i < currentStep) d.classList.add('done');
+    if(i === currentStep) d.classList.add('active');
+  }
+  // Buttons
+  document.getElementById('ln-prev').disabled = currentStep === 0;
+  var nextBtn = document.getElementById('ln-next');
+  nextBtn.disabled = currentStep === totalSteps - 1;
+  nextBtn.textContent = currentStep === totalSteps - 2 ? 'Finish →' : 'Next →';
+  document.getElementById('lesson-counter').textContent = 'Step '+(currentStep+1)+' of '+totalSteps;
+  // Scroll lesson into view on mobile
+  document.querySelector('.lesson-shell').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Survey progress bar
+(function(){
+  var fields = document.querySelectorAll('#survey fieldset');
+  var total = fields.length;
+  function update(){
+    var answered = 0;
+    fields.forEach(function(fs){
+      var checked = fs.querySelector('input:checked');
+      var text = fs.querySelector('textarea');
+      if(checked || (text && text.value.trim().length > 0)) answered++;
+    });
+    var pct = Math.round((answered/total)*100);
+    var fill = document.getElementById('sp-fill');
+    var lbl = document.getElementById('sp-label-left');
+    if(fill) fill.style.width = pct+'%';
+    if(lbl) lbl.textContent = pct+'% complete';
+  }
+  document.querySelectorAll('#survey input, #survey textarea').forEach(function(el){
+    el.addEventListener('change', update);
+    el.addEventListener('input', update);
+  });
 })();
 </script>
 </body>
