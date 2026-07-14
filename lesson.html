@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Sample Lesson | Wired Different</title>
+  <meta name="description" content="Try a real lesson right now. No account, no email. Same format you get as a subscriber."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ====== LESSON HERO ====== */
+    .lesson-hero {
+      padding: 64px 0 56px;
+      background: var(--navy);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .lesson-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(74,157,255,.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .lesson-hero-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .lesson-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .lesson-hero h1 .hl { color: var(--blue-lt); }
+    .lesson-hero p {
+      font-size: 1rem;
+      color: var(--dim2);
+      line-height: 1.8;
+      margin-bottom: 0;
+    }
+
+    /* ====== LESSON SHELL ====== */
+    .lesson-wrap {
+      padding: 64px 0;
+      background: var(--cream);
+    }
+    .lesson-shell {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--navy-lt);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(28,38,54,.18);
+    }
+    .lesson-topbar {
+      background: var(--navy-card);
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .l-dots { display: flex; gap: 6px; }
+    .l-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .ld-r { background: #FF5F57; }
+    .ld-y { background: #FEBC2E; }
+    .ld-g { background: #28C840; }
+    .l-title { font-family: var(--mono); font-size: .65rem; color: var(--dim); }
+    .l-progress-dots { display: flex; gap: 5px; align-items: center; }
+    .lpd { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.12); transition: all .3s; }
+    .lpd.done { background: var(--blue); }
+    .lpd.active { background: var(--yellow-lt); width: 22px; border-radius: 4px; }
+
+    .lesson-steps { min-height: 300px; }
+    .lesson-step { display: none; padding: 36px 36px 28px; }
+    @media (max-width: 600px) { .lesson-step { padding: 24px 20px 20px; } }
+    .lesson-step.active { display: block; }
+
+    .step-kicker {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--blue-lt);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .lesson-step h3 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 16px; line-height: 1.3; }
+    .lesson-step .body { font-size: .95rem; color: var(--dim2); line-height: 1.9; margin-bottom: 16px; }
+    .lesson-step .body strong { color: #fff; font-weight: 700; }
+
+    .analogy-box {
+      background: rgba(74,157,255,.07);
+      border: 1px solid rgba(74,157,255,.2);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: .9rem;
+      color: var(--dim2);
+      line-height: 1.75;
+    }
+    .analogy-box strong {
+      color: var(--blue-lt);
+      display: block;
+      font-family: var(--mono);
+      font-size: .63rem;
+      letter-spacing: .1em;
+      margin-bottom: 6px;
+    }
+    .task-box {
+      background: rgba(16,185,129,.07);
+      border: 1px solid rgba(16,185,129,.2);
+      border-left: 3px solid var(--green);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .task-box .task-lbl {
+      font-family: var(--mono);
+      font-size: .62rem;
+      color: var(--green-lt);
+      letter-spacing: .1em;
+      margin-bottom: 7px;
+      display: block;
+    }
+    .task-box p { font-size: .9rem; color: #fff; font-weight: 600; line-height: 1.6; }
+    .cert-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,227,77,.1);
+      border: 1px solid rgba(255,227,77,.2);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--yellow-lt);
+      margin-top: 8px;
+    }
+
+    /* Final step: survey CTA instead of email */
+    .next-step-box { text-align: center; padding: 8px 0; }
+    .next-step-box h3 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .next-step-box .body { max-width: 460px; margin: 0 auto 28px; }
+    .next-step-box .survey-cta {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .next-step-box .survey-cta p {
+      font-family: var(--mono);
+      font-size: .62rem;
+      color: rgba(255,255,255,.25);
+      margin: 0;
+    }
+
+    .lesson-footer {
+      border-top: 1px solid var(--border-dark);
+      padding: 16px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    @media (max-width: 600px) { .lesson-footer { padding: 14px 20px; } }
+    .lesson-counter { font-family: var(--mono); font-size: .68rem; color: var(--dim); }
+    .lesson-nav-btns { display: flex; gap: 8px; }
+    .ln-btn {
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      border: none;
+      transition: all .2s;
+    }
+    .ln-prev { background: rgba(255,255,255,.06); color: var(--dim2); }
+    .ln-prev:hover:not(:disabled) { background: rgba(255,255,255,.1); color: #fff; }
+    .ln-prev:disabled { opacity: .3; cursor: not-allowed; }
+    .ln-next { background: var(--blue); color: #fff; }
+    .ln-next:hover:not(:disabled) { background: var(--blue-deep); }
+    .ln-next:disabled { opacity: .3; cursor: not-allowed; }
+
+    /* ====== AFTER LESSON ====== */
+    .after-lesson {
+      padding: 80px 0;
+      background: var(--navy);
+      border-top: 1px solid var(--border-dark);
+      text-align: center;
+    }
+    .after-lesson h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .after-lesson p {
+      font-size: 1rem;
+      color: var(--dim2);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.75;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="nav-logo-txt" style="display:none">Wired <span>Different</span></span>
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="how-it-works.html" class="nav-link">How It Works</a>
+    <a href="lesson.html" class="nav-link current">Try a Lesson</a>
+    <a href="survey.html" class="nav-link">Survey</a>
+    <a href="join.html" class="nav-link">Join</a>
+  </div>
+  <a href="lesson.html" class="nav-cta">Try a Free Sample Lesson</a>
+</nav>
+
+
+<!-- LESSON HERO -->
+<section class="lesson-hero">
+  <div class="lesson-hero-inner">
+    <span class="section-label light reveal">Free Sample Lesson</span>
+    <h1 class="reveal">Try a real lesson.<br/><span class="hl">No account needed.</span></h1>
+    <p class="reveal d1">Same format, same length, same approach you would get as a subscriber. See if it clicks before you commit to anything.</p>
+  </div>
+</section>
+
+
+<!-- LESSON SHELL -->
+<!-- NOTE: Eric will provide full lesson content separately. This shell uses the existing lesson as a placeholder. -->
+<div class="lesson-wrap">
+  <div class="wrap">
+    <div class="lesson-shell">
+      <div class="lesson-topbar">
+        <div class="l-dots"><span class="ld-r"></span><span class="ld-y"></span><span class="ld-g"></span></div>
+        <span class="l-title">Module 01 &middot; Lesson 01: What is Cybersecurity?</span>
+        <div class="l-progress-dots">
+          <div class="lpd active" id="pd0"></div>
+          <div class="lpd" id="pd1"></div>
+          <div class="lpd" id="pd2"></div>
+          <div class="lpd" id="pd3"></div>
+          <div class="lpd" id="pd4"></div>
+        </div>
+      </div>
+
+      <div class="lesson-steps">
+
+        <div class="lesson-step active" id="ls0">
+          <span class="step-kicker">Module 01 &middot; Intro to Cybersecurity</span>
+          <h3>What even is cybersecurity?</h3>
+          <p class="body">Cybersecurity is about <strong>protecting systems, networks, and data from people who should not have access to them.</strong> That is it. Everything else is just a specific way of doing that job.</p>
+          <p class="body">The reason it is a <strong>massive industry</strong> is simple: there are millions of systems worth protecting and not nearly enough people who know how to protect them. That is the gap you are walking into.</p>
+          <div class="analogy-box">
+            <strong>// PLAIN ENGLISH</strong>
+            Think of every company's digital infrastructure like a building. Cybersecurity is the team responsible for the locks, the cameras, the alarm system. And knowing what to do when someone tries to break in.
+          </div>
+        </div>
+
+        <div class="lesson-step" id="ls1">
+          <span class="step-kicker">Module 01 &middot; Why Your Brain Is an Advantage</span>
+          <h3>ADHD is a feature here. Not a bug.</h3>
+          <p class="body">Cybersecurity rewards the exact traits that make traditional work environments frustrating for ADHD brains.</p>
+          <div class="analogy-box">
+            <strong>// TRAITS THAT DIRECTLY TRANSFER</strong>
+            Pattern recognition under pressure. Hyperfocus during incident response. Creative problem solving when logic fails. High tolerance for ambiguity and constantly changing situations.
+          </div>
+          <p class="body">The industry has a 3.4 million job shortage. <strong>It is not a talent shortage. It is a pipeline problem.</strong> The people who need this career most are the ones who were told they could not do it.</p>
+        </div>
+
+        <div class="lesson-step" id="ls2">
+          <span class="step-kicker">Module 01 &middot; Core Concept</span>
+          <h3>What is a firewall, actually?</h3>
+          <p class="body">A firewall is a <strong>filter</strong> that sits between a network and everything trying to connect to it. It checks every incoming and outgoing connection against a ruleset and decides: let it through, or block it.</p>
+          <div class="analogy-box">
+            <strong>// THE ANALOGY THAT STICKS</strong>
+            A firewall is a bouncer at the door. It has a guest list. Every person trying to get in gets checked. On the list? You are in. Not on the list? You are not getting past that rope. Same idea, different context.
+          </div>
+          <p class="body">That is the whole concept. <strong>Once you have the mental model, the technical details fill in naturally.</strong></p>
+        </div>
+
+        <div class="lesson-step" id="ls3">
+          <span class="step-kicker">Module 01 &middot; Your Micro-Task</span>
+          <h3>One thing. 25 minutes. Go.</h3>
+          <p class="body">ADHD friendly studying means scoped to a finish line you can actually see. Here is yours:</p>
+          <div class="task-box">
+            <span class="task-lbl">// THIS LESSON'S MICRO-TASK</span>
+            <p>Open a blank note. Write down what a firewall is in your own words. Aim for 3 sentences. Does not need to be perfect. Just prove to yourself the concept landed.</p>
+          </div>
+          <p class="body">If you can explain it in plain English, you understand it better than most people who studied it for hours.</p>
+          <span class="cert-tag">&#127919; CompTIA Security+ Domain 3.3 &middot; Network Security</span>
+        </div>
+
+        <div class="lesson-step" id="ls4">
+          <div class="next-step-box">
+            <span class="step-kicker">You just finished a lesson.</span>
+            <h3>Tell me what you need next.</h3>
+            <p class="body">That was a real lesson. The same format you would get every week. Now I want to know more about you so I can build what actually helps. Takes two minutes.</p>
+            <div class="survey-cta">
+              <a href="survey.html" class="btn-primary">Take the Survey &#8594;</a>
+              <p>// FREE &middot; TWO MINUTES &middot; SHAPES WHAT I BUILD</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="lesson-footer">
+        <span class="lesson-counter" id="lesson-counter">Step 1 of 5</span>
+        <div class="lesson-nav-btns">
+          <button class="ln-btn ln-prev" id="ln-prev" onclick="lessonNav(-1)" disabled>&#8592; Back</button>
+          <button class="ln-btn ln-next" id="ln-next" onclick="lessonNav(1)">Next &#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- AFTER LESSON CTA -->
+<section class="after-lesson">
+  <div class="wrap">
+    <h2 class="reveal">Want more?</h2>
+    <p class="reveal d1">Take two minutes to tell me what you need. Your answers shape what I build next. And I send back the first Field Note the same day.</p>
+    <a href="survey.html" class="btn-primary lg reveal d2">Take the Survey</a>
+    <a href="join.html" class="sub-link reveal d3">Or go straight to the newsletter</a>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';document.getElementById('ftxt').style.display='block'"/>
+  <div class="foot-name" id="ftxt" style="display:none">Wired <span>Different</span></div>
+  <p class="foot-tagline">Cybersecurity training built for the way your brain actually works.</p>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="lesson.html">Try a Lesson</a>
+    <a href="survey.html">Survey</a>
+    <a href="join.html">Join</a>
+    <a href="mailto:eric@wireddifferent.dev">Contact</a>
+  </div>
+  <p class="foot-copy">
+    Wired Different is a Miller Innovations LLC product. All rights reserved.<br/>
+    Made in Texas &middot; <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
+  </p>
+  <div class="foot-pills">
+    <span class="fp">Builders + Backers Mobility Cohort</span>
+    <span class="fp">Powered by Capital One</span>
+    <span class="fp">Houston, TX</span>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  document.getElementById('nav-toggle').addEventListener('click',function(){
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+  },{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+
+var currentStep = 0, totalSteps = 5;
+function lessonNav(dir) {
+  var next = currentStep + dir;
+  if (next < 0 || next >= totalSteps) return;
+  document.getElementById('ls' + currentStep).classList.remove('active');
+  currentStep = next;
+  document.getElementById('ls' + currentStep).classList.add('active');
+  for (var i = 0; i < totalSteps; i++) {
+    var d = document.getElementById('pd' + i);
+    if (!d) continue;
+    d.className = 'lpd';
+    if (i < currentStep) d.classList.add('done');
+    if (i === currentStep) d.classList.add('active');
+  }
+  document.getElementById('ln-prev').disabled = currentStep === 0;
+  var nb = document.getElementById('ln-next');
+  nb.disabled = currentStep === totalSteps - 1;
+  nb.textContent = currentStep === totalSteps - 2 ? 'Finish →' : 'Next →';
+  document.getElementById('lesson-counter').textContent = 'Step ' + (currentStep + 1) + ' of ' + totalSteps;
+  document.querySelector('.lesson-shell').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
+</html>

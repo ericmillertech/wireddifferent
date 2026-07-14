@@ -1,769 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shape the Platform — Wired Different</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tell Me What You Need | Wired Different</title>
+  <meta name="description" content="Six questions. Two minutes. Your answers shape what I build next."/>
+  <link rel="stylesheet" href="style.css"/>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700;900&display=swap');
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:     #070b14;
-      --bg2:    #0d1320;
-      --bg3:    #0a1628;
-      --card:   #0f1c2e;
-      --blue:   #70B7FF;
-      --cyan:   #00e5ff;
-      --green:  #00ff88;
-      --purple: #B388FF;
-      --yellow: #FFF275;
-      --text:   #c8d6e5;
-      --dim:    #546880;
-      --border: #1a3050;
-      --mono:   'Share Tech Mono', monospace;
+    /* ====== SURVEY LAYOUT ====== */
+    .survey-wrap {
+      padding: 72px 0;
+      background: var(--navy);
     }
+    .survey-inner { max-width: 760px; margin: 0 auto; }
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
+    .survey-intro {
+      margin-bottom: 40px;
     }
-
-    #matrix-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: .08;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    nav, main, footer { position: relative; z-index: 1; }
-
-    .container { max-width: 760px; margin: 0 auto; padding: 0 32px; }
-
-    /* ── Nav ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(7,11,20,.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(112,183,255,.1);
-      padding: 0 32px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    nav img { height: 36px; }
-    .nav-back {
-      font-family: var(--mono); font-size: .78rem; color: var(--dim);
-      text-decoration: none; letter-spacing: .04em;
-      display: flex; align-items: center; gap: 8px;
-      transition: color .2s;
-    }
-    .nav-back:hover { color: var(--cyan); }
-    .nav-back::before { content: '←'; }
-
-    /* ── Hero ── */
-    .survey-hero {
-      padding: 80px 0 56px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .hero-tag {
-      display: inline-block;
-      font-family: var(--mono); font-size: .72rem;
-      color: var(--cyan); letter-spacing: .12em;
-      border: 1px solid rgba(0,229,255,.2);
-      padding: 6px 16px; border-radius: 2px;
-      margin-bottom: 24px;
-      background: rgba(0,229,255,.04);
-    }
-    .survey-hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 900; line-height: 1.1;
-      letter-spacing: -.02em;
+    .survey-intro h2 {
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.025em;
       color: #fff;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
-    .survey-hero h1 span { color: var(--cyan); }
-    .survey-hero p {
-      font-size: 1.1rem; color: var(--dim);
-      max-width: 560px; margin: 0 auto 32px;
-      line-height: 1.7;
-    }
-    .hero-meta {
-      display: flex; align-items: center; justify-content: center;
-      gap: 32px; flex-wrap: wrap;
-    }
-    .meta-item {
-      font-family: var(--mono); font-size: .72rem;
-      color: var(--dim); letter-spacing: .05em;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-
-    /* ── Progress bar ── */
-    .progress-wrap {
-      position: sticky; top: 64px; z-index: 50;
-      background: rgba(7,11,20,.96);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 32px;
-    }
-    .progress-bar {
-      height: 3px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--cyan), var(--blue));
-      border-radius: 2px;
-      width: 0%;
-      transition: width .4s ease;
-    }
-    .progress-label {
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--dim); letter-spacing: .06em;
-      margin-top: 6px;
+    .survey-intro h2 span { color: var(--blue-lt); }
+    .survey-intro p {
+      font-size: 1rem;
+      color: var(--dim2);
+      line-height: 1.8;
+      max-width: 600px;
     }
 
-    /* ── Survey form ── */
-    main { padding: 64px 0 100px; }
+    /* Progress bar */
+    .sp-track { height: 5px; background: rgba(255,255,255,.06); border-radius: 5px; overflow: hidden; margin-bottom: 6px; }
+    .sp-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-lt)); border-radius: 5px; transition: width .4s ease; width: 0; }
+    .sp-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .67rem; color: var(--dim); margin-bottom: 40px; }
 
-    .section-block {
-      margin-bottom: 56px;
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity .6s ease, transform .6s ease;
+    /* Questions */
+    .survey-form { display: grid; gap: 28px; }
+    fieldset { border: none; padding: 0; }
+    legend {
+      font-weight: 700;
+      font-size: .96rem;
+      color: #fff;
+      margin-bottom: 12px;
+      display: block;
+      line-height: 1.55;
     }
-    .section-block.visible { opacity: 1; transform: translateY(0); }
-
-    .section-label {
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--cyan); letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+    .qn {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--blue-lt);
+      letter-spacing: .12em;
+      display: block;
+      margin-bottom: 6px;
     }
-    .section-title {
-      font-size: 1.3rem; font-weight: 700;
-      color: #fff; margin-bottom: 4px;
-    }
-    .section-subtitle {
-      font-size: .9rem; color: var(--dim);
-      margin-bottom: 32px;
-    }
-
-    /* ── Question card ── */
-    .q-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px 32px;
-      margin-bottom: 16px;
-      transition: border-color .2s;
-    }
-    .q-card:focus-within { border-color: rgba(0,229,255,.4); }
-
-    .q-number {
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--dim); letter-spacing: .1em;
-      margin-bottom: 10px;
-    }
-    .q-text {
-      font-size: 1rem; font-weight: 600;
-      color: #fff; margin-bottom: 20px;
-      line-height: 1.5;
-    }
-    .q-note {
-      font-size: .82rem; color: var(--dim);
-      margin-bottom: 16px; font-style: italic;
-    }
-
-    /* ── Radio / Checkbox options ── */
-    .options { display: flex; flex-direction: column; gap: 10px; }
-
-    .option-label {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 16px;
-      background: rgba(255,255,255,.02);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+    .opts { display: grid; gap: 8px; }
+    .opt {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-dark);
+      background: var(--navy-lt);
       cursor: pointer;
-      transition: all .15s;
-      font-size: .92rem; color: var(--text);
+      font-size: .9rem;
+      color: var(--dim2);
+      transition: all .2s;
+      line-height: 1.55;
+      user-select: none;
     }
-    .option-label:hover {
-      border-color: rgba(112,183,255,.3);
-      background: rgba(112,183,255,.05);
-      color: #fff;
-    }
-    .option-label input { display: none; }
-    .option-label.selected {
-      border-color: var(--cyan);
-      background: rgba(0,229,255,.07);
-      color: #fff;
-    }
-    .option-check {
-      width: 18px; height: 18px; flex-shrink: 0;
-      border: 2px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      transition: all .15s;
-    }
-    .option-label.selected .option-check {
-      border-color: var(--cyan);
-      background: var(--cyan);
-    }
-    .option-check-inner {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--bg); opacity: 0;
-      transition: opacity .15s;
-    }
-    .option-label.selected .option-check-inner { opacity: 1; }
+    .opt:hover { border-color: rgba(74,157,255,.4); color: #fff; }
+    .opt:has(input:checked) { border-color: var(--blue); background: rgba(74,157,255,.08); color: #fff; }
+    .opt input { accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
 
-    /* checkbox variant */
-    .option-label.checkbox .option-check { border-radius: 3px; }
-    .option-check-box {
-      width: 10px; height: 10px;
-      background: var(--bg); opacity: 0;
-      transition: opacity .15s;
-      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-    }
-    .option-label.checkbox.selected .option-check-box { opacity: 1; }
-
-    /* ── Textarea / Text input ── */
-    .q-textarea, .q-input {
+    .si {
       width: 100%;
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
+      padding: 13px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border-dark);
+      background: var(--navy-lt);
       font-family: 'Inter', sans-serif;
       font-size: .92rem;
-      padding: 14px 16px;
-      resize: vertical;
-      transition: border-color .2s;
+      color: #fff;
       outline: none;
+      transition: border-color .2s;
     }
-    .q-textarea { min-height: 100px; }
-    .q-textarea::placeholder, .q-input::placeholder { color: var(--dim); }
-    .q-textarea:focus, .q-input:focus {
-      border-color: rgba(0,229,255,.4);
-      background: rgba(0,229,255,.03);
-    }
+    .si:focus { border-color: var(--blue); }
+    .si::placeholder { color: rgba(255,255,255,.2); }
+    textarea.si { min-height: 100px; resize: vertical; }
 
-    /* ── Scale ── */
-    .scale-wrap {
-      display: flex; gap: 8px; flex-wrap: wrap;
+    /* Signup box */
+    .signup-box {
+      background: var(--navy-lt);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
     }
-    .scale-btn {
-      flex: 1; min-width: 40px;
-      padding: 12px 8px;
-      background: rgba(255,255,255,.02);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--dim);
-      font-family: var(--mono); font-size: .85rem;
-      cursor: pointer; text-align: center;
-      transition: all .15s;
+    @media (max-width: 600px) { .signup-box { padding: 28px 22px; } }
+    .signup-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--yellow));
     }
-    .scale-btn:hover {
-      border-color: rgba(112,183,255,.3);
-      color: var(--blue);
+    .signup-box h3 { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .signup-box p { font-size: .9rem; color: var(--dim2); margin-bottom: 22px; line-height: 1.7; }
+    .email-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .email-row input {
+      flex: 1;
+      min-width: 200px;
+      padding: 13px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-family: 'Inter', sans-serif;
+      font-size: .92rem;
+      color: #fff;
+      outline: none;
+      transition: border-color .2s;
     }
-    .scale-btn.active {
-      border-color: var(--cyan);
-      background: rgba(0,229,255,.1);
-      color: var(--cyan);
+    .email-row input::placeholder { color: rgba(255,255,255,.25); }
+    .email-row input:focus { border-color: var(--blue); }
+    .email-row button {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 13px 26px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: .92rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .2s;
     }
-    .scale-labels {
-      display: flex; justify-content: space-between;
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--dim); letter-spacing: .04em;
-      margin-top: 8px;
-    }
-
-    /* ── Submit section ── */
-    .submit-block {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 40px 32px;
-      text-align: center;
-      margin-top: 48px;
-    }
-    .submit-block h3 {
-      font-size: 1.3rem; font-weight: 700;
-      color: #fff; margin-bottom: 12px;
-    }
-    .submit-block p {
-      font-size: .9rem; color: var(--dim);
-      margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto;
-    }
-    .btn-submit {
-      display: inline-block;
-      background: var(--cyan);
-      color: #070b14;
-      font-family: var(--mono); font-size: .9rem;
-      font-weight: 700; letter-spacing: .08em;
-      padding: 16px 48px; border: none;
-      border-radius: 4px; cursor: pointer;
-      transition: all .2s;
-      text-transform: uppercase;
-    }
-    .btn-submit:hover {
-      background: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0,229,255,.3);
-    }
-    .submit-note {
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--dim); letter-spacing: .06em;
-      margin-top: 16px;
-    }
-
-    /* ── Thank you state ── */
-    .thankyou {
-      display: none;
-      text-align: center;
-      padding: 80px 32px;
-    }
-    .thankyou.visible { display: block; }
-    .thankyou-icon {
-      font-size: 3rem; margin-bottom: 24px;
-      filter: drop-shadow(0 0 20px var(--green));
-    }
-    .thankyou h2 {
-      font-size: 2rem; font-weight: 900;
-      color: #fff; margin-bottom: 12px;
-    }
-    .thankyou p {
-      font-size: 1rem; color: var(--dim);
-      max-width: 440px; margin: 0 auto 32px;
-    }
-    .btn-secondary {
-      display: inline-block;
-      border: 1px solid var(--border);
-      color: var(--text); padding: 12px 32px;
-      border-radius: 4px; text-decoration: none;
-      font-family: var(--mono); font-size: .82rem;
-      letter-spacing: .06em;
-      transition: all .2s;
-    }
-    .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px;
-      text-align: center;
+    .email-row button:hover { background: var(--blue-deep); }
+    .form-note {
       font-family: var(--mono);
-      font-size: .7rem;
-      color: var(--dim);
+      font-size: .62rem;
+      color: rgba(255,255,255,.18);
+      margin-top: 12px;
       letter-spacing: .06em;
-    }
-
-    @media (max-width: 600px) {
-      .container { padding: 0 20px; }
-      .q-card { padding: 20px; }
-      .survey-hero { padding: 56px 0 40px; }
-      .hero-meta { gap: 20px; }
     }
   </style>
 </head>
 <body>
 
-<canvas id="matrix-canvas"></canvas>
-
-<!-- Nav -->
 <nav>
-  <img src="WiredDifferent_Logo.svg" alt="Wired Different" />
-  <a class="nav-back" href="index.html">Back to home</a>
+  <a class="nav-logo" href="index.html">
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="nav-logo-txt" style="display:none">Wired <span>Different</span></span>
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="how-it-works.html" class="nav-link">How It Works</a>
+    <a href="lesson.html" class="nav-link">Try a Lesson</a>
+    <a href="survey.html" class="nav-link current">Survey</a>
+    <a href="join.html" class="nav-link">Join</a>
+  </div>
+  <a href="lesson.html" class="nav-cta">Try a Free Sample Lesson</a>
 </nav>
 
-<!-- Progress -->
-<div class="progress-wrap">
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="progress-label" id="progressLabel">SCROLL TO BEGIN</div>
-</div>
 
-<!-- Hero -->
-<div class="survey-hero">
-  <div class="container">
-    <div class="hero-tag">// SHAPING THE PLATFORM</div>
-    <h1>Your answers build<br /><span>what's built next.</span></h1>
-    <p>This isn't a generic survey. Every question here directly shapes what Wired Different becomes — the content, the tools, the community. No fluff. Takes about 5 minutes.</p>
-    <div class="hero-meta">
-      <div class="meta-item"><div class="meta-dot"></div>~5 MINUTES</div>
-      <div class="meta-item"><div class="meta-dot" style="background:var(--blue)"></div>9 QUESTIONS</div>
-      <div class="meta-item"><div class="meta-dot" style="background:var(--purple)"></div>100% ANONYMOUS</div>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <div class="page-hero-inner">
+      <span class="section-label light reveal">Tell Me What You Need</span>
+      <h1 class="reveal">Your answers shape<br/>what I <span class="hl">build next.</span></h1>
+      <p class="sub reveal d1">This is how I gather feedback to decide what gets built next. Six questions, two minutes. Drop your email at the end and the first Field Note lands in your inbox the same day.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SURVEY -->
+<div class="survey-wrap">
+  <div class="wrap">
+    <div class="survey-inner">
+
+      <div class="sp-track"><div class="sp-fill" id="sp-fill"></div></div>
+      <div class="sp-row"><span id="sp-label-left">0% complete</span><span>6 questions</span></div>
+
+      <!-- NOTE: Replace the form action with your Formspree endpoint:
+           action="https://formspree.io/f/YOUR_FORM_ID"
+           Then remove method="post" target="_blank" from the Beehiiv subscribe URL below
+           and use only the Formspree endpoint for survey data.
+           Email capture at the bottom can still post to Beehiiv separately. -->
+      <form class="survey-form" id="survey-form" action="#" method="post">
+
+        <fieldset class="reveal">
+          <legend><span class="qn">01</span>What brings you here?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q1" value="adhd-cyber" required/><span>ADHD and cybersecurity is a real struggle. This is exactly what I have been looking for.</span></label>
+            <label class="opt"><input type="radio" name="q1" value="break-in"/><span>I want to break into cybersecurity and need a path that works for how my brain works.</span></label>
+            <label class="opt"><input type="radio" name="q1" value="level-up"/><span>Already in tech. I want to go deeper on security.</span></label>
+            <label class="opt"><input type="radio" name="q1" value="curious"/><span>Something caught my eye. Still figuring out if this is for me.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">02</span>Where are you right now?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q2" value="student" required/><span>In school or recently graduated. Figuring out what comes next.</span></label>
+            <label class="opt"><input type="radio" name="q2" value="pivot"/><span>Employed but not in tech. Thinking about making a change.</span></label>
+            <label class="opt"><input type="radio" name="q2" value="active"/><span>Actively trying to break into cybersecurity right now.</span></label>
+            <label class="opt"><input type="radio" name="q2" value="underemployed"/><span>Underemployed or between jobs. Trying to build something better.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">03</span>Do you identify as neurodivergent?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q3" value="adhd" required/><span>Yes, diagnosed ADHD.</span></label>
+            <label class="opt"><input type="radio" name="q3" value="other"/><span>Yes, another diagnosis. Dyslexia, autism, or something else.</span></label>
+            <label class="opt"><input type="radio" name="q3" value="self-id"/><span>Not diagnosed, but everything I read about ADHD describes me.</span></label>
+            <label class="opt"><input type="radio" name="q3" value="no"/><span>No. I am here for the cybersecurity content.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">04</span>How do you learn best?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q4" value="hands-on" required/><span>Hands on. I need to build something real to understand it.</span></label>
+            <label class="opt"><input type="radio" name="q4" value="read"/><span>Short, direct written explanations with no padding.</span></label>
+            <label class="opt"><input type="radio" name="q4" value="watch"/><span>Watching someone walk through it step by step.</span></label>
+            <label class="opt"><input type="radio" name="q4" value="mix"/><span>A mix. Depends on the topic.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">05</span>What has held you back before?</legend>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" name="q5" value="consistency"/><span>Consistency. I start strong and disappear for weeks.</span></label>
+            <label class="opt"><input type="checkbox" name="q5" value="theory"/><span>Too much theory, not enough actually doing something.</span></label>
+            <label class="opt"><input type="checkbox" name="q5" value="direction"/><span>No clear path. I do not know what to focus on or in what order.</span></label>
+            <label class="opt"><input type="checkbox" name="q5" value="overwhelm"/><span>Everything feels like too much at once.</span></label>
+            <label class="opt"><input type="checkbox" name="q5" value="imposter"/><span>I do not feel like I belong in tech.</span></label>
+            <label class="opt"><input type="checkbox" name="q5" value="cost"/><span>Cost. Most programs are financially out of reach.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">06</span>What would make Wired Different worth opening every single week?</legend>
+          <textarea class="si" name="q6" placeholder="Be direct. This answer shapes more than any of the others."></textarea>
+        </fieldset>
+
+        <div class="signup-box reveal">
+          <h3>Drop your email. Get the first Field Note free.</h3>
+          <p>One real story. One thing to do this week. Three minutes. Your survey answers help me make it worth your time.</p>
+          <div style="display:grid;gap:10px;margin-bottom:16px">
+            <input class="si" type="text" name="name" placeholder="First name (optional)"/>
+            <div class="email-row">
+              <!-- Email goes to Beehiiv for newsletter; survey data goes to Formspree via form action above -->
+              <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+              <button type="submit">I'm In</button>
+            </div>
+          </div>
+          <p class="form-note">// FREE &middot; NO SPAM &middot; UNSUBSCRIBE ANYTIME</p>
+        </div>
+
+      </form>
     </div>
   </div>
 </div>
 
-<!-- Form -->
-<main>
-  <div class="container">
-    <form id="surveyForm" action="#" method="POST">
 
-      <!-- SECTION 1: Who are you -->
-      <div class="section-block" id="s1">
-        <div class="section-label">// SECTION 01</div>
-        <div class="section-title">Where are you right now?</div>
-        <div class="section-subtitle">Help us understand where you're starting from. No judgment — everyone's path looks different.</div>
-
-        <div class="q-card">
-          <div class="q-number">Q1 OF 9</div>
-          <div class="q-text">Where are you in your cybersecurity journey?</div>
-          <div class="options" data-type="radio" data-name="journey_stage">
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="not_started" /> Completely new — haven't started yet
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="self_learning" /> Learning on my own (YouTube, TryHackMe, Reddit)
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="in_training" /> Currently in a bootcamp or formal program
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="certified_no_job" /> Have certs but haven't landed a job yet
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="it_to_security" /> Working in IT, trying to move into security
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="journey_stage" value="in_security" /> Already working in cybersecurity
-            </label>
-          </div>
-        </div>
-
-        <div class="q-card">
-          <div class="q-number">Q2 OF 9</div>
-          <div class="q-text">Do you have ADHD, or do you relate to how ADHD affects learning?</div>
-          <div class="options" data-type="radio" data-name="adhd_status">
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="adhd_status" value="diagnosed" /> Yes — diagnosed
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="adhd_status" value="suspected" /> I suspect I do but haven't been formally diagnosed
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="adhd_status" value="related" /> No diagnosis, but traditional learning doesn't work for me
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="adhd_status" value="no_adhd" /> No — I'm here because I care about the mission
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECTION 2: The struggle -->
-      <div class="section-block" id="s2">
-        <div class="section-label">// SECTION 02</div>
-        <div class="section-title">What actually gets in the way?</div>
-        <div class="section-subtitle">This is the part most platforms never bother to ask. We need to know where people fall off.</div>
-
-        <div class="q-card">
-          <div class="q-number">Q3 OF 9</div>
-          <div class="q-text">What's the biggest reason you've slowed down or stopped studying?</div>
-          <div class="q-note">Pick the one that hits closest.</div>
-          <div class="options" data-type="radio" data-name="biggest_blocker">
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="motivation" /> Lost motivation after a few weeks
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="overwhelm" /> The material felt overwhelming — too much at once
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="accountability" /> No one to hold me accountable when I went quiet
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="cost" /> Couldn't afford courses, certs, or tools
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="no_progress" /> Felt like I was studying but not actually progressing
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="life" /> Life — work, family, everything else got in the way
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="biggest_blocker" value="no_degree" /> Felt like I couldn't compete without a degree
-            </label>
-          </div>
-        </div>
-
-        <div class="q-card">
-          <div class="q-number">Q4 OF 9</div>
-          <div class="q-text">Tell me about a specific time you tried to study and it didn't stick. What happened?</div>
-          <div class="q-note">Real answers only. This is the most important question on the page.</div>
-          <textarea class="q-textarea" name="study_fail_story" placeholder="Walk me through it — what were you studying, what got in the way, and where did it end up..."></textarea>
-        </div>
-      </div>
-
-      <!-- SECTION 3: What they've tried -->
-      <div class="section-block" id="s3">
-        <div class="section-label">// SECTION 03</div>
-        <div class="section-title">What have you already tried?</div>
-        <div class="section-subtitle">We're not here to sell you something you've already used. Check everything that applies.</div>
-
-        <div class="q-card">
-          <div class="q-number">Q5 OF 9</div>
-          <div class="q-text">What resources have you used to learn cybersecurity?</div>
-          <div class="q-note">Select all that apply.</div>
-          <div class="options" data-type="checkbox" data-name="tried_resources">
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="youtube" /> YouTube / free content
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="tryhackme" /> TryHackMe / HackTheBox
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="bootcamp" /> Paid bootcamp
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="college" /> College / university courses
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="books" /> Self-study books / study guides
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="discord" /> Discord communities
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="mentorship" /> 1-on-1 mentorship
-            </label>
-            <label class="option-label checkbox">
-              <div class="option-check"><div class="option-check-box"></div></div>
-              <input type="checkbox" name="tried_resources" value="nothing" /> Nothing yet — just starting
-            </label>
-          </div>
-        </div>
-
-        <div class="q-card">
-          <div class="q-number">Q6 OF 9</div>
-          <div class="q-text">What was missing from those resources?</div>
-          <textarea class="q-textarea" name="what_was_missing" placeholder="What did they get wrong, skip over, or just not understand about how you learn..."></textarea>
-        </div>
-      </div>
-
-      <!-- SECTION 4: Mentorship -->
-      <div class="section-block" id="s4">
-        <div class="section-label">// SECTION 04</div>
-        <div class="section-title">Mentorship & support</div>
-        <div class="section-subtitle">This one matters a lot. The gap between having someone in your corner and not is massive.</div>
-
-        <div class="q-card">
-          <div class="q-number">Q7 OF 9</div>
-          <div class="q-text">Have you ever had a mentor or accountability partner in your tech journey?</div>
-          <div class="options" data-type="radio" data-name="mentorship_exp">
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="mentorship_exp" value="yes_helped" /> Yes — and it made a real difference
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="mentorship_exp" value="yes_not_helpful" /> Yes — but it wasn't the right fit
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="mentorship_exp" value="no_wanted" /> No — and I wish I had
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="mentorship_exp" value="no_prefer_solo" /> No — I prefer figuring things out on my own
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECTION 5: Value -->
-      <div class="section-block" id="s5">
-        <div class="section-label">// SECTION 05</div>
-        <div class="section-title">What would actually move you?</div>
-        <div class="section-subtitle">Honest answers here shape what gets built and what gets priced. No right answer.</div>
-
-        <div class="q-card">
-          <div class="q-number">Q8 OF 9</div>
-          <div class="q-text">If a platform built for how your brain works had existed when you started — mentorship, real projects, accountability, ADHD-first structure — what would you have paid to not waste an extra year?</div>
-          <div class="q-note">Think about what you actually spent on bootcamps, certs, and courses that didn't work.</div>
-          <div class="options" data-type="radio" data-name="willingness_to_pay">
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="willingness_to_pay" value="nothing" /> I couldn't have paid anything — free only
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="willingness_to_pay" value="low_monthly" /> $10–20/month
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="willingness_to_pay" value="mid_monthly" /> $30–50/month
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="willingness_to_pay" value="one_time_course" /> One-time course fee ($100–300)
-            </label>
-            <label class="option-label">
-              <div class="option-check"><div class="option-check-inner"></div></div>
-              <input type="radio" name="willingness_to_pay" value="high_mentorship" /> Ongoing mentorship ($100+/month) — if it actually worked
-            </label>
-          </div>
-        </div>
-
-        <div class="q-card">
-          <div class="q-number">Q9 OF 9</div>
-          <div class="q-text">What would make you actually sign up for something like this today?</div>
-          <div class="q-note">What's the thing that would make you stop scrolling and click subscribe?</div>
-          <textarea class="q-textarea" name="signup_trigger" placeholder="Be specific — is it the community, the content format, a specific cert track, the price, seeing others like you succeed..."></textarea>
-        </div>
-      </div>
-
-      <!-- Submit -->
-      <div class="submit-block section-block" id="s6">
-        <h3>You just helped build this platform.</h3>
-        <p>Every answer goes directly into what gets built next. This is what it means to be a backer, not just a subscriber.</p>
-        <button type="submit" class="btn-submit">Submit My Answers</button>
-        <div class="submit-note">YOUR ANSWERS ARE ANONYMOUS &nbsp;·&nbsp; NO SPAM &nbsp;·&nbsp; EVER</div>
-      </div>
-
-    </form>
-
-    <!-- Thank you -->
-    <div class="thankyou" id="thankyou">
-      <div class="thankyou-icon">⚡</div>
-      <h2>You're a builder now.</h2>
-      <p>Your answers are in. This platform gets shaped by people like you — not guesswork. We'll reach out when what you asked for is ready.</p>
-      <a href="index.html" class="btn-secondary">← BACK TO HOME</a>
-    </div>
-  </div>
-</main>
-
+<!-- FOOTER -->
 <footer>
-  WIRED DIFFERENT &nbsp;·&nbsp; FIELD NOTES &nbsp;·&nbsp; &copy; 2026 MILLER INNOVATIONS LLC
+  <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';document.getElementById('ftxt').style.display='block'"/>
+  <div class="foot-name" id="ftxt" style="display:none">Wired <span>Different</span></div>
+  <p class="foot-tagline">Cybersecurity training built for the way your brain actually works.</p>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="lesson.html">Try a Lesson</a>
+    <a href="survey.html">Survey</a>
+    <a href="join.html">Join</a>
+    <a href="mailto:eric@wireddifferent.dev">Contact</a>
+  </div>
+  <p class="foot-copy">
+    Wired Different is a Miller Innovations LLC product. All rights reserved.<br/>
+    Made in Texas &middot; <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
+  </p>
+  <div class="foot-pills">
+    <span class="fp">Builders + Backers Mobility Cohort</span>
+    <span class="fp">Powered by Capital One</span>
+    <span class="fp">Houston, TX</span>
+  </div>
 </footer>
 
+
 <script>
-  // ── Matrix rain ──
-  const canvas = document.getElementById('matrix-canvas');
-  const ctx = canvas.getContext('2d');
-  let cols, drops;
-  const chars = 'アイウエオカキクケコ0123456789ABCDEF><{}[]//\\';
-
-  function initMatrix() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    cols = Math.floor(canvas.width / 20);
-    drops = Array(cols).fill(1);
-  }
-  function drawMatrix() {
-    ctx.fillStyle = 'rgba(7,11,20,0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00e5ff';
-    ctx.font = '14px Share Tech Mono, monospace';
-    drops.forEach((y, i) => {
-      const c = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(c, i * 20, y * 20);
-      if (y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    });
-  }
-  initMatrix();
-  setInterval(drawMatrix, 60);
-  window.addEventListener('resize', initMatrix);
-
-  // ── Scroll reveal ──
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.section-block').forEach(el => observer.observe(el));
-
-  // ── Progress bar ──
-  const progressFill = document.getElementById('progressFill');
-  const progressLabel = document.getElementById('progressLabel');
-  const totalQ = 9;
-
-  function updateProgress() {
-    let answered = 0;
-    // radio groups answered
-    const radioNames = ['journey_stage','adhd_status','biggest_blocker','mentorship_exp','willingness_to_pay'];
-    radioNames.forEach(n => {
-      if (document.querySelector(`input[name="${n}"]:checked`)) answered++;
-    });
-    // textareas with content
-    ['study_fail_story','what_was_missing','signup_trigger'].forEach(n => {
-      const el = document.querySelector(`textarea[name="${n}"]`);
-      if (el && el.value.trim().length > 5) answered++;
-    });
-    // checkbox group (any selected counts as answered)
-    if (document.querySelector('input[name="tried_resources"]:checked')) answered++;
-
-    const pct = Math.round((answered / totalQ) * 100);
-    progressFill.style.width = pct + '%';
-    progressLabel.textContent = pct === 0 ? 'SCROLL TO BEGIN' :
-      pct === 100 ? 'ALL DONE — READY TO SUBMIT' :
-      `${answered} OF ${totalQ} QUESTIONS ANSWERED`;
-  }
-
-  // ── Custom radio/checkbox styling ──
-  document.querySelectorAll('.option-label').forEach(label => {
-    label.addEventListener('click', function() {
-      const input = this.querySelector('input');
-      const isCheckbox = input.type === 'checkbox';
-
-      if (isCheckbox) {
-        input.checked = !input.checked;
-        this.classList.toggle('selected', input.checked);
-      } else {
-        const group = document.querySelectorAll(`input[name="${input.name}"]`);
-        group.forEach(i => i.closest('.option-label').classList.remove('selected'));
-        input.checked = true;
-        this.classList.add('selected');
-      }
-      updateProgress();
-    });
+(function(){
+  document.getElementById('nav-toggle').addEventListener('click',function(){
+    document.getElementById('nav-links').classList.toggle('open');
   });
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+  },{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  document.querySelectorAll('.q-textarea').forEach(t => {
-    t.addEventListener('input', updateProgress);
+  var fields = document.querySelectorAll('#survey-form fieldset'), total = fields.length;
+  function update() {
+    var answered = 0;
+    fields.forEach(function(fs) {
+      var checked = fs.querySelector('input:checked');
+      var text = fs.querySelector('textarea');
+      if (checked || (text && text.value.trim().length > 0)) answered++;
+    });
+    var pct = Math.round((answered / total) * 100);
+    var fill = document.getElementById('sp-fill');
+    var lbl = document.getElementById('sp-label-left');
+    if (fill) fill.style.width = pct + '%';
+    if (lbl) lbl.textContent = pct + '% complete';
+  }
+  document.querySelectorAll('#survey-form input, #survey-form textarea').forEach(function(el) {
+    el.addEventListener('change', update);
+    el.addEventListener('input', update);
   });
-
-  // ── Form submit ──
-  document.getElementById('surveyForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('surveyForm').style.display = 'none';
-    document.getElementById('thankyou').classList.add('visible');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How It Works | Wired Different</title>
+  <meta name="description" content="WiredDifferent gives you two things: a guided path and a library. Here is exactly how it works."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ====== TWO THINGS ====== */
+    .two-things {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 680px) { .two-things { grid-template-columns: 1fr; } }
+    .thing-card {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 40px 36px;
+      box-shadow: 0 4px 24px rgba(28,38,54,.06);
+    }
+    @media (max-width: 600px) { .thing-card { padding: 28px 24px; } }
+    .thing-num {
+      font-family: var(--mono);
+      font-size: 3rem;
+      font-weight: 700;
+      color: rgba(74,157,255,.2);
+      line-height: 1;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .thing-card h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 14px;
+      letter-spacing: -.02em;
+    }
+    .thing-card p {
+      font-size: .95rem;
+      color: var(--dim);
+      line-height: 1.85;
+    }
+
+    /* ====== FIELD NOTES DEFINITION ====== */
+    .fn-definition {
+      background: var(--navy-lt);
+      border: 1px solid var(--border-dark);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .fn-definition .fn-label {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--blue-lt);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .fn-definition h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .fn-definition p {
+      font-size: .92rem;
+      color: var(--dim2);
+      line-height: 1.8;
+    }
+
+    /* ====== MODULES ====== */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 780px) { .modules-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .modules-grid { grid-template-columns: 1fr; } }
+
+    .module-card {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: all .25s;
+      box-shadow: 0 2px 12px rgba(28,38,54,.05);
+    }
+    .module-card:hover {
+      border-color: rgba(74,157,255,.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(28,38,54,.1);
+    }
+    .module-card.locked { opacity: .5; }
+    .module-card.locked:hover { transform: none; box-shadow: 0 2px 12px rgba(28,38,54,.05); }
+    .mod-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .mod-num { font-family: var(--mono); font-size: .62rem; font-weight: 700; color: var(--dim); letter-spacing: .1em; }
+    .mod-badge {
+      font-size: .6rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 50px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-free { background: rgba(16,185,129,.12); color: #0A7C5C; }
+    .badge-next { background: rgba(74,157,255,.12); color: var(--blue-deep); }
+    .badge-lock { background: rgba(28,38,54,.07); color: var(--dim); }
+    .module-card .mod-ico { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+    .module-card h3 { font-size: .98rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .module-card p { font-size: .82rem; color: var(--dim); line-height: 1.65; margin-bottom: 14px; }
+    .mod-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mod-tag {
+      font-family: var(--mono);
+      font-size: .6rem;
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: rgba(28,38,54,.05);
+      color: var(--dim);
+      border: 1px solid var(--border-light);
+    }
+    .lock-note { display: flex; align-items: center; gap: 6px; font-size: .74rem; color: var(--dim); margin-top: 10px; font-weight: 600; }
+
+    /* ====== ADHD TRAITS ====== */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 600px) { .traits-grid { grid-template-columns: 1fr; } }
+    .trait-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px;
+      background: var(--navy-lt);
+      border: 1px solid var(--border-dark);
+      border-radius: 14px;
+      transition: border-color .2s;
+    }
+    .trait-card:hover { border-color: rgba(74,157,255,.3); }
+    .trait-ico {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .t-blue { background: rgba(74,157,255,.15); }
+    .t-green { background: rgba(16,185,129,.15); }
+    .t-yellow { background: rgba(255,227,77,.15); }
+    .t-purple { background: rgba(139,92,246,.15); }
+    .trait-card h4 { font-size: .9rem; font-weight: 800; color: #fff; margin-bottom: 5px; }
+    .trait-card p { font-size: .82rem; color: var(--dim2); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="nav-logo-txt" style="display:none">Wired <span>Different</span></span>
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="how-it-works.html" class="nav-link current">How It Works</a>
+    <a href="lesson.html" class="nav-link">Try a Lesson</a>
+    <a href="survey.html" class="nav-link">Survey</a>
+    <a href="join.html" class="nav-link">Join</a>
+  </div>
+  <a href="lesson.html" class="nav-cta">Try a Free Sample Lesson</a>
+</nav>
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <div class="page-hero-inner">
+      <span class="section-label light reveal">The System</span>
+      <h1 class="reveal">How WiredDifferent<br/><span class="hl">actually works.</span></h1>
+      <p class="sub reveal d1">I give you two things: a guided path and a library. Here is exactly what that means and how they work together.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- TWO THINGS -->
+<section class="section-light">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label reveal">The Core Offering</span>
+      <h2 class="reveal">A guided path and a library.<br/>Both built for ADHD brains.</h2>
+    </div>
+    <div class="two-things">
+      <div class="thing-card reveal">
+        <span class="thing-num">01</span>
+        <h3>The Guided Path</h3>
+        <p>Your clear next step. No overwhelm. No staring at a giant menu wondering where to start. I walk you through cybersecurity one focused lesson at a time, building the real foundation first, Linux, networking, and reading logs, then moving toward your CompTIA Security+. You always know exactly what to do next.</p>
+      </div>
+      <div class="thing-card reveal d1">
+        <span class="thing-num">02</span>
+        <h3>The Library</h3>
+        <p>Everything else. Guides, projects, study systems, and tools you can reach for whenever you need them. Stuck on a topic, there is a guide. Want to build something real, there is a project. Need a different way to study, it is there. The path keeps you moving. The library is there when you want to go deeper.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FIELD NOTES DEFINITION -->
+<section class="section-light" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:32px">
+      <span class="section-label reveal">What Are Field Notes?</span>
+    </div>
+    <div class="fn-definition reveal">
+      <span class="fn-label">// FIELD NOTES DEFINED</span>
+      <h3>Field notes are my short honest lessons and updates from actually doing this work.</h3>
+      <p>Not polished textbook theory. Real notes from the field. What I learned, what broke, what worked, and how you can use it. Think of them as the notes a friend who already figured it out would hand you. They land in your inbox weekly and take about three minutes to read.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHAT YOU WILL LEARN -->
+<section class="section-light" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label reveal">The Foundation</span>
+      <h2 class="reveal">Real skills first.<br/>Exam prep on top of that.</h2>
+      <p class="reveal d1">Most cybersecurity courses skip the foundation and wonder why people fall behind. I build it first. Linux, networking, and reading logs, the skills the job actually runs on, before we touch a single exam objective.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- MODULES -->
+<section class="section-light" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label reveal">The Curriculum</span>
+      <h2 class="reveal">Six modules. Zero to Security+.</h2>
+      <p class="reveal d1">Each module fits in a single sitting. You finish one before the next opens. Momentum is the whole strategy.</p>
+    </div>
+    <div class="modules-grid">
+      <div class="module-card reveal">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 01</span>
+          <span class="mod-badge badge-free">Free</span>
+        </div>
+        <span class="mod-ico">🛡️</span>
+        <h3>Intro to Cybersecurity</h3>
+        <p>What this field actually is, why it is a real career path right now, and why the traits you got told were problems are exactly what this work rewards.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Beginner</span>
+          <span class="mod-tag">4 lessons</span>
+          <span class="mod-tag">~45 min</span>
+        </div>
+      </div>
+      <div class="module-card reveal d1">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 02</span>
+          <span class="mod-badge badge-next">Next</span>
+        </div>
+        <span class="mod-ico">🌐</span>
+        <h3>Networking 101</h3>
+        <p>How computers talk to each other. I cut the theory down to what actually shows up on the exam and in the job. Plain language, no filler.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Beginner</span>
+          <span class="mod-tag">6 lessons</span>
+          <span class="mod-tag">~60 min</span>
+        </div>
+      </div>
+      <div class="module-card reveal d2">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 03</span>
+          <span class="mod-badge badge-lock">Locked</span>
+        </div>
+        <span class="mod-ico">⚠️</span>
+        <h3>Threats &amp; Attacks</h3>
+        <p>How people actually break into systems. Phishing, malware, ransomware, social engineering. This is where it starts feeling real.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Intermediate</span>
+          <span class="mod-tag">8 lessons</span>
+          <span class="mod-tag">~90 min</span>
+        </div>
+        <div class="lock-note">🔒 Unlocks after Module 02</div>
+      </div>
+      <div class="module-card locked reveal">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 04</span>
+          <span class="mod-badge badge-lock">Locked</span>
+        </div>
+        <span class="mod-ico">🔐</span>
+        <h3>Cryptography Basics</h3>
+        <p>Encryption sounds complicated until someone explains it right. By the end you understand what is actually happening when data is secured.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Intermediate</span>
+          <span class="mod-tag">5 lessons</span>
+          <span class="mod-tag">~50 min</span>
+        </div>
+        <div class="lock-note">🔒 Unlocks after Module 03</div>
+      </div>
+      <div class="module-card locked reveal d1">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 05</span>
+          <span class="mod-badge badge-lock">Locked</span>
+        </div>
+        <span class="mod-ico">🏢</span>
+        <h3>Identity &amp; Access</h3>
+        <p>Who gets in, what they are allowed to do, and how you prove it. One of the highest tested areas on Security+. I go slow here on purpose.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Intermediate</span>
+          <span class="mod-tag">6 lessons</span>
+          <span class="mod-tag">~55 min</span>
+        </div>
+        <div class="lock-note">🔒 Unlocks after Module 04</div>
+      </div>
+      <div class="module-card locked reveal d2">
+        <div class="mod-header">
+          <span class="mod-num">MODULE 06</span>
+          <span class="mod-badge badge-lock">Locked</span>
+        </div>
+        <span class="mod-ico">🎯</span>
+        <h3>Sec+ Exam Prep</h3>
+        <p>Built by someone who passed it with ADHD, working full time, using none of the methods the study guides tell you to use. This module is what actually worked.</p>
+        <div class="mod-tags">
+          <span class="mod-tag">Advanced</span>
+          <span class="mod-tag">10 lessons</span>
+          <span class="mod-tag">~2 hrs</span>
+        </div>
+        <div class="lock-note">🔒 Final module. Unlocks at Module 05.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHY IT WORKS FOR ADHD BRAINS -->
+<section class="section-dark">
+  <div class="wrap">
+    <div class="section-head light">
+      <span class="section-label light reveal">Built for Your Brain</span>
+      <h2 class="reveal">You do not have a learning problem.<br/>You have a curriculum problem.</h2>
+      <p class="reveal d1">Standard study guides were built for people who can sit still and absorb passively for hours. That was never going to work. Every decision I made came down to one question: does this work for someone whose brain will not let them fake their way through it?</p>
+    </div>
+    <div class="traits-grid">
+      <div class="trait-card reveal">
+        <div class="trait-ico t-blue">⚡</div>
+        <div>
+          <h4>One concept per lesson</h4>
+          <p>Not one chapter. One concept. You finish it, understand it, and move. No session ends with you wondering what you just read.</p>
+        </div>
+      </div>
+      <div class="trait-card reveal d1">
+        <div class="trait-ico t-green">🔁</div>
+        <div>
+          <h4>No punishment for disappearing</h4>
+          <p>Life happens. You step away for two weeks. When you come back, the system reminds you where you were and what you learned, not how long you were gone.</p>
+        </div>
+      </div>
+      <div class="trait-card reveal d2">
+        <div class="trait-ico t-yellow">🎯</div>
+        <div>
+          <h4>Something to do, not just watch</h4>
+          <p>Every lesson ends with one task. Something real. Something that proves the concept stuck, not just that you sat through it.</p>
+        </div>
+      </div>
+      <div class="trait-card reveal d3">
+        <div class="trait-ico t-purple">🏆</div>
+        <div>
+          <h4>Progress you can actually see</h4>
+          <p>XP, streaks, module completions. Not because it is a game, but because ADHD brains need to see that something is happening. Invisible progress is no progress.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA BAR -->
+<div class="cta-bar">
+  <div class="wrap">
+    <h2 class="reveal">Ready to try the first lesson?</h2>
+    <p class="reveal d1">Module 01 is free. No account, no email. Just start and see if the format fits.</p>
+    <a href="lesson.html" class="btn-primary lg reveal d2">Try a Free Sample Lesson</a>
+    <a href="join.html" class="sub-link reveal d3">Or join Field Notes, the free weekly newsletter</a>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <img src="WiredDifferent_Logo.svg" alt="Wired Different" onerror="this.style.display='none';document.getElementById('ftxt').style.display='block'"/>
+  <div class="foot-name" id="ftxt" style="display:none">Wired <span>Different</span></div>
+  <p class="foot-tagline">Cybersecurity training built for the way your brain actually works.</p>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="lesson.html">Try a Lesson</a>
+    <a href="survey.html">Survey</a>
+    <a href="join.html">Join</a>
+    <a href="mailto:eric@wireddifferent.dev">Contact</a>
+  </div>
+  <p class="foot-copy">
+    Wired Different is a Miller Innovations LLC product. All rights reserved.<br/>
+    Made in Texas &middot; <a href="mailto:eric@wireddifferent.dev">eric@wireddifferent.dev</a>
+  </p>
+  <div class="foot-pills">
+    <span class="fp">Builders + Backers Mobility Cohort</span>
+    <span class="fp">Powered by Capital One</span>
+    <span class="fp">Houston, TX</span>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  document.getElementById('nav-toggle').addEventListener('click',function(){
+    document.getElementById('nav-links').classList.toggle('open');
+  });
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+  },{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
