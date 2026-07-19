@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tell Me What You Need | Wired Different</title>
-  <meta name="description" content="Six questions. Two minutes. Your answers shape what I build next."/>
+  <meta name="description" content="Eight questions. Two minutes. Your answers shape what I build next."/>
   <link rel="stylesheet" href="style.css"/>
   <style>
     /* ====== SURVEY LAYOUT ====== */
@@ -181,7 +181,7 @@
     <div class="page-hero-inner">
       <span class="section-label light reveal">Tell Me What You Need</span>
       <h1 class="reveal">Your answers shape<br/>what I <span class="hl">build next.</span></h1>
-      <p class="sub reveal d1">This is how I gather feedback to decide what gets built next. Six questions, two minutes. Drop your email at the end and the first Field Note lands in your inbox the same day.</p>
+      <p class="sub reveal d1">This is how I gather feedback to decide what gets built next. Eight questions, two minutes. Drop your email at the end so I can follow up.</p>
     </div>
   </div>
 </section>
@@ -193,14 +193,9 @@
     <div class="survey-inner">
 
       <div class="sp-track"><div class="sp-fill" id="sp-fill"></div></div>
-      <div class="sp-row"><span id="sp-label-left">0% complete</span><span>6 questions</span></div>
+      <div class="sp-row"><span id="sp-label-left">0% complete</span><span>8 questions</span></div>
 
-      <!-- NOTE: Replace the form action with your Formspree endpoint:
-           action="https://formspree.io/f/YOUR_FORM_ID"
-           Then remove method="post" target="_blank" from the Beehiiv subscribe URL below
-           and use only the Formspree endpoint for survey data.
-           Email capture at the bottom can still post to Beehiiv separately. -->
-      <form class="survey-form" id="survey-form" action="#" method="post">
+      <form class="survey-form" id="survey-form" action="https://formspree.io/f/mwvgbejy" method="post">
 
         <fieldset class="reveal">
           <legend><span class="qn">01</span>What brings you here?</legend>
@@ -259,13 +254,33 @@
           <textarea class="si" name="q6" placeholder="Be direct. This answer shapes more than any of the others."></textarea>
         </fieldset>
 
+        <fieldset class="reveal">
+          <legend><span class="qn">07</span>Would you pay for Wired Different?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q7" value="yes" required/><span>Yes, if it delivers what it promises.</span></label>
+            <label class="opt"><input type="radio" name="q7" value="maybe"/><span>Maybe, depends on price.</span></label>
+            <label class="opt"><input type="radio" name="q7" value="no-free"/><span>No, I would want it free.</span></label>
+            <label class="opt"><input type="radio" name="q7" value="no"/><span>No, not interested regardless of price.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="reveal">
+          <legend><span class="qn">08</span>If it were a paid subscription, what feels fair per month?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q8" value="free-only" required/><span>Free only, wouldn't pay.</span></label>
+            <label class="opt"><input type="radio" name="q8" value="5-10"/><span>$5-10/mo</span></label>
+            <label class="opt"><input type="radio" name="q8" value="10-20"/><span>$10-20/mo</span></label>
+            <label class="opt"><input type="radio" name="q8" value="20-40"/><span>$20-40/mo</span></label>
+            <label class="opt"><input type="radio" name="q8" value="40-plus"/><span>$40+/mo</span></label>
+          </div>
+        </fieldset>
+
         <div class="signup-box reveal">
-          <h3>Drop your email. Get the first Field Note free.</h3>
-          <p>One real story. One thing to do this week. Three minutes. Your survey answers help me make it worth your time.</p>
+          <h3>Drop your email so I can follow up.</h3>
+          <p>Your survey answers help me make this worth your time.</p>
           <div style="display:grid;gap:10px;margin-bottom:16px">
             <input class="si" type="text" name="name" placeholder="First name (optional)"/>
             <div class="email-row">
-              <!-- Email goes to Beehiiv for newsletter; survey data goes to Formspree via form action above -->
               <input type="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
               <button type="submit">I'm In</button>
             </div>
